@@ -1,0 +1,4 @@
+# Files under public/ that Cloudflare must NOT upload (gitignore syntax).
+# Full-resolution originals (~8-11 MB each) are build inputs only; the page uses album/web/.
+assets/album/*
+!assets/album/web/

@@ -1,0 +1,11 @@
+{
+  // Cloudflare Workers, static assets only (no Worker script). See DEPLOY.md.
+  "name": "thang-oanh-wedding",
+  "compatibility_date": "2026-10-01",
+  "assets": {
+    "directory": "./public",
+    // Clean URLs: /index.html is served at /.
+    "html_handling": "auto-trailing-slash",
+    "not_found_handling": "none"
+  }
+}
