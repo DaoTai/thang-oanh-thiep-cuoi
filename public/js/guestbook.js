@@ -4,6 +4,7 @@
 
 import { CONFIG } from "./config.js";
 import { toast } from "./ui.js";
+import { MOCK_WISHES } from "./wishes-mock.js";
 
 const KEY = "thang-oanh:wishes";
 const MAX_NAME = 40;
@@ -27,7 +28,7 @@ const local = {
 };
 
 async function loadWishes() {
-  if (!CONFIG.wishesEndpoint) return local.read();
+  if (!CONFIG.wishesEndpoint) return [...local.read(), ...MOCK_WISHES];
   const res = await fetch(CONFIG.wishesEndpoint, { cache: "no-store" });
   if (!res.ok) throw new Error(`HTTP ${res.status}`);
   const data = await res.json();

@@ -207,7 +207,7 @@
 
       <!-- ============================== ALBUM HÌNH CƯỚI ============================== -->
       <section id="album" class="section album" aria-labelledby="album-title">
-        <div class="section-head" data-reveal>
+        <div class="section-head" data-reveal="zoom">
           <h2 id="album-title" class="title">Album Hình Cưới</h2>
           <span class="orn" aria-hidden="true"
             ><svg class="ico">
@@ -220,7 +220,7 @@
         </div>
 
         <ul class="featured" role="list">
-          <li data-reveal style="--d: 0">
+          <li data-reveal="left" style="--d: 0">
             <button
               type="button"
               class="photo-btn"
@@ -243,7 +243,7 @@
               />
             </button>
           </li>
-          <li data-reveal style="--d: 1">
+          <li data-reveal="right" style="--d: 1">
             <button
               type="button"
               class="photo-btn"
@@ -266,7 +266,7 @@
               />
             </button>
           </li>
-          <li data-reveal style="--d: 0">
+          <li data-reveal="left" style="--d: 0">
             <button
               type="button"
               class="photo-btn"
@@ -289,7 +289,7 @@
               />
             </button>
           </li>
-          <li data-reveal style="--d: 1">
+          <li data-reveal="right" style="--d: 1">
             <button
               type="button"
               class="photo-btn"
@@ -312,7 +312,7 @@
               />
             </button>
           </li>
-          <li data-reveal style="--d: 0">
+          <li data-reveal="left" style="--d: 0">
             <button
               type="button"
               class="photo-btn"
@@ -335,7 +335,7 @@
               />
             </button>
           </li>
-          <li data-reveal style="--d: 1">
+          <li data-reveal="right" style="--d: 1">
             <button
               type="button"
               class="photo-btn"
@@ -372,7 +372,7 @@
 
       <!-- ============================== LỊCH THÁNG CƯỚI ============================== -->
       <section id="lich" class="section month" aria-labelledby="month-title">
-        <div class="month-card glass" data-reveal>
+        <div class="month-card glass" data-reveal="flip">
           <h2 id="month-title" class="month-title">
             Tháng 11 <span>/</span> 2026
           </h2>
@@ -406,13 +406,14 @@
 
       <!-- ============================== COUNTDOWN ============================== -->
       <section class="section countdown" aria-labelledby="cd-title">
-        <h2 id="cd-title" class="script-title" data-reveal>
+        <h2 id="cd-title" class="script-title" data-reveal="zoom">
           Đếm ngược tới ngày vui
         </h2>
         <div
           class="cd-grid"
           id="countdown"
-          data-reveal
+          data-reveal="pop"
+          style="--d: 1"
           role="timer"
           aria-live="off"
         >
@@ -444,7 +445,7 @@
         aria-roledescription="carousel"
         aria-label="Thiệp ảnh"
       >
-        <div class="pc-stage" id="pc-stage" data-reveal>
+        <div class="pc-stage" id="pc-stage" data-reveal="zoom">
           <figure
             class="photo-card"
             role="group"
@@ -575,7 +576,7 @@
         class="section letter"
         aria-labelledby="letter-title"
       >
-        <div class="letter-wrap" data-reveal>
+        <div class="letter-wrap" data-reveal="flip">
           <article class="letter-card">
             <!-- Satin ribbon across the top-left corner, tied in a bow. -->
             <span class="letter-ribbon" aria-hidden="true"></span>
@@ -699,7 +700,7 @@
         class="section couple"
         aria-labelledby="couple-title"
       >
-        <div class="section-head" data-reveal>
+        <div class="section-head" data-reveal="zoom">
           <h2 id="couple-title" class="title">Cô Dâu &amp; Chú Rể</h2>
           <span class="orn" aria-hidden="true"
             ><svg class="ico">
@@ -712,7 +713,7 @@
         </div>
 
         <div class="couple-grid">
-          <article class="person person--groom" data-reveal>
+          <article class="person person--groom" data-reveal="left">
             <div class="person-frame">
               <div class="person-photo">
                 <img
@@ -757,7 +758,7 @@
             ></span>
           </div>
 
-          <article class="person person--bride" data-reveal style="--d: 1">
+          <article class="person person--bride" data-reveal="right" style="--d: 1">
             <div class="person-frame">
               <div class="person-photo">
                 <img
@@ -793,7 +794,7 @@
         class="section events"
         aria-labelledby="events-title"
       >
-        <div class="section-head" data-reveal>
+        <div class="section-head" data-reveal="zoom">
           <h2 id="events-title" class="title">Sự Kiện Cưới</h2>
           <span class="orn orn--hy" aria-hidden="true"
             ><span class="hy-line"></span><span class="hy-glyph">囍</span
@@ -807,7 +808,7 @@
         </div>
 
         <ol class="timeline" role="list">
-          <li class="event glass" data-reveal>
+          <li class="event glass" data-reveal="tilt">
             <h3 class="event-name">Lễ Ăn Hỏi</h3>
             <div class="event-when">
               <span class="event-day">28</span>
@@ -856,7 +857,7 @@
             </div>
           </li>
 
-          <li class="event glass" data-reveal>
+          <li class="event glass" data-reveal="tilt">
             <h3 class="event-name">Lễ Thành Hôn</h3>
             <div class="event-when">
               <span class="event-day">29</span>
@@ -908,7 +909,7 @@
 
         <!-- Hộp mừng cưới: chỉ là phong bì. QR + số tài khoản nằm trong #gift-dialog,
              dựng từ CONFIG.gifts (js/gift.js). Thay thông tin thật trước khi gửi thiệp. -->
-        <div id="gift-box" class="gift-box" data-reveal>
+        <div id="gift-box" class="gift-box" data-reveal="pop">
           <h3 class="script-title">Hộp mừng cưới</h3>
           <p class="lede">
             Sự hiện diện của bạn đã là món quà quý nhất với chúng mình. Nếu ở xa
@@ -945,7 +946,7 @@
         class="section guestbook"
         aria-labelledby="gb-title"
       >
-        <div class="section-head" data-reveal>
+        <div class="section-head" data-reveal="zoom">
           <h2 id="gb-title" class="title">Sổ Lưu Bút</h2>
           <span class="orn" aria-hidden="true"
             ><svg class="ico">
@@ -1053,7 +1054,7 @@
           alt=""
           data-photo="nmt_0196"
         />
-        <div class="thanks-text" data-reveal>
+        <div class="thanks-text" data-reveal="fade">
           <h2 id="thanks-title" class="thanks-title">Thank you!</h2>
           <p>
             Cảm ơn bạn đã dành thời gian đọc thiệp và gửi những yêu thương tới

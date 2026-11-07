@@ -16,18 +16,31 @@ for (const img of document.querySelectorAll("img[data-photo]")) {
   if (ph && !img.complete) img.style.backgroundImage = `url(${ph})`;
 }
 
-/* Scroll reveal (fade-up), once per element. */
-const revealer = new IntersectionObserver(
+/* Scroll reveal, replayed every time an element scrolls into view. The effect is
+   picked per element by data-reveal (up, left, right, zoom, pop, flip, tilt, fade).
+   Two observers give hysteresis: one adds .is-in once the element is well inside
+   the viewport, the other removes it only after it has left the screen entirely,
+   so it never flickers at the edge. .from-top records that it left upwards, so
+   scrolling back up brings it in from above instead of below. */
+const revealIn = new IntersectionObserver(
   (entries) => {
-    for (const entry of entries) {
-      if (!entry.isIntersecting) continue;
-      entry.target.classList.add("is-in");
-      revealer.unobserve(entry.target);
+    for (const { target, isIntersecting } of entries) {
+      if (isIntersecting) target.classList.add("is-in");
     }
   },
   { rootMargin: "0px 0px -8% 0px", threshold: 0.12 },
 );
-document.querySelectorAll("[data-reveal]").forEach((el) => revealer.observe(el));
+const revealOut = new IntersectionObserver((entries) => {
+  for (const { target, isIntersecting, boundingClientRect, rootBounds } of entries) {
+    if (isIntersecting) continue;
+    target.classList.remove("is-in");
+    target.classList.toggle("from-top", boundingClientRect.top < (rootBounds?.top ?? 0));
+  }
+});
+for (const el of document.querySelectorAll("[data-reveal]")) {
+  revealIn.observe(el);
+  revealOut.observe(el);
+}
 
 /* Couple heart: loops only while on screen. It bursts small hearts outward on tap,
    and on its own every 4s while visible (the timer restarts after a tap). */
