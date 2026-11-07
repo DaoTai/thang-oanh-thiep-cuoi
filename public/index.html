@@ -11,7 +11,7 @@
       name="description"
       content="Trân trọng kính mời bạn đến chung vui trong lễ thành hôn của Đỗ Mạnh Thắng và Lê Thị Kiều Oanh, Chủ Nhật 29.11.2026."
     />
-    <meta name="theme-color" content="#f6ecec" />
+    <meta name="theme-color" content="#f3e8e9" />
     <meta name="color-scheme" content="light" />
 
     <!-- Link previews (Zalo, Messenger, Facebook). Set og:url and make og:image
@@ -439,30 +439,134 @@
       </section>
 
       <!-- ============================== THIỆP ẢNH ============================== -->
-      <section class="section photo-card-wrap" aria-label="Thiệp ảnh">
-        <figure class="photo-card" data-reveal>
-          <div class="photo-card-frame">
-            <img
-              src="assets/album/web/nmt_0179-960.webp"
-              srcset="
-                assets/album/web/nmt_0179-480.webp   480w,
-                assets/album/web/nmt_0179-960.webp   960w,
-                assets/album/web/nmt_0179-1600.webp 1600w
-              "
-              sizes="(min-width: 600px) 440px, calc(100vw - 96px)"
-              width="4024"
-              height="6048"
-              loading="lazy"
-              decoding="async"
-              alt="Cô dâu và chú rể bắn tim về phía ống kính"
-              data-photo="nmt_0179"
-            />
+      <section
+        class="section photo-card-wrap"
+        aria-roledescription="carousel"
+        aria-label="Thiệp ảnh"
+      >
+        <div class="pc-stage" id="pc-stage" data-reveal>
+          <figure
+            class="photo-card"
+            role="group"
+            aria-roledescription="thiệp"
+            aria-label="1 / 3"
+          >
+            <div class="photo-card-frame">
+              <img
+                src="assets/album/web/nmt_0238-960.webp"
+                srcset="
+                  assets/album/web/nmt_0238-480.webp   480w,
+                  assets/album/web/nmt_0238-960.webp   960w,
+                  assets/album/web/nmt_0238-1600.webp 1600w
+                "
+                sizes="(min-width: 600px) 340px, 72vw"
+                width="4024"
+                height="6048"
+                loading="lazy"
+                decoding="async"
+                draggable="false"
+                alt="Cô dâu cười, chạm tay lên mặt chú rể đang vén khăn voan"
+                data-photo="nmt_0238"
+              />
+            </div>
+            <figcaption>
+              <span class="photo-card-title">Từ một nụ cười</span>
+              <span class="photo-card-msg"
+                >Chúng mình tìm thấy nhau giữa những ngày bình thường
+                nhất.</span
+              >
+            </figcaption>
+          </figure>
+          <figure
+            class="photo-card"
+            role="group"
+            aria-roledescription="thiệp"
+            aria-label="2 / 3"
+          >
+            <div class="photo-card-frame">
+              <img
+                src="assets/album/web/nmt_0801-960.webp"
+                srcset="
+                  assets/album/web/nmt_0801-480.webp   480w,
+                  assets/album/web/nmt_0801-960.webp   960w,
+                  assets/album/web/nmt_0801-1600.webp 1600w
+                "
+                sizes="(min-width: 600px) 340px, 72vw"
+                width="4024"
+                height="6048"
+                loading="lazy"
+                decoding="async"
+                draggable="false"
+                alt="Cô dâu và chú rể ngồi cạnh nhau, cùng đọc thư tay giữa hoa"
+                data-photo="nmt_0801"
+              />
+            </div>
+            <figcaption>
+              <span class="photo-card-title">Đến một lời hẹn</span>
+              <span class="photo-card-msg"
+                >Những trang thư nhỏ, một lời hứa sẽ cùng nhau đi thật xa.</span
+              >
+            </figcaption>
+          </figure>
+          <figure
+            class="photo-card"
+            role="group"
+            aria-roledescription="thiệp"
+            aria-label="3 / 3"
+          >
+            <div class="photo-card-frame">
+              <img
+                src="assets/album/web/nmt_0179-960.webp"
+                srcset="
+                  assets/album/web/nmt_0179-480.webp   480w,
+                  assets/album/web/nmt_0179-960.webp   960w,
+                  assets/album/web/nmt_0179-1600.webp 1600w
+                "
+                sizes="(min-width: 600px) 340px, 72vw"
+                width="4024"
+                height="6048"
+                loading="lazy"
+                decoding="async"
+                draggable="false"
+                alt="Cô dâu và chú rể bắn tim về phía ống kính"
+                data-photo="nmt_0179"
+              />
+            </div>
+            <figcaption>
+              <span class="photo-card-title">Và gửi đến bạn</span>
+              <span class="photo-card-msg"
+                >Trái tim này dành cho bạn. Hẹn gặp bạn ngày 29.11.2026.</span
+              >
+            </figcaption>
+          </figure>
+        </div>
+        <div class="pc-controls">
+          <button
+            class="pc-arrow"
+            type="button"
+            data-pc="prev"
+            aria-label="Thiệp trước"
+          >
+            <svg class="ico" aria-hidden="true">
+              <use href="assets/icons.svg?v=2#i-caret-left" />
+            </svg>
+          </button>
+          <div class="pc-dots" role="group" aria-label="Chọn thiệp">
+            <button type="button" data-pc-dot="0" aria-label="Thiệp 1"></button>
+            <button type="button" data-pc-dot="1" aria-label="Thiệp 2"></button>
+            <button type="button" data-pc-dot="2" aria-label="Thiệp 3"></button>
           </div>
-          <figcaption>
-            <span class="photo-card-names">Mạnh Thắng &amp; Kiều Oanh</span>
-            <span class="photo-card-date">Hẹn gặp bạn ngày 29.11.2026</span>
-          </figcaption>
-        </figure>
+          <button
+            class="pc-arrow"
+            type="button"
+            data-pc="next"
+            aria-label="Thiệp sau"
+          >
+            <svg class="ico" aria-hidden="true">
+              <use href="assets/icons.svg?v=2#i-caret-right" />
+            </svg>
+          </button>
+        </div>
       </section>
 
       <!-- ============================== THIỆP MỜI / LỜI NGỎ ============================== -->
@@ -471,25 +575,122 @@
         class="section letter"
         aria-labelledby="letter-title"
       >
-        <article class="letter-card" data-reveal>
-          <svg class="ico letter-quote" aria-hidden="true">
-            <use href="assets/icons.svg?v=2#i-quotes-fill" />
-          </svg>
-          <h2 id="letter-title" class="title">Lời Ngỏ</h2>
-          <p class="letter-lead">
-            Cảm ơn bạn, những người thân yêu của chúng mình!
-          </p>
-          <p>
-            Chúng mình biết ai cũng có những bận rộn riêng: công việc, gia đình
-            và bao lo toan thường ngày. Vậy mà bạn vẫn dành thời gian để đến
-            chung vui, chứng kiến khoảnh khắc ý nghĩa nhất của hai đứa.
-          </p>
-          <p>
-            Sự hiện diện của bạn là món quà quý giá nhất. Một lần nữa, chân
-            thành cảm ơn bạn!
-          </p>
-          <p class="letter-sign">Mạnh Thắng &amp; Kiều Oanh</p>
-        </article>
+        <div class="letter-wrap" data-reveal>
+          <article class="letter-card">
+            <!-- Satin ribbon across the top-left corner, tied in a bow. -->
+            <span class="letter-ribbon" aria-hidden="true"></span>
+            <svg
+              class="letter-bow"
+              viewBox="0 0 120 92"
+              aria-hidden="true"
+              focusable="false"
+            >
+              <defs>
+                <linearGradient id="bow-satin" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0" stop-color="#e3a2b4" />
+                  <stop offset="0.45" stop-color="#bf6681" />
+                  <stop offset="1" stop-color="#8c3c55" />
+                </linearGradient>
+                <linearGradient id="bow-tail" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0" stop-color="#a64d68" />
+                  <stop offset="0.5" stop-color="#d78ea3" />
+                  <stop offset="1" stop-color="#8c3c55" />
+                </linearGradient>
+              </defs>
+              <!-- tails -->
+              <path
+                fill="url(#bow-tail)"
+                d="M56 38c-6 14-14 30-26 48l9-3 4 8c10-16 16-32 20-50z"
+              />
+              <path
+                fill="url(#bow-tail)"
+                d="M64 38c5 15 12 30 24 46l-9-1-2 8c-11-15-17-31-20-50z"
+              />
+              <!-- loops -->
+              <path
+                fill="url(#bow-satin)"
+                d="M60 34C46 14 16 4 9 20c-6 15 22 27 51 14z"
+              />
+              <path
+                fill="url(#bow-satin)"
+                d="M60 34C74 14 104 4 111 20c6 15-22 27-51 14z"
+              />
+              <!-- inner folds -->
+              <path
+                fill="#8c3c55"
+                opacity="0.45"
+                d="M60 34C47 24 26 18 19 25c9 5 25 10 41 9z"
+              />
+              <path
+                fill="#8c3c55"
+                opacity="0.45"
+                d="M60 34C73 24 94 18 101 25c-9 5-25 10-41 9z"
+              />
+              <path
+                fill="#fff"
+                opacity="0.35"
+                d="M14 18c8-8 26-4 38 8-12-6-26-10-38-8zM106 18c-8-8-26-4-38 8 12-6 26-10 38-8z"
+              />
+              <!-- knot -->
+              <rect
+                x="52.5"
+                y="25"
+                width="15"
+                height="18"
+                rx="6.5"
+                fill="#9b4560"
+              />
+              <rect
+                x="55"
+                y="27"
+                width="5"
+                height="13"
+                rx="2.5"
+                fill="#fff"
+                opacity="0.28"
+              />
+            </svg>
+            <span class="letter-glare" aria-hidden="true"></span>
+
+            <header class="letter-head">
+              <p class="letter-eyebrow" lang="en">Invitation</p>
+              <svg
+                class="letter-flourish"
+                viewBox="0 0 220 30"
+                aria-hidden="true"
+                focusable="false"
+              >
+                <path
+                  pathLength="1"
+                  d="M6 17c28 6 56-8 86-2 12 2 15 8 18 8 8 0 10-13 0-14-10-1-8 14 3 14 15 0 37-14 65-10 14 2 24 6 36 0"
+                />
+                <circle cx="6" cy="17" r="1.8" />
+                <circle cx="214" cy="13" r="1.8" />
+              </svg>
+              <h2 id="letter-title" class="title">Đôi Lời Gửi Trao</h2>
+            </header>
+
+            <div class="letter-body" data-type>
+              <p class="letter-lead">
+                Cảm ơn bạn, những người thân yêu của chúng mình!
+              </p>
+              <p>
+                Chúng mình biết ai cũng có những bận rộn riêng: công việc, gia
+                đình và bao lo toan thường ngày. Vậy mà bạn vẫn dành thời gian
+                để đến chung vui, chứng kiến khoảnh khắc ý nghĩa nhất của hai
+                đứa.
+              </p>
+              <p>
+                Sự hiện diện của bạn là món quà quý giá nhất. Một lần nữa, chân
+                thành cảm ơn bạn!
+              </p>
+            </div>
+            <p class="letter-sign">
+              <span>Mạnh Thắng</span> <span class="letter-sign-amp">&amp;</span>
+              <span>Kiều Oanh</span>
+            </p>
+          </article>
+        </div>
       </section>
 
       <!-- ============================== CÔ DÂU & CHÚ RỂ ============================== -->
@@ -512,21 +713,23 @@
 
         <div class="couple-grid">
           <article class="person person--groom" data-reveal>
-            <div class="person-photo">
-              <img
-                src="assets/album/web/nmt_1013-groom-480.webp"
-                srcset="
-                  assets/album/web/nmt_1013-groom-480.webp 480w,
-                  assets/album/web/nmt_1013-groom-960.webp 960w
-                "
-                sizes="(min-width: 600px) 250px, calc(50vw - 30px)"
-                width="1723"
-                height="2297"
-                loading="lazy"
-                decoding="async"
-                alt="Chân dung chú rể Đỗ Mạnh Thắng"
-                data-photo="nmt_1013-groom"
-              />
+            <div class="person-frame">
+              <div class="person-photo">
+                <img
+                  src="assets/album/web/nmt_1013-groom-480.webp"
+                  srcset="
+                    assets/album/web/nmt_1013-groom-480.webp 480w,
+                    assets/album/web/nmt_1013-groom-960.webp 960w
+                  "
+                  sizes="(min-width: 600px) 250px, calc(50vw - 30px)"
+                  width="1723"
+                  height="2297"
+                  loading="lazy"
+                  decoding="async"
+                  alt="Chân dung chú rể Đỗ Mạnh Thắng"
+                  data-photo="nmt_1013-groom"
+                />
+              </div>
             </div>
             <p class="person-role">Chú rể</p>
             <h3 class="person-name">Đỗ Mạnh Thắng</h3>
@@ -537,27 +740,41 @@
           </article>
 
           <div class="couple-heart" aria-hidden="true">
-            <svg class="ico">
+            <span class="couple-heart__ring"></span>
+            <span class="couple-heart__ring" style="--i: 1"></span>
+            <svg class="ico couple-heart__float" style="--i: 0; --x: -16px">
               <use href="assets/icons.svg?v=2#i-heart-fill" />
             </svg>
+            <svg class="ico couple-heart__float" style="--i: 1; --x: 14px">
+              <use href="assets/icons.svg?v=2#i-heart-fill" />
+            </svg>
+            <svg class="ico couple-heart__float" style="--i: 2; --x: -4px">
+              <use href="assets/icons.svg?v=2#i-heart-fill" />
+            </svg>
+            <span class="couple-heart__core"
+              ><svg class="ico">
+                <use href="assets/icons.svg?v=2#i-heart-fill" /></svg
+            ></span>
           </div>
 
           <article class="person person--bride" data-reveal style="--d: 1">
-            <div class="person-photo">
-              <img
-                src="assets/album/web/nmt_9720-bride-480.webp"
-                srcset="
-                  assets/album/web/nmt_9720-bride-480.webp 480w,
-                  assets/album/web/nmt_9720-bride-960.webp 960w
-                "
-                sizes="(min-width: 600px) 250px, calc(50vw - 30px)"
-                width="2012"
-                height="2683"
-                loading="lazy"
-                decoding="async"
-                alt="Chân dung cô dâu Lê Thị Kiều Oanh"
-                data-photo="nmt_9720-bride"
-              />
+            <div class="person-frame">
+              <div class="person-photo">
+                <img
+                  src="assets/album/web/nmt_9720-bride-480.webp"
+                  srcset="
+                    assets/album/web/nmt_9720-bride-480.webp 480w,
+                    assets/album/web/nmt_9720-bride-960.webp 960w
+                  "
+                  sizes="(min-width: 600px) 250px, calc(50vw - 30px)"
+                  width="2012"
+                  height="2683"
+                  loading="lazy"
+                  decoding="async"
+                  alt="Chân dung cô dâu Lê Thị Kiều Oanh"
+                  data-photo="nmt_9720-bride"
+                />
+              </div>
             </div>
             <p class="person-role">Cô dâu</p>
             <h3 class="person-name">Lê Thị Kiều Oanh</h3>
@@ -578,9 +795,9 @@
       >
         <div class="section-head" data-reveal>
           <h2 id="events-title" class="title">Sự Kiện Cưới</h2>
-          <span class="orn" aria-hidden="true"
-            ><svg class="ico">
-              <use href="assets/icons.svg?v=2#i-sparkle-fill" /></svg
+          <span class="orn orn--hy" aria-hidden="true"
+            ><span class="hy-line"></span><span class="hy-glyph">囍</span
+            ><span class="hy-line"></span
           ></span>
           <p class="lede">
             Chúng tôi sắp bước sang một hành trình mới, hành trình của gia đình
@@ -689,87 +906,36 @@
           </li>
         </ol>
 
-        <!-- Hộp mừng cưới. Thay ảnh QR + thông tin tài khoản thật trước khi gửi thiệp. -->
+        <!-- Hộp mừng cưới: chỉ là phong bì. QR + số tài khoản nằm trong #gift-dialog,
+             dựng từ CONFIG.gifts (js/gift.js). Thay thông tin thật trước khi gửi thiệp. -->
         <div id="gift-box" class="gift-box" data-reveal>
           <h3 class="script-title">Hộp mừng cưới</h3>
           <p class="lede">
-            Thật vui vì được gặp và đón tiếp bạn trong ngày đặc biệt của chúng
-            mình. Nếu không tiện đến dự, bạn có thể gửi lời chúc phúc qua đây.
+            Sự hiện diện của bạn đã là món quà quý nhất với chúng mình. Nếu ở xa
+            mà vẫn muốn gửi chút yêu thương, phong bì nhỏ này luôn ở đây.
           </p>
-          <div class="gift-grid" id="gift-grid">
-            <article class="gift-card">
-              <p class="gift-role">Gửi chú rể</p>
-              <img
-                class="gift-qr"
-                src="assets/qr-example.jpg"
-                width="674"
-                height="814"
-                loading="lazy"
-                decoding="async"
-                alt="Mã QR chuyển khoản mừng cưới chú rể"
-              />
-              <dl class="gift-info">
-                <div>
-                  <dt>Ngân hàng</dt>
-                  <dd>VietinBank</dd>
-                </div>
-                <div>
-                  <dt>Chủ tài khoản</dt>
-                  <dd>DAO DUC TAI</dd>
-                </div>
-                <div>
-                  <dt>Số tài khoản</dt>
-                  <dd class="gift-acc">100871060908</dd>
-                </div>
-              </dl>
-              <button
-                type="button"
-                class="btn btn--soft btn--sm"
-                data-copy="100871060908"
-                aria-label="Sao chép số tài khoản 100871060908"
-              >
-                <svg class="ico" aria-hidden="true">
-                  <use href="assets/icons.svg?v=2#i-copy" /></svg
-                ><span>Sao chép</span>
-              </button>
-            </article>
-            <article class="gift-card">
-              <p class="gift-role">Gửi cô dâu</p>
-              <img
-                class="gift-qr"
-                src="assets/qr-example.jpg"
-                width="674"
-                height="814"
-                loading="lazy"
-                decoding="async"
-                alt="Mã QR chuyển khoản mừng cưới cô dâu"
-              />
-              <dl class="gift-info">
-                <div>
-                  <dt>Ngân hàng</dt>
-                  <dd>VietinBank</dd>
-                </div>
-                <div>
-                  <dt>Chủ tài khoản</dt>
-                  <dd>DAO DUC TAI</dd>
-                </div>
-                <div>
-                  <dt>Số tài khoản</dt>
-                  <dd class="gift-acc">100871060908</dd>
-                </div>
-              </dl>
-              <button
-                type="button"
-                class="btn btn--soft btn--sm"
-                data-copy="100871060908"
-                aria-label="Sao chép số tài khoản 100871060908"
-              >
-                <svg class="ico" aria-hidden="true">
-                  <use href="assets/icons.svg?v=2#i-copy" /></svg
-                ><span>Sao chép</span>
-              </button>
-            </article>
-          </div>
+          <button
+            type="button"
+            class="envelope"
+            id="envelope"
+            data-action="gift"
+            aria-label="Mở phong bì mừng cưới"
+          >
+            <span class="env-back" aria-hidden="true"></span>
+            <span class="env-card" aria-hidden="true">
+              <span class="env-card-kicker">Gửi lời chúc phúc</span>
+              <span class="env-card-names">Thắng &amp; Oanh</span>
+              <span class="env-card-date">29 · 11 · 2026</span>
+            </span>
+            <span class="env-pocket" aria-hidden="true"></span>
+            <span class="env-flap" aria-hidden="true"></span>
+            <span class="env-seal" aria-hidden="true">囍</span>
+          </button>
+          <p class="env-hint" aria-hidden="true">
+            <svg class="ico" aria-hidden="true">
+              <use href="assets/icons.svg?v=2#i-envelope-simple-open" /></svg
+            >Chạm để mở phong bì
+          </p>
         </div>
       </section>
 
@@ -1052,20 +1218,21 @@
       </div>
     </dialog>
 
-    <dialog class="modal" id="gift-dialog" aria-labelledby="gift-title">
+    <dialog class="modal modal--gift" id="gift-dialog" aria-labelledby="gift-title">
       <div class="modal-body">
         <button type="button" class="modal-close" data-close aria-label="Đóng">
           <svg class="ico" aria-hidden="true">
             <use href="assets/icons.svg?v=2#i-x" />
           </svg>
         </button>
-        <h2 id="gift-title" class="modal-title">Mừng cưới</h2>
+        <p class="gift-kicker">Phong bì mừng cưới</p>
+        <h2 id="gift-title" class="modal-title">Gửi chút yêu thương</h2>
         <p class="modal-sub">
-          Quét mã QR bằng ứng dụng ngân hàng để gửi lời chúc phúc tới cô dâu,
-          chú rể.
+          Cảm ơn bạn đã nghĩ đến chúng mình. Mọi lời chúc, dù gần hay xa, đều
+          là niềm vui lớn.
         </p>
-        <!-- js/main.js clones #gift-grid here so account info lives in one place -->
-        <div id="gift-dialog-slot"></div>
+        <!-- js/gift.js renders the tabs and the card from CONFIG.gifts -->
+        <div id="gift-slot"></div>
       </div>
     </dialog>
 

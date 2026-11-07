@@ -30,6 +30,31 @@ export const CONFIG = {
   // The countdown and the month calendar follow this event.
   mainEventId: "le-cuoi",
 
+  // Gift envelope (js/gift.js). PLACEHOLDERS: the QR image and account below come
+  // from the earlier site and the holder is not the couple. Replace before sharing.
+  gifts: [
+    {
+      id: "groom",
+      label: "Chú rể",
+      name: "Mạnh Thắng",
+      bank: "VietinBank",
+      holder: "DAO DUC TAI",
+      account: "100871060908",
+      qr: "assets/qr-example.jpg",
+    },
+    {
+      id: "bride",
+      label: "Cô dâu",
+      name: "Kiều Oanh",
+      bank: "VietinBank",
+      holder: "DAO DUC TAI",
+      account: "100871060908",
+      qr: "assets/qr-example.jpg",
+    },
+  ],
+  // Suggested transfer memo (no diacritics: some banks strip them).
+  giftMemo: "Mung cuoi Thang Oanh",
+
   // Optional shared guestbook backend (Google Apps Script web app URL, see
   // scripts/wishes-apps-script.gs). Empty = wishes are kept in this browser only.
   wishesEndpoint: "",

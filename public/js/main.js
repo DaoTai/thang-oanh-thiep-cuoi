@@ -5,6 +5,9 @@ import { initGallery } from "./gallery.js";
 import { initGuestbook } from "./guestbook.js";
 import { initNav } from "./nav.js";
 import { initSnow } from "./snow.js";
+import { initPhotoCards } from "./photo-cards.js";
+import { initLetter } from "./letter.js";
+import { initGift, copyText } from "./gift.js";
 
 /* Blur-up placeholders behind every photo until the real file paints. */
 const lqip = new Map(PHOTOS.map((p) => [p.id, p.lqip]));
@@ -26,31 +29,63 @@ const revealer = new IntersectionObserver(
 );
 document.querySelectorAll("[data-reveal]").forEach((el) => revealer.observe(el));
 
+/* Couple heart: loops only while on screen. It bursts small hearts outward on tap,
+   and on its own every 4s while visible (the timer restarts after a tap). */
+const heart = document.querySelector(".couple-heart");
+if (heart) {
+  const still = matchMedia("(prefers-reduced-motion: reduce)");
+  const sprite = heart.querySelector("use").getAttribute("href");
+  let timer = 0;
+
+  const burst = () => {
+    heart.classList.remove("is-pop");
+    void heart.offsetWidth; // restart the pop animation
+    heart.classList.add("is-pop");
+    const n = 10;
+    for (let i = 0; i < n; i++) {
+      const s = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+      s.setAttribute("class", "ico heart-burst");
+      s.innerHTML = `<use href="${sprite}"/>`;
+      s.style.setProperty("--a", `${(360 / n) * i + Math.random() * 20 - 10}deg`);
+      s.style.setProperty("--r", `${34 + Math.random() * 24}px`);
+      s.style.fontSize = `${7 + Math.random() * 6}px`;
+      s.addEventListener("animationend", () => s.remove(), { once: true });
+      heart.append(s);
+    }
+  };
+
+  const schedule = (on) => {
+    clearInterval(timer);
+    timer = on && !still.matches ? setInterval(burst, 4000) : 0;
+  };
+
+  new IntersectionObserver(([e]) => {
+    heart.classList.toggle("is-live", e.isIntersecting);
+    schedule(e.isIntersecting);
+  }).observe(heart);
+
+  heart.addEventListener("click", () => {
+    if (still.matches) return;
+    burst();
+    schedule(heart.classList.contains("is-live"));
+  });
+}
+
 /* Sections */
 wireDialogs();
 initNav();
 renderMonth();
 startCountdown();
+initPhotoCards();
+initLetter();
 const selectEvent = initRsvp();
 const gallery = initGallery();
 const guestbook = initGuestbook();
+const gift = initGift();
 
 /* Snow starts after load so it never competes with the hero photo (LCP). */
 if (document.readyState === "complete") initSnow();
 else addEventListener("load", initSnow, { once: true });
-
-/* Gift dialog reuses the gift cards from the page (one copy of the account data). */
-const giftDialog = document.getElementById("gift-dialog");
-const giftSlot = document.getElementById("gift-dialog-slot");
-function openGift() {
-  if (!giftSlot.firstChild) {
-    const clone = document.getElementById("gift-grid").cloneNode(true);
-    clone.removeAttribute("id");
-    clone.querySelectorAll("img").forEach((img) => img.removeAttribute("loading"));
-    giftSlot.append(clone);
-  }
-  openDialog(giftDialog);
-}
 
 /* Floating dock: a speed-dial on phones, a plain column on desktop. */
 const dock = document.getElementById("dock");
@@ -78,7 +113,7 @@ const actions = {
     selectEvent(btn.dataset.event);
     openDialog(document.getElementById("rsvp-dialog"));
   },
-  gift: openGift,
+  gift: (btn) => gift.open(btn),
   gallery: () => gallery.open(),
 };
 document.addEventListener("click", (e) => {
@@ -88,22 +123,12 @@ document.addEventListener("click", (e) => {
   actions[btn.dataset.action]?.(btn);
 });
 
-/* Copy account number. */
+/* Copy buttons outside the gift sheet (the sheet handles its own). */
 document.addEventListener("click", async (e) => {
   const btn = e.target.closest("[data-copy]");
   if (!btn) return;
-  const text = btn.dataset.copy;
-  try {
-    await navigator.clipboard.writeText(text);
-  } catch {
-    const ta = Object.assign(document.createElement("textarea"), { value: text });
-    ta.style.cssText = "position:fixed;opacity:0";
-    document.body.append(ta);
-    ta.select();
-    document.execCommand("copy");
-    ta.remove();
-  }
-  toast(`Đã sao chép số tài khoản ${text}`);
+  await copyText(btn.dataset.copy);
+  toast("Đã sao chép");
 });
 
 /* Background music.

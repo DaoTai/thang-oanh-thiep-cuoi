@@ -31,7 +31,10 @@
 
   --font-script: "Great Vibes", "Segoe Script", cursive;
   --font-display: "Cormorant Garamond", "Times New Roman", Georgia, serif;
-  --font-body: "Be Vietnam Pro", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  /* Section titles and every date/number: lining figures, sharper than Cormorant at heading sizes. */
+  --font-heading: "Playfair Display", "Times New Roman", Georgia, serif;
+  --font-body: "Be Vietnam Pro", system-ui, -apple-system, "Segoe UI", Roboto,
+    sans-serif;
 
   --sheet: 575px;
   --gutter: 22px;
@@ -48,9 +51,32 @@
   box-sizing: border-box;
 }
 
+/* Background on html too, so iOS overscroll / rubber-band areas match the page
+   (keep in sync with <meta name="theme-color"> in index.html). */
 html {
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
+  background: var(--bg);
+  scrollbar-color: rgb(166 77 104 / 0.45) var(--bg);
+}
+
+/* Older WebKit/Blink without scrollbar-color. */
+@supports not (scrollbar-color: auto) {
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: var(--bg);
+  }
+  ::-webkit-scrollbar-thumb {
+    background: rgb(166 77 104 / 0.45);
+    border: 2px solid var(--bg);
+    border-radius: 999px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--accent);
+  }
 }
 
 html:has(dialog[open]) {
@@ -166,11 +192,22 @@ a {
   inset: 0;
   z-index: 0;
   pointer-events: none;
-  background:
-    radial-gradient(55vmax 55vmax at 8% -10%, #f9dde3 0%, transparent 62%),
+  background: radial-gradient(
+      55vmax 55vmax at 8% -10%,
+      #f9dde3 0%,
+      transparent 62%
+    ),
     radial-gradient(50vmax 50vmax at 105% 110%, #f1e0d8 0%, transparent 60%),
-    repeating-linear-gradient(45deg, rgb(196 162 127 / 0.13) 0 1px, transparent 1px 34px),
-    repeating-linear-gradient(-45deg, rgb(196 162 127 / 0.13) 0 1px, transparent 1px 34px),
+    repeating-linear-gradient(
+      45deg,
+      rgb(196 162 127 / 0.13) 0 1px,
+      transparent 1px 34px
+    ),
+    repeating-linear-gradient(
+      -45deg,
+      rgb(196 162 127 / 0.13) 0 1px,
+      transparent 1px 34px
+    ),
     var(--bg);
 }
 
@@ -199,8 +236,7 @@ a {
   max-width: var(--sheet);
   margin: 0 auto;
   background: var(--paper);
-  box-shadow:
-    0 0 0 1px rgb(196 162 127 / 0.25),
+  box-shadow: 0 0 0 1px rgb(196 162 127 / 0.25),
     0 40px 90px -40px rgb(120 50 70 / 0.45);
 }
 
@@ -215,9 +251,9 @@ a {
 }
 
 .title {
-  font: 600 clamp(2rem, 8.4vw, 2.6rem) / 1.1 var(--font-display);
-  letter-spacing: 0.01em;
-  color: var(--ink);
+  font: 500 clamp(1.85rem, 7.8vw, 2.4rem) / 1.2 var(--font-heading);
+  letter-spacing: 0.005em;
+  color: var(--accent-ink);
 }
 
 .script-title {
@@ -249,6 +285,141 @@ a {
   background: linear-gradient(to left, transparent, var(--gold));
 }
 
+/* 囍 (song hỷ) ornament: static glyph between two neon hairlines. The
+   lines pulse their glow and a spark of light runs along each toward the
+   glyph. Transform/opacity only. */
+.orn--hy {
+  width: 240px;
+  gap: 14px;
+}
+
+.orn--hy::before,
+.orn--hy::after {
+  content: none;
+}
+
+.hy-line {
+  position: relative;
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(
+    to right,
+    transparent,
+    var(--accent) 70%,
+    #e9a4b8
+  );
+  box-shadow: 0 0 4px rgba(166, 77, 104, 0.45);
+}
+
+.hy-line + .hy-glyph + .hy-line {
+  transform: scaleX(-1);
+}
+
+/* Wider neon bloom; only its opacity pulses. */
+.hy-line::before {
+  content: "";
+  position: absolute;
+  inset: -2px 0;
+  border-radius: 2px;
+  background: linear-gradient(to right, transparent, rgba(233, 164, 184, 0.9));
+  box-shadow: 0 0 10px 1px rgba(196, 99, 127, 0.55);
+  opacity: 0.35;
+}
+
+/* Spark running along the line toward the glyph. The layer is as wide as
+   the line with the bright tip in its last 30%, so translating it from
+   -70% to 0 carries the tip from the outer end to the glyph. */
+.hy-line::after {
+  content: "";
+  position: absolute;
+  top: -2px;
+  left: 0;
+  width: 100%;
+  height: 5px;
+  border-radius: 3px;
+  background: radial-gradient(
+      ellipse 10% 50% at 92% 50%,
+      #fff 0%,
+      rgba(255, 233, 240, 0.9) 40%,
+      transparent 100%
+    ),
+    linear-gradient(
+      to right,
+      transparent 70%,
+      rgba(233, 164, 184, 0.8) 92%,
+      transparent 100%
+    );
+  opacity: 0;
+  transform: translateX(-70%);
+}
+
+.hy-glyph {
+  position: relative;
+  flex: none;
+  font-family: "Noto Serif SC", "Noto Serif CJK SC", "Songti SC", "STSong",
+    "SimSun", "Noto Sans CJK SC", "Microsoft YaHei", serif;
+  font-size: 2.15rem;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--accent);
+  background: linear-gradient(
+    160deg,
+    #c4637f 0%,
+    var(--accent) 45%,
+    #7a2f47 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 0 0.5px rgba(196, 162, 127, 0.9))
+    drop-shadow(0 2px 6px rgba(166, 77, 104, 0.35));
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .js .is-in .hy-line::before {
+    animation: hy-neon 2.8s ease-in-out infinite;
+  }
+
+  .js .is-in .hy-line::after {
+    animation: hy-run 2.8s cubic-bezier(0.45, 0, 0.25, 1) 0.4s infinite;
+  }
+}
+
+@keyframes hy-neon {
+  0%,
+  100% {
+    opacity: 0.3;
+  }
+  50% {
+    opacity: 1;
+  }
+  54% {
+    opacity: 0.7;
+  }
+  58% {
+    opacity: 1;
+  }
+}
+
+@keyframes hy-run {
+  0% {
+    opacity: 0;
+    transform: translateX(-70%);
+  }
+  15% {
+    opacity: 1;
+  }
+  70% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  80%,
+  100% {
+    opacity: 0;
+    transform: translateX(0);
+  }
+}
+
 .lede {
   max-width: 42ch;
   margin-inline: auto;
@@ -261,16 +432,22 @@ a {
 /* Glass surfaces. Real blur only where imagery sits behind (.glass--blur);
    elsewhere a translucent fill reads the same and keeps scrolling cheap. */
 .glass {
-  background: linear-gradient(140deg, rgb(255 255 255 / 0.82), rgb(255 255 255 / 0.5));
+  background: linear-gradient(
+    140deg,
+    rgb(255 255 255 / 0.82),
+    rgb(255 255 255 / 0.5)
+  );
   border: 1px solid rgb(255 255 255 / 0.85);
   border-radius: var(--r-card);
-  box-shadow:
-    inset 0 1px 0 rgb(255 255 255 / 0.95),
-    var(--shadow);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.95), var(--shadow);
 }
 
 .glass--blur {
-  background: linear-gradient(140deg, rgb(255 255 255 / 0.62), rgb(255 255 255 / 0.32));
+  background: linear-gradient(
+    140deg,
+    rgb(255 255 255 / 0.62),
+    rgb(255 255 255 / 0.32)
+  );
   -webkit-backdrop-filter: blur(18px) saturate(1.35);
   backdrop-filter: blur(18px) saturate(1.35);
 }
@@ -299,12 +476,8 @@ a {
   font: 500 0.94rem/1 var(--font-body);
   text-decoration: none;
   white-space: nowrap;
-  transition:
-    transform 0.2s var(--ease),
-    background-color 0.25s,
-    border-color 0.25s,
-    color 0.25s,
-    box-shadow 0.25s;
+  transition: transform 0.2s var(--ease), background-color 0.25s,
+    border-color 0.25s, color 0.25s, box-shadow 0.25s;
 }
 
 .btn:active {
@@ -406,9 +579,8 @@ a {
   height: 58px;
   padding: 6px 7px 6px 7px;
   border-radius: 999px;
-  transition:
-    opacity 0.45s var(--ease),
-    transform 0.6s var(--ease),
+  background-color: #fff;
+  transition: opacity 0.45s var(--ease), transform 0.6s var(--ease),
     visibility 0s;
 }
 
@@ -416,10 +588,7 @@ a {
   opacity: 0;
   visibility: hidden;
   transform: translateY(calc(-100% - 18px));
-  transition:
-    opacity 0.3s,
-    transform 0.45s var(--ease),
-    visibility 0s 0.45s;
+  transition: opacity 0.3s, transform 0.45s var(--ease), visibility 0s 0.45s;
 }
 
 .nav-brand {
@@ -466,9 +635,7 @@ a {
   background: var(--accent);
   color: #fff;
   box-shadow: 0 10px 22px -10px rgb(166 77 104 / 0.8);
-  transition:
-    transform 0.25s var(--ease),
-    background-color 0.25s;
+  transition: transform 0.25s var(--ease), background-color 0.25s;
 }
 
 .nav-toggle:hover {
@@ -493,18 +660,31 @@ a {
   height: 1.5px;
   border-radius: 2px;
   background: currentColor;
-  transition:
-    transform 0.4s var(--ease),
-    opacity 0.2s;
+  transition: transform 0.4s var(--ease), opacity 0.2s;
 }
 
-.nav-burger i:nth-child(1) { top: 0; }
-.nav-burger i:nth-child(2) { top: calc(50% - 0.75px); transform-origin: right; transform: scaleX(0.6); }
-.nav-burger i:nth-child(3) { bottom: 0; }
+.nav-burger i:nth-child(1) {
+  top: 0;
+}
+.nav-burger i:nth-child(2) {
+  top: calc(50% - 0.75px);
+  transform-origin: right;
+  transform: scaleX(0.6);
+}
+.nav-burger i:nth-child(3) {
+  bottom: 0;
+}
 
-.nav[data-open] .nav-burger i:nth-child(1) { transform: translateY(5.25px) rotate(45deg); }
-.nav[data-open] .nav-burger i:nth-child(2) { opacity: 0; transform: scaleX(0); }
-.nav[data-open] .nav-burger i:nth-child(3) { transform: translateY(-5.25px) rotate(-45deg); }
+.nav[data-open] .nav-burger i:nth-child(1) {
+  transform: translateY(5.25px) rotate(45deg);
+}
+.nav[data-open] .nav-burger i:nth-child(2) {
+  opacity: 0;
+  transform: scaleX(0);
+}
+.nav[data-open] .nav-burger i:nth-child(3) {
+  transform: translateY(-5.25px) rotate(-45deg);
+}
 
 .nav-menu {
   position: absolute;
@@ -519,20 +699,14 @@ a {
   opacity: 0;
   visibility: hidden;
   transform: translateY(-10px) scale(0.97);
-  transition:
-    opacity 0.25s,
-    transform 0.4s var(--ease),
-    visibility 0s 0.4s;
+  transition: opacity 0.25s, transform 0.4s var(--ease), visibility 0s 0.4s;
 }
 
 .nav[data-open] .nav-menu {
   opacity: 1;
   visibility: visible;
   transform: none;
-  transition:
-    opacity 0.3s,
-    transform 0.5s var(--ease),
-    visibility 0s;
+  transition: opacity 0.3s, transform 0.5s var(--ease), visibility 0s;
 }
 
 .nav-list li + li {
@@ -583,9 +757,7 @@ a {
   .nav-list li {
     opacity: 0;
     transform: translateY(-6px);
-    transition:
-      opacity 0.2s,
-      transform 0.35s var(--ease);
+    transition: opacity 0.2s, transform 0.35s var(--ease);
   }
 
   .nav[data-open] .nav-list li {
@@ -594,13 +766,27 @@ a {
     transition-delay: calc(var(--i, 0) * 35ms + 60ms);
   }
 
-  .nav-list li:nth-child(2) { --i: 1; }
-  .nav-list li:nth-child(3) { --i: 2; }
-  .nav-list li:nth-child(4) { --i: 3; }
-  .nav-list li:nth-child(5) { --i: 4; }
-  .nav-list li:nth-child(6) { --i: 5; }
-  .nav-list li:nth-child(7) { --i: 6; }
-  .nav-list li:nth-child(8) { --i: 7; }
+  .nav-list li:nth-child(2) {
+    --i: 1;
+  }
+  .nav-list li:nth-child(3) {
+    --i: 2;
+  }
+  .nav-list li:nth-child(4) {
+    --i: 3;
+  }
+  .nav-list li:nth-child(5) {
+    --i: 4;
+  }
+  .nav-list li:nth-child(6) {
+    --i: 5;
+  }
+  .nav-list li:nth-child(7) {
+    --i: 6;
+  }
+  .nav-list li:nth-child(8) {
+    --i: 7;
+  }
 }
 
 /* Reduced motion: fade only, no slide. */
@@ -617,7 +803,7 @@ a {
 }
 
 #gift-box {
-  scroll-margin-top: 84px;
+  scroll-margin-top: 96px;
 }
 
 .ico--heart {
@@ -636,7 +822,10 @@ a {
 .hero-photo {
   position: relative;
   aspect-ratio: 4 / 5;
-  max-height: min(66svh, 640px); /* keeps the CTAs inside the first screen on laptops */
+  max-height: min(
+    66svh,
+    640px
+  ); /* keeps the CTAs inside the first screen on laptops */
   width: 100%;
   overflow: hidden;
 }
@@ -653,7 +842,12 @@ a {
   position: absolute;
   inset: auto 0 0;
   height: 42%;
-  background: linear-gradient(to bottom, transparent, rgb(253 248 247 / 0.7) 60%, var(--paper));
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    rgb(253 248 247 / 0.7) 60%,
+    var(--paper)
+  );
   pointer-events: none;
 }
 
@@ -695,8 +889,8 @@ a {
   justify-content: center;
   gap: 14px;
   margin: 14px 0 20px;
-  font: 600 1.35rem/1 var(--font-display);
-  letter-spacing: 0.18em;
+  font: 500 1.3rem/1 var(--font-heading);
+  letter-spacing: 0.08em;
   color: var(--ink);
 }
 
@@ -742,10 +936,18 @@ a {
     animation: fade-up 1s var(--ease) both;
   }
 
-  [data-hero="2"] { animation-delay: 0.15s; }
-  [data-hero="3"] { animation-delay: 0.3s; }
-  [data-hero="4"] { animation-delay: 0.45s; }
-  [data-hero="5"] { animation-delay: 0.6s; }
+  [data-hero="2"] {
+    animation-delay: 0.15s;
+  }
+  [data-hero="3"] {
+    animation-delay: 0.3s;
+  }
+  [data-hero="4"] {
+    animation-delay: 0.45s;
+  }
+  [data-hero="5"] {
+    animation-delay: 0.6s;
+  }
 }
 
 @keyframes hero-zoom {
@@ -773,7 +975,6 @@ a {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 12px;
-  padding-bottom: 40px;
 }
 
 .featured li:nth-child(even) {
@@ -803,7 +1004,11 @@ a {
 }
 
 .album .center {
-  margin-top: 36px;
+  position: relative;
+  z-index: 1; /* translated tiles form stacking contexts and paint over later siblings */
+  /* 40px clears the downward offset of the even tiles (the ul[role="list"]
+     reset zeroes any padding on .featured), plus 32px of air. */
+  margin-top: 72px;
 }
 
 /* ------------------------------------------------------- month calendar */
@@ -819,7 +1024,7 @@ a {
 }
 
 .month-title {
-  font: 600 1.6rem/1 var(--font-display);
+  font: 500 1.5rem/1.1 var(--font-heading);
   letter-spacing: 0.08em;
   text-transform: uppercase;
   margin-bottom: 18px;
@@ -891,9 +1096,17 @@ a {
 }
 
 @keyframes beat {
-  0%, 60%, 100% { transform: scale(1); }
-  20% { transform: scale(1.12); }
-  40% { transform: scale(0.98); }
+  0%,
+  60%,
+  100% {
+    transform: scale(1);
+  }
+  20% {
+    transform: scale(1.12);
+  }
+  40% {
+    transform: scale(0.98);
+  }
 }
 
 .month-legend {
@@ -912,6 +1125,7 @@ a {
   display: inline-flex;
   align-items: center;
   gap: 8px;
+  padding-top: 8px;
 }
 
 .month-legend .ico {
@@ -939,8 +1153,7 @@ a {
   position: absolute;
   inset: -40px;
   z-index: -1;
-  background:
-    linear-gradient(rgb(250 232 236 / 0.5), rgb(253 244 245 / 0.62)),
+  background: linear-gradient(rgb(250 232 236 / 0.5), rgb(253 244 245 / 0.62)),
     url("../assets/album/web/nmt_0945-480.webp") center 88% / cover;
   filter: blur(16px) saturate(1.25);
 }
@@ -961,7 +1174,8 @@ a {
 }
 
 .cd-num {
-  font: 600 clamp(1.9rem, 8.5vw, 2.6rem) / 1 var(--font-display);
+  font: 500 clamp(1.8rem, 8vw, 2.4rem) / 1 var(--font-heading);
+  font-variant-numeric: lining-nums tabular-nums;
   font-variant-numeric: tabular-nums lining-nums;
   color: var(--ink);
 }
@@ -984,17 +1198,81 @@ a {
 
 .photo-card-wrap {
   padding-block: 64px 40px;
+  overflow: hidden; /* side cards peek past the column edge */
+}
+
+/* Three stacked cards: the active one in front, its neighbours tucked
+   behind at the corners. js/photo-cards.js sets data-pos (-1, 0, 1) and
+   --dx while dragging. */
+.pc-stage {
+  --card-w: min(72vw, 340px);
+  position: relative;
+  display: grid;
+  justify-items: center;
+  padding-block: 8px 12px;
+  touch-action: pan-y;
+  user-select: none;
+  -webkit-user-select: none;
 }
 
 .photo-card {
-  width: min(100%, 440px);
-  margin-inline: auto;
-  padding: 14px 14px 22px;
+  position: relative;
+  grid-area: 1 / 1;
+  width: var(--card-w);
+  margin: 0;
+  padding: 12px 12px 20px;
   background: #fff;
   border-radius: var(--r-card);
   box-shadow: var(--shadow);
-  rotate: -1.2deg;
   text-align: center;
+  cursor: pointer;
+  transform: translateX(var(--x, 0)) rotate(var(--rot, 0deg)) scale(var(--s, 1));
+  transition: transform 0.6s var(--ease), opacity 0.45s ease;
+}
+
+.photo-card[data-pos="0"] {
+  z-index: 3;
+  cursor: grab;
+  --x: var(--dx, 0px);
+  --rot: calc(var(--dx, 0px) / 40px * 1deg);
+}
+
+.photo-card[data-pos="-1"],
+.photo-card[data-pos="1"] {
+  z-index: 1;
+  --s: 0.8;
+}
+
+.photo-card[data-pos="-1"] {
+  --x: calc(var(--card-w) * -0.42);
+  --rot: -7deg;
+}
+
+.photo-card[data-pos="1"] {
+  --x: calc(var(--card-w) * 0.42);
+  --rot: 7deg;
+}
+
+.pc-stage.is-dragging .photo-card[data-pos="0"] {
+  cursor: grabbing;
+  transition: none;
+}
+
+/* Side cards read as "behind": a soft veil instead of lowering opacity,
+   so the front card never shows through them. */
+.photo-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: var(--paper-2);
+  opacity: 0;
+  transition: opacity 0.45s ease;
+  pointer-events: none;
+}
+
+.photo-card:not([data-pos="0"])::after {
+  opacity: 0.45;
 }
 
 .photo-card-frame {
@@ -1009,6 +1287,7 @@ a {
   height: 100%;
   object-fit: cover;
   object-position: 50% 20%;
+  pointer-events: none;
 }
 
 .photo-card-frame::after {
@@ -1022,18 +1301,96 @@ a {
 
 .photo-card figcaption {
   display: grid;
-  gap: 2px;
-  margin-top: 16px;
+  gap: 4px;
+  margin-top: 14px;
+  padding-inline: 6px;
 }
 
-.photo-card-names {
+.photo-card-title {
+  font: 400 1.85rem/1.2 var(--font-script);
+  color: var(--accent);
+}
+
+.photo-card-msg {
+  font: italic 500 1.05rem/1.45 var(--font-display);
+  color: var(--ink-soft);
+  text-wrap: balance;
+}
+
+.pc-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  margin-top: 22px;
+}
+
+.pc-arrow {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--paper);
+  color: var(--accent-ink);
+  cursor: pointer;
+  transition: transform 0.2s var(--ease);
+}
+
+.pc-arrow:active {
+  transform: scale(0.92);
+}
+
+.pc-dots {
+  display: flex;
+  gap: 2px;
+}
+
+/* 24px hit area around an 8px dot. */
+.pc-dots button {
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+}
+
+.pc-dots button::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: rgb(166 77 104 / 0.3);
+  transition: transform 0.3s var(--ease), background-color 0.3s;
+}
+
+.pc-dots button[aria-current="true"]::before {
+  background: var(--accent);
+  transform: scale(1.35);
+}
+
+.photo-card-wrap .photo-card-names {
+  margin: 14px 0 0;
+  text-align: center;
   font: 400 2rem/1.3 var(--font-script);
   color: var(--accent);
 }
 
-.photo-card-date {
-  font: italic 500 1.08rem/1.4 var(--font-display);
-  color: var(--ink-soft);
+@media (prefers-reduced-motion: reduce) {
+  .photo-card,
+  .photo-card::after {
+    transition: none;
+  }
+}
+
+/* Without JS: just the first card. */
+html:not(.js) .photo-card:not(:first-child),
+html:not(.js) .pc-controls {
+  display: none;
 }
 
 /* ---------------------------------------------------------------- letter */
@@ -1042,29 +1399,216 @@ a {
   padding-top: 40px;
 }
 
-.letter-card {
-  position: relative;
-  padding: 44px 26px 36px;
-  text-align: center;
-  background:
-    radial-gradient(120% 80% at 50% 0%, #fff 0%, transparent 70%),
-    var(--paper-2);
-  border-radius: var(--r-card);
-  border: 1px solid rgb(196 162 127 / 0.55);
-  box-shadow:
-    inset 0 0 0 7px var(--paper-2),
-    inset 0 0 0 8px rgb(196 162 127 / 0.35);
+.letter-wrap {
+  perspective: 1400px;
 }
 
-.letter-quote {
-  width: 34px;
-  height: 34px;
-  margin: 0 auto 6px;
-  color: #e7c3cd;
+/* A paper card: double gold frame, soft deckle light, deep drop shadow.
+   On hover (mouse only) it tilts toward the pointer and catches a glass glare. */
+.letter-card {
+  --rx: 0deg;
+  --ry: 0deg;
+  position: relative;
+  padding: 58px 26px 40px;
+  text-align: center;
+  background: radial-gradient(120% 70% at 50% 0%, #fff 0%, transparent 70%),
+    radial-gradient(
+      90% 60% at 100% 100%,
+      rgb(245 225 230 / 0.9),
+      transparent 70%
+    ),
+    var(--paper-2);
+  border-radius: var(--r-card);
+  border: 1px solid rgb(196 162 127 / 0.6);
+  box-shadow: inset 0 0 0 9px var(--paper-2),
+    inset 0 0 0 10px rgb(196 162 127 / 0.45), inset 0 0 0 13px var(--paper-2),
+    inset 0 0 0 13.6px rgb(196 162 127 / 0.25),
+    0 30px 60px -34px rgb(120 50 70 / 0.5),
+    0 10px 24px -16px rgb(120 50 70 / 0.3);
+  transform: rotateX(var(--rx)) rotateY(var(--ry));
+  transform-style: preserve-3d;
+  transition: transform 0.9s var(--ease);
+}
+
+.letter-card.is-tilting {
+  transition: transform 0.2s ease-out;
+}
+
+/* Satin band across the top-left corner, clipped to the card's radius. */
+.letter-ribbon {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 132px;
+  height: 132px;
+  overflow: hidden;
+  border-top-left-radius: var(--r-card);
+  pointer-events: none;
+}
+
+.letter-ribbon::before {
+  content: "";
+  position: absolute;
+  left: -62px;
+  top: 37px;
+  width: 220px;
+  height: 22px;
+  transform: rotate(-45deg);
+  background: linear-gradient(
+    to bottom,
+    #9b4560 0%,
+    #d690a4 30%,
+    #bf6681 55%,
+    #8c3c55 100%
+  );
+  border-block: 1px dashed rgb(255 255 255 / 0.5);
+  box-shadow: 0 3px 8px -2px rgb(120 50 70 / 0.45);
+}
+
+.letter-bow {
+  position: absolute;
+  left: -4px;
+  top: 20px;
+  width: 104px;
+  transform-origin: 50% 37%;
+  transform: rotate(-45deg);
+  filter: drop-shadow(0 4px 5px rgb(120 50 70 / 0.35));
+  pointer-events: none;
+  transition: transform 0.9s var(--ease);
+}
+
+.letter-head {
+  transition: transform 0.9s var(--ease);
+}
+
+.letter-card .letter-eyebrow {
+  margin: 0 auto;
+  font: 400 clamp(2.5rem, 11vw, 3.1rem) / 1 var(--font-script);
+  color: var(--accent);
+}
+
+.letter-flourish {
+  display: block;
+  width: 190px;
+  height: auto;
+  margin: 4px auto 14px;
+  overflow: visible;
+}
+
+.letter-flourish path {
+  fill: none;
+  stroke: var(--gold);
+  stroke-width: 1.4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.letter-flourish circle {
+  fill: var(--gold);
+}
+
+/* Glass glare: a soft highlight that follows the pointer (moved by transform),
+   plus a light rim. Only visible while tilting. */
+.letter-glare {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.6s ease;
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.9),
+    inset 0 0 0 1px rgb(255 255 255 / 0.55);
+}
+
+.letter-glare::before {
+  content: "";
+  position: absolute;
+  left: -300px;
+  top: -300px;
+  width: 600px;
+  height: 600px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgb(255 255 255 / 0.55) 0%,
+    rgb(255 255 255 / 0.18) 35%,
+    transparent 65%
+  );
+  transform: translate(var(--gx, 50%), var(--gy, 0px));
+}
+
+.letter-card.is-tilting .letter-glare {
+  opacity: 1;
+}
+
+.letter-card.is-tilting .letter-head {
+  transform: translateZ(26px);
+}
+
+.letter-card.is-tilting .letter-bow {
+  transform: translateZ(40px) rotate(-45deg);
+}
+
+/* Typing: each character is a span, hidden until its turn (space is kept, so no reflow). */
+.letter-body .ch {
+  position: relative;
+  transition: opacity 0.22s ease;
+}
+
+.letter-body.is-armed .ch:not(.on) {
+  opacity: 0;
+}
+
+.letter-body .ch.caret::after {
+  content: "";
+  position: absolute;
+  right: -2px;
+  top: 0.12em;
+  width: 1.5px;
+  height: 1.1em;
+  background: var(--accent);
+  animation: caret 0.9s steps(1) infinite;
+}
+
+@keyframes caret {
+  50% {
+    opacity: 0;
+  }
+}
+
+.letter-card.is-armed .letter-sign {
+  opacity: 0;
+  transform: translateY(10px);
+}
+
+.letter-card .letter-sign {
+  transition: opacity 1.1s var(--ease), transform 1.1s var(--ease);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .js .letter-flourish path {
+    stroke-dasharray: 1;
+    stroke-dashoffset: 1;
+    transition: stroke-dashoffset 2.2s cubic-bezier(0.65, 0, 0.35, 1) 0.5s;
+  }
+
+  .js .letter-flourish circle {
+    opacity: 0;
+    transition: opacity 0.6s ease 2.4s;
+  }
+
+  .js .letter-wrap.is-in .letter-flourish path {
+    stroke-dashoffset: 0;
+  }
+
+  .js .letter-wrap.is-in .letter-flourish circle {
+    opacity: 1;
+  }
 }
 
 .letter-card p {
-  max-width: 40ch;
+  max-width: 50ch;
   margin: 14px auto 0;
   color: var(--ink-soft);
   line-height: 1.85;
@@ -1083,6 +1627,16 @@ a {
   color: var(--accent);
 }
 
+/* Each name stays whole. If the line doesn't fit, letter.js adds .is-stacked
+   and "&" gets a line of its own instead of trailing the groom's name. */
+.letter-sign > span {
+  white-space: nowrap;
+}
+
+.letter-sign.is-stacked > span {
+  display: block;
+}
+
 /* ---------------------------------------------------------------- couple */
 
 .couple {
@@ -1090,29 +1644,75 @@ a {
 }
 
 .couple-grid {
+  --gap: 8px;
+  --mat: 7px;
   position: relative;
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 16px;
-  padding-bottom: 56px;
+  gap: var(--gap);
+  container-type: inline-size;
 }
 
 .person {
   text-align: center;
 }
 
-.person--bride {
-  translate: 0 56px;
+/* Photo card: rounded rectangle, white mat, gold hairline, rose block offset
+   behind and a slight tilt, mirrored per side. White corner brackets sit on the photo. */
+.person-frame {
+  --shift: -9px;
+  --tilt: -2deg;
+  position: relative;
+  padding: var(--mat);
+  /* Only the outer side keeps room, for the offset rose block. */
+  margin: 10px 0 0 10px;
+  border-radius: 20px;
+  background: #fff;
+  rotate: var(--tilt);
+  box-shadow: var(--shift) 10px 0 var(--accent-soft), var(--shadow);
+}
+
+.person--bride .person-frame {
+  --shift: 9px;
+  --tilt: 2deg;
+  margin: 10px 10px 0 0;
+}
+
+.person-frame::before {
+  content: "";
+  position: absolute;
+  inset: 3px;
+  border: 1px solid rgb(196 162 127 / 0.75);
+  border-radius: 17px;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Corner brackets: four L-shaped white strokes just inside the photo edge. */
+.person-frame::after {
+  --c: rgb(255 255 255 / 0.85);
+  --l: 18px;
+  content: "";
+  position: absolute;
+  inset: calc(var(--mat) + 8px);
+  pointer-events: none;
+  z-index: 1;
+  background: linear-gradient(var(--c), var(--c)) top left / var(--l) 1.5px,
+    linear-gradient(var(--c), var(--c)) top left / 1.5px var(--l),
+    linear-gradient(var(--c), var(--c)) top right / var(--l) 1.5px,
+    linear-gradient(var(--c), var(--c)) top right / 1.5px var(--l),
+    linear-gradient(var(--c), var(--c)) bottom left / var(--l) 1.5px,
+    linear-gradient(var(--c), var(--c)) bottom left / 1.5px var(--l),
+    linear-gradient(var(--c), var(--c)) bottom right / var(--l) 1.5px,
+    linear-gradient(var(--c), var(--c)) bottom right / 1.5px var(--l);
+  background-repeat: no-repeat;
+  filter: drop-shadow(0 0 1px rgb(0 0 0 / 0.25));
 }
 
 .person-photo {
   aspect-ratio: 3 / 4;
-  border-radius: 999px 999px var(--r-img) var(--r-img);
+  border-radius: 14px;
   overflow: hidden;
-  box-shadow: var(--shadow);
-  outline: 1px solid rgb(196 162 127 / 0.6);
-  outline-offset: 5px;
-  margin: 6px 6px 0;
 }
 
 .person-photo img {
@@ -1129,7 +1729,17 @@ a {
 
 .person-name {
   margin-top: 2px;
-  font: 600 1.32rem/1.2 var(--font-display);
+  font: 600 clamp(1rem, 5.3cqw, 1.2rem) / 1.2 var(--font-display);
+  white-space: nowrap;
+}
+
+/* Role and name keep clear of the heart on the inner side. */
+.person--groom :is(.person-role, .person-name) {
+  padding-right: 22px;
+}
+
+.person--bride :is(.person-role, .person-name) {
+  padding-left: 22px;
 }
 
 .person-bio {
@@ -1140,28 +1750,232 @@ a {
   text-wrap: pretty;
 }
 
+/* Heart sits between the two name blocks: frame bottom (top margin + photo at
+   3:4 + mat) plus the middle of the role/name lines (~45px). */
 .couple-heart {
   position: absolute;
-  top: 34%;
+  top: calc(
+    10px + ((100cqw - var(--gap)) / 2 - 10px - 2 * var(--mat)) * 4 / 3 + 2 *
+      var(--mat) + 43px
+  );
   left: 50%;
   translate: -50% -50%;
   display: grid;
   place-items: center;
-  width: 46px;
-  height: 46px;
+  width: 34px;
+  height: 34px;
+  z-index: 3;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.couple-heart > * {
+  grid-area: 1 / 1;
+}
+
+/* Border: a gold-rose gradient ring that turns, and a dotted halo turning the other way. */
+.couple-heart::before,
+.couple-heart::after {
+  content: "";
+  position: absolute;
   border-radius: 50%;
-  background: var(--paper);
+  pointer-events: none;
+}
+
+.couple-heart::before {
+  inset: -5px;
+  padding: 2px;
+  background: conic-gradient(
+    var(--gold),
+    #f6e3c6,
+    var(--accent),
+    var(--gold),
+    #f6e3c6,
+    var(--accent),
+    var(--gold)
+  );
+  -webkit-mask: linear-gradient(#000 0 0) content-box exclude,
+    linear-gradient(#000 0 0);
+  mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+}
+
+.couple-heart::after {
+  inset: -9px;
+  border: 1.5px dotted rgb(196 162 127 / 0.85);
+}
+
+.couple-heart__core {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at 34% 28%,
+    #d98aa0,
+    var(--accent) 58%,
+    var(--accent-ink)
+  );
+  color: #fff;
+  font-size: 15px;
+  box-shadow: 0 0 0 1.5px var(--paper), 0 8px 18px -6px rgb(140 60 85 / 0.65);
+}
+
+.couple-heart__core .ico {
+  filter: drop-shadow(0 1px 1px rgb(90 30 50 / 0.35));
+}
+
+.couple-heart__ring {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  border: 1.5px solid var(--accent);
+  opacity: 0;
+}
+
+.couple-heart__float {
+  font-size: 10px;
   color: var(--accent);
-  box-shadow: var(--shadow-sm);
-  z-index: 1;
+  opacity: 0;
+}
+
+.heart-burst {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin: -6px 0 0 -6px;
+  font-size: 12px;
+  color: var(--accent);
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .couple-heart__core {
+    animation: heartbeat 1.6s ease-in-out infinite;
+  }
+
+  .couple-heart__ring {
+    animation: heart-ripple 3.2s cubic-bezier(0.2, 0.6, 0.3, 1) infinite;
+    animation-delay: calc(var(--i, 0) * 1.6s);
+  }
+
+  .couple-heart__float {
+    animation: heart-float 4.2s ease-out infinite;
+    animation-delay: calc(var(--i) * 1.4s);
+  }
+
+  .couple-heart::before {
+    animation: heart-spin 6s linear infinite;
+  }
+
+  .couple-heart::after {
+    animation: heart-spin 14s linear infinite reverse;
+  }
+
+  /* Loops run only while the heart is on screen (js/main.js toggles .is-live). */
+  .couple-heart:not(.is-live) > *,
+  .couple-heart:not(.is-live)::before,
+  .couple-heart:not(.is-live)::after {
+    animation-play-state: paused;
+  }
+
+  .couple-heart.is-pop .couple-heart__core {
+    animation: heart-pop 0.5s cubic-bezier(0.3, 1.6, 0.5, 1);
+  }
+
+  .heart-burst {
+    animation: heart-burst 0.9s cubic-bezier(0.15, 0.7, 0.3, 1) forwards;
+  }
+}
+
+@keyframes heartbeat {
+  0%,
+  40%,
+  100% {
+    transform: scale(1);
+  }
+  12% {
+    transform: scale(1.14);
+  }
+  20% {
+    transform: scale(0.98);
+  }
+  26% {
+    transform: scale(1.08);
+  }
+}
+
+@keyframes heart-spin {
+  to {
+    transform: rotate(1turn);
+  }
+}
+
+@keyframes heart-ripple {
+  0% {
+    transform: scale(1);
+    opacity: 0.55;
+  }
+  100% {
+    transform: scale(2.6);
+    opacity: 0;
+  }
+}
+
+@keyframes heart-float {
+  0% {
+    transform: translate(0, 0) scale(0.4);
+    opacity: 0;
+  }
+  15% {
+    opacity: 0.9;
+  }
+  100% {
+    transform: translate(var(--x), -60px) scale(1.05)
+      rotate(calc(var(--x) * 1deg));
+    opacity: 0;
+  }
+}
+
+@keyframes heart-pop {
+  0% {
+    transform: scale(1);
+  }
+  35% {
+    transform: scale(0.82);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes heart-burst {
+  0% {
+    transform: rotate(var(--a)) translateY(0) scale(0.3);
+    opacity: 1;
+  }
+  70% {
+    opacity: 1;
+  }
+  100% {
+    transform: rotate(var(--a)) translateY(calc(var(--r) * -1)) scale(1);
+    opacity: 0;
+  }
 }
 
 /* ---------------------------------------------------------------- events */
 
 .events {
-  background:
-    repeating-linear-gradient(45deg, rgb(196 162 127 / 0.08) 0 1px, transparent 1px 30px),
-    repeating-linear-gradient(-45deg, rgb(196 162 127 / 0.08) 0 1px, transparent 1px 30px),
+  background: repeating-linear-gradient(
+      45deg,
+      rgb(196 162 127 / 0.08) 0 1px,
+      transparent 1px 30px
+    ),
+    repeating-linear-gradient(
+      -45deg,
+      rgb(196 162 127 / 0.08) 0 1px,
+      transparent 1px 30px
+    ),
     var(--paper-2);
 }
 
@@ -1186,7 +2000,7 @@ a {
 }
 
 .event-name {
-  font: 600 1.55rem/1.1 var(--font-display);
+  font: 500 1.45rem/1.2 var(--font-heading);
   color: var(--accent);
   letter-spacing: 0.02em;
 }
@@ -1201,7 +2015,7 @@ a {
 }
 
 .event-day {
-  font: 600 3.6rem/0.9 var(--font-display);
+  font: 500 3.2rem/0.95 var(--font-heading);
   color: var(--ink);
   padding-right: 16px;
   border-right: 1px solid var(--gold);
@@ -1222,7 +2036,7 @@ a {
 }
 
 .event-lunar {
-  font: italic 500 0.98rem/1.3 var(--font-display);
+  font: italic 500 0.88rem/1.4 var(--font-heading);
   color: var(--ink-soft);
 }
 
@@ -1254,6 +2068,10 @@ a {
 
 /* ---------------------------------------------------------------- gifts */
 
+/* The page shows only a sealed envelope (no QR, no numbers). Tapping it opens
+   the flap, lifts the card and then opens #gift-dialog. Layers, back to front:
+   back, card, pocket, flap, seal. Transform/opacity only. */
+
 .gift-box {
   margin-top: 64px;
   text-align: center;
@@ -1263,60 +2081,382 @@ a {
   margin-top: 8px;
 }
 
-.gift-grid {
+.envelope {
+  position: relative;
+  display: block;
+  width: min(300px, 82vw);
+  aspect-ratio: 1.55;
+  margin: 76px auto 0; /* room for the card to rise into */
+  perspective: 900px;
+  border-radius: 10px;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.env-back,
+.env-pocket,
+.env-flap {
+  position: absolute;
+  inset: 0;
+  border-radius: 10px;
+}
+
+.env-back {
+  background: linear-gradient(170deg, #8c3c55, #6f2c42);
+  box-shadow: 0 26px 40px -22px rgb(110 40 62 / 0.75);
+}
+
+.env-card {
+  position: absolute;
+  inset: 8% 6% 6%;
+  z-index: 1;
+  display: grid;
+  align-content: start;
+  justify-items: center;
+  gap: 2px;
+  padding-top: 16px;
+  border-radius: 8px;
+  background: linear-gradient(180deg, #fffdfb, var(--paper));
+  box-shadow: 0 -6px 16px -10px rgb(0 0 0 / 0.25);
+  transition: transform 0.6s var(--ease) 0.18s;
+}
+
+.env-card::before {
+  content: "";
+  position: absolute;
+  inset: 6px;
+  border: 1px solid rgb(196 162 127 / 0.55);
+  border-radius: 5px;
+  pointer-events: none;
+}
+
+.env-card-kicker {
+  font: italic 500 0.86rem/1.2 var(--font-display);
+  letter-spacing: 0.06em;
+  color: var(--ink-soft);
+}
+
+.env-card-names {
+  font: 400 1.75rem/1.25 var(--font-script);
+  color: var(--accent);
+}
+
+.env-card-date {
+  font: 500 0.7rem/1 var(--font-heading);
+  letter-spacing: 0.22em;
+  color: var(--gold);
+}
+
+/* Front pocket: side and bottom folds meeting under the flap. */
+.env-pocket {
+  z-index: 2;
+  background: linear-gradient(175deg, #a14f69, #85374f);
+  clip-path: polygon(0 0, 50% 54%, 100% 0, 100% 100%, 0 100%);
+}
+
+.env-flap {
+  z-index: 3;
+  height: 62%;
+  background: linear-gradient(180deg, #b45e79, #cf7f97);
+  clip-path: polygon(0 0, 100% 0, 50% 100%);
+  border-radius: 10px 10px 0 0;
+  transform-origin: 50% 0;
+  /* z-index drops behind the card halfway through the fold. */
+  transition: transform 0.5s var(--ease), z-index 0s linear 0.18s;
+}
+
+.env-seal {
+  position: absolute;
+  top: 62%;
+  left: 50%;
+  z-index: 4;
+  display: grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  margin: -23px 0 0 -23px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #e7c9a3, #c4a27f 55%, #9c7a57);
+  box-shadow: 0 0 0 3px rgb(196 162 127 / 0.35),
+    0 6px 12px -4px rgb(60 30 10 / 0.5), inset 0 -2px 4px rgb(90 60 30 / 0.35);
+  font-family: "Noto Serif SC", "Songti SC", "SimSun", "Microsoft YaHei", serif;
+  font-size: 1.3rem;
+  font-weight: 700;
+  line-height: 1;
+  color: #7a2f47;
+  transition: transform 0.35s var(--ease), opacity 0.25s;
+}
+
+.env-hint {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 18px;
+  font: italic 500 1.05rem/1.2 var(--font-display);
+  color: var(--accent);
+}
+
+.envelope.is-open .env-flap {
+  transform: rotateX(180deg);
+  z-index: 0;
+}
+
+.envelope.is-open .env-seal {
+  opacity: 0;
+  transform: scale(0.6);
+}
+
+.envelope.is-open .env-card {
+  transform: translateY(-46%);
+}
+
+@media (hover: hover) {
+  .envelope:not(.is-open):hover .env-card {
+    transform: translateY(-14%);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  /* Gentle invitation to tap: the seal pulses while the envelope is on screen. */
+  .js .gift-box.is-in .envelope:not(.is-open) .env-seal {
+    animation: seal-breathe 3.2s ease-in-out 1s infinite;
+  }
+
+  .js .gift-box.is-in .env-hint .ico {
+    animation: hint-nudge 3.2s ease-in-out 1s infinite;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .env-card,
+  .env-flap,
+  .env-seal {
+    transition: none;
+  }
+}
+
+@keyframes seal-breathe {
+  0%,
+  24%,
+  100% {
+    transform: scale(1);
+  }
+  12% {
+    transform: scale(1.1);
+  }
+}
+
+@keyframes hint-nudge {
+  0%,
+  24%,
+  100% {
+    transform: none;
+  }
+  12% {
+    transform: translateY(-3px);
+  }
+}
+
+/* Gift sheet (#gift-dialog), rendered by js/gift.js */
+
+.gift-kicker {
+  margin-bottom: 4px;
+  font: italic 500 0.95rem/1.2 var(--font-display);
+  letter-spacing: 0.08em;
+  color: var(--accent);
+}
+
+.gift-tabs {
+  --i: 0;
+  position: relative;
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 12px;
-  margin-top: 24px;
+  margin-top: 18px;
+  padding: 4px;
+  border-radius: 999px;
+  background: var(--accent-soft);
+}
+
+.gift-tabs-pill {
+  position: absolute;
+  inset: 4px auto 4px 4px;
+  width: calc(50% - 4px);
+  border-radius: 999px;
+  background: #fff;
+  box-shadow: 0 4px 12px -6px rgb(120 50 70 / 0.45);
+  transform: translateX(calc(var(--i) * 100%));
+  transition: transform 0.35s var(--ease);
+}
+
+.gift-tab {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  gap: 1px;
+  min-height: 48px;
+  padding: 6px 8px;
+  border-radius: 999px;
+  text-align: center;
+  font-weight: 600;
+  font-size: 0.9rem;
+  line-height: 1.25;
+  color: var(--ink-soft);
+  transition: color 0.2s;
+}
+
+.gift-tab small {
+  font: italic 500 0.86rem/1.1 var(--font-display);
+}
+
+.gift-tab[aria-selected="true"] {
+  color: var(--accent-ink);
+}
+
+.gift-panel {
+  display: grid;
+  gap: 16px;
+  margin-top: 20px;
+}
+
+.gift-panel:focus {
+  outline: none;
+}
+
+.gift-panel.is-swap {
+  animation: gift-swap 0.35s var(--ease);
+}
+
+@keyframes gift-swap {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+}
+
+.gift-qr-frame {
+  position: relative;
+  justify-self: center;
+  width: min(184px, 52vw);
+  margin: 6px 0 0;
+  padding: 12px 12px 10px;
+  background: #fff;
+  border-radius: var(--r-card);
+  box-shadow: 0 0 0 1px var(--line), var(--shadow-sm);
   text-align: center;
 }
 
-.gift-card {
-  display: grid;
-  gap: 12px;
-  padding: 16px 12px 14px;
-  background: #fff;
-  border-radius: var(--r-card);
-  border: 1px solid var(--line);
-  box-shadow: var(--shadow-sm);
-}
-
-.gift-role {
-  font: italic 500 1.2rem/1.2 var(--font-display);
-  color: var(--accent);
+/* Champagne hairline around the mat. */
+.gift-qr-frame::before {
+  content: "";
+  position: absolute;
+  inset: -6px;
+  border: 1px solid rgb(196 162 127 / 0.55);
+  border-radius: 26px;
+  pointer-events: none;
 }
 
 .gift-qr {
   width: 100%;
-  border-radius: 10px;
+  border-radius: 12px;
 }
 
-.gift-info {
-  display: grid;
-  gap: 6px;
-  text-align: left;
-  font-size: 0.8rem;
-}
-
-.gift-info dt {
-  font-size: 0.72rem;
+.gift-qr-frame figcaption {
+  margin-top: 8px;
+  white-space: nowrap;
+  font-size: 0.74rem;
   color: var(--ink-soft);
 }
 
-.gift-info dd {
+.gift-rows {
+  display: grid;
+  border-radius: 16px;
+  background: #fff;
+  border: 1px solid var(--line);
+}
+
+.gift-row {
+  display: grid;
+  gap: 2px;
+  padding: 10px 14px;
+}
+
+.gift-row + .gift-row {
+  border-top: 1px solid var(--line);
+}
+
+/* Bank and holder share one line. */
+.gift-row--pair {
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.gift-row--pair > div {
+  display: grid;
+  gap: 2px;
+}
+
+.gift-row dt {
+  font-size: 0.74rem;
+  color: var(--ink-soft);
+}
+
+.gift-row dd {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  min-height: 24px;
   font-weight: 600;
+  font-size: 0.95rem;
   overflow-wrap: anywhere;
 }
 
 .gift-acc {
-  font-variant-numeric: tabular-nums;
-  letter-spacing: 0.02em;
+  font: 500 1.3rem/1.3 var(--font-heading);
+  letter-spacing: 0.04em;
+  font-variant-numeric: lining-nums tabular-nums;
+  color: var(--ink);
 }
 
-.gift-card .btn {
-  white-space: normal;
-  line-height: 1.2;
-  padding-block: 6px;
+.gift-memo {
+  font-weight: 500;
+}
+
+.gift-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  flex: none;
+  min-height: 36px;
+  padding: 0 12px;
+  border-radius: 999px;
+  background: var(--accent-soft);
+  color: var(--accent-ink);
+  font-size: 0.78rem;
+  font-weight: 600;
+  transition: background-color 0.2s, color 0.2s, transform 0.2s var(--ease);
+}
+
+.gift-chip:active {
+  transform: scale(0.95);
+}
+
+.gift-chip.is-done {
+  background: #e3efe6;
+  color: #2f6b43;
+  box-shadow: none;
+}
+
+.gift-tip {
+  font-size: 0.8rem;
+  line-height: 1.55;
+  color: var(--ink-soft);
+  text-align: center;
+  text-wrap: pretty;
+}
+
+.gift-tip strong {
+  color: var(--ink);
+  font-weight: 600;
 }
 
 /* ------------------------------------------------------------ guestbook */
@@ -1345,9 +2485,7 @@ a {
   background: #fff;
   border: 1px solid rgb(166 77 104 / 0.28);
   border-radius: var(--r-input);
-  transition:
-    border-color 0.2s,
-    box-shadow 0.2s;
+  transition: border-color 0.2s, box-shadow 0.2s;
 }
 
 .field textarea {
@@ -1405,7 +2543,7 @@ a {
   align-items: baseline;
   gap: 8px;
   margin-bottom: 14px;
-  font: 600 1.4rem/1.2 var(--font-display);
+  font: 500 1.3rem/1.25 var(--font-heading);
 }
 
 .wishes-title span {
@@ -1420,7 +2558,11 @@ a {
   overflow-y: auto;
   overscroll-behavior: contain;
   padding: 2px 4px 24px 2px;
-  -webkit-mask-image: linear-gradient(to bottom, #000 calc(100% - 40px), transparent);
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    #000 calc(100% - 40px),
+    transparent
+  );
   mask-image: linear-gradient(to bottom, #000 calc(100% - 40px), transparent);
 }
 
@@ -1470,7 +2612,8 @@ a {
 .wish--skeleton span {
   height: 12px;
   border-radius: 6px;
-  background: linear-gradient(90deg, #f4e9eb 25%, #fbf4f5 50%, #f4e9eb 75%) 0 0 / 200% 100%;
+  background: linear-gradient(90deg, #f4e9eb 25%, #fbf4f5 50%, #f4e9eb 75%) 0 0 /
+    200% 100%;
   animation: shimmer 1.4s linear infinite;
 }
 
@@ -1511,7 +2654,12 @@ a {
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(to bottom, transparent 35%, rgb(59 42 47 / 0.55) 62%, rgb(59 42 47 / 0.9));
+  background: linear-gradient(
+    to bottom,
+    transparent 35%,
+    rgb(59 42 47 / 0.55) 62%,
+    rgb(59 42 47 / 0.9)
+  );
   pointer-events: none;
 }
 
@@ -1555,9 +2703,7 @@ a {
   .js [data-reveal] {
     opacity: 0;
     transform: translateY(28px);
-    transition:
-      opacity 0.9s var(--ease),
-      transform 0.9s var(--ease);
+    transition: opacity 0.9s var(--ease), transform 0.9s var(--ease);
     transition-delay: calc(var(--d, 0) * 120ms);
   }
 
@@ -1581,13 +2727,8 @@ a {
   -webkit-backdrop-filter: blur(12px) saturate(1.4);
   backdrop-filter: blur(12px) saturate(1.4);
   border: 1px solid rgb(255 255 255 / 0.9);
-  box-shadow:
-    inset 0 1px 0 #fff,
-    0 10px 26px -10px rgb(120 50 70 / 0.5);
-  transition:
-    transform 0.25s var(--ease),
-    background-color 0.25s,
-    color 0.25s;
+  box-shadow: inset 0 1px 0 #fff, 0 10px 26px -10px rgb(120 50 70 / 0.5);
+  transition: transform 0.25s var(--ease), background-color 0.25s, color 0.25s;
 }
 
 .glass-btn .ico {
@@ -1673,9 +2814,7 @@ a {
   pointer-events: none;
   opacity: 0;
   transform: translateX(6px);
-  transition:
-    opacity 0.2s,
-    transform 0.25s var(--ease);
+  transition: opacity 0.2s, transform 0.25s var(--ease);
 }
 
 /* Desktop: icons always visible, tooltip on hover / keyboard focus. */
@@ -1713,10 +2852,7 @@ a {
     opacity: 0;
     visibility: hidden;
     transform: translateY(12px) scale(0.9);
-    transition:
-      opacity 0.25s,
-      transform 0.35s var(--ease),
-      visibility 0s 0.35s;
+    transition: opacity 0.25s, transform 0.35s var(--ease), visibility 0s 0.35s;
   }
 
   .dock[data-open] .dock-items li {
@@ -1726,9 +2862,15 @@ a {
     transition-delay: calc(var(--i) * 45ms), calc(var(--i) * 45ms), 0s;
   }
 
-  .dock-items li:nth-child(1) { --i: 2; }
-  .dock-items li:nth-child(2) { --i: 1; }
-  .dock-items li:nth-child(3) { --i: 0; }
+  .dock-items li:nth-child(1) {
+    --i: 2;
+  }
+  .dock-items li:nth-child(2) {
+    --i: 1;
+  }
+  .dock-items li:nth-child(3) {
+    --i: 0;
+  }
 
   .dock[data-open] .tip {
     opacity: 1;
@@ -1765,9 +2907,7 @@ a {
   opacity: 0;
   transform: translateY(12px);
   pointer-events: none;
-  transition:
-    opacity 0.25s,
-    transform 0.35s var(--ease);
+  transition: opacity 0.25s, transform 0.35s var(--ease);
 }
 
 .toast.is-on {
@@ -1806,10 +2946,48 @@ dialog {
   background: var(--paper);
   border-radius: 24px;
   box-shadow: 0 30px 80px -30px rgb(40 20 28 / 0.6);
+  /* Firefox: slim rose thumb on a transparent track. */
+  scrollbar-width: thin;
+  scrollbar-color: rgb(166 77 104 / 0.35) transparent;
+}
+
+/* Blink/WebKit: a floating pill inset from the edge and kept clear of the
+   rounded corners. scrollbar-color/width must be reset (they are inherited
+   from html) or Chromium ignores the ::-webkit-scrollbar rules. */
+@supports selector(::-webkit-scrollbar) {
+  .modal-body {
+    scrollbar-width: auto;
+    scrollbar-color: auto;
+  }
+
+  .modal-body::-webkit-scrollbar {
+    width: 12px;
+  }
+
+  .modal-body::-webkit-scrollbar-track {
+    background: transparent;
+    margin-block: 22px;
+  }
+
+  .modal-body::-webkit-scrollbar-thumb {
+    background: rgb(166 77 104 / 0.3) padding-box;
+    border: 4px solid transparent;
+    border-radius: 999px;
+  }
+
+  .modal-body::-webkit-scrollbar-thumb:hover {
+    background-color: rgb(166 77 104 / 0.55);
+  }
+
+  .modal-body::-webkit-scrollbar-button,
+  .modal-body::-webkit-scrollbar-corner {
+    display: none;
+    background: transparent;
+  }
 }
 
 .modal-title {
-  font: 600 1.75rem/1.15 var(--font-display);
+  font: 500 1.6rem/1.2 var(--font-heading);
   padding-right: 44px;
 }
 
@@ -1840,10 +3018,6 @@ dialog {
 
 .modal-close:hover {
   background: #efd2da;
-}
-
-#gift-dialog-slot .gift-grid {
-  margin-top: 18px;
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -1893,8 +3067,27 @@ dialog {
   }
 
   .modal:not(.modal--full) .modal-body {
-    border-radius: 24px 24px 0 0;
+    max-height: calc(100dvh - 40px);
+    padding-top: 34px;
     padding-bottom: calc(24px + env(safe-area-inset-bottom));
+    border-radius: 24px 24px 0 0;
+  }
+
+  /* Grab handle: the sheet can be dragged down to close (js/ui.js). */
+  .modal:not(.modal--full) .modal-body::before {
+    content: "";
+    position: absolute;
+    top: 10px;
+    left: 50%;
+    width: 40px;
+    height: 4px;
+    margin-left: -20px;
+    border-radius: 2px;
+    background: rgb(59 42 47 / 0.18);
+  }
+
+  .modal:not(.modal--full) .modal-close {
+    top: 22px;
   }
 
   @media (prefers-reduced-motion: no-preference) {
@@ -1943,10 +3136,7 @@ dialog {
   border: 1px solid var(--line);
   border-radius: 14px;
   background: #fff;
-  transition:
-    background-color 0.2s,
-    color 0.2s,
-    border-color 0.2s;
+  transition: background-color 0.2s, color 0.2s, border-color 0.2s;
 }
 
 .seg small {
@@ -1999,9 +3189,7 @@ dialog {
   text-decoration: none;
   font-weight: 600;
   font-size: 0.95rem;
-  transition:
-    border-color 0.2s,
-    transform 0.2s var(--ease);
+  transition: border-color 0.2s, transform 0.2s var(--ease);
 }
 
 .cal-link:hover {
@@ -2044,8 +3232,7 @@ dialog {
   height: 100%;
   overflow-y: auto;
   overscroll-behavior: contain;
-  background:
-    radial-gradient(120% 60% at 50% 0%, #fff 0%, transparent 60%),
+  background: radial-gradient(120% 60% at 50% 0%, #fff 0%, transparent 60%),
     var(--paper);
 }
 
@@ -2058,11 +3245,10 @@ dialog {
   grid-template-columns: 1fr auto 1fr;
   align-items: center;
   gap: 12px;
-  padding: 10px max(14px, env(safe-area-inset-left)) 10px max(18px, env(safe-area-inset-left));
+  padding: 10px max(14px, env(safe-area-inset-left)) 10px
+    max(18px, env(safe-area-inset-left));
   background: rgb(253 248 247 / 0);
-  transition:
-    background-color 0.35s,
-    box-shadow 0.35s;
+  transition: background-color 0.35s, box-shadow 0.35s;
 }
 
 .gallery.is-scrolled .gallery-bar {
@@ -2091,9 +3277,7 @@ dialog {
   color: var(--ink);
   opacity: 0;
   transform: translateY(6px);
-  transition:
-    opacity 0.35s,
-    transform 0.35s var(--ease);
+  transition: opacity 0.35s, transform 0.35s var(--ease);
 }
 
 .gallery.is-scrolled .gallery-bar-title {
@@ -2111,9 +3295,7 @@ dialog {
   color: var(--ink);
   border: 1px solid rgb(196 162 127 / 0.55);
   background: rgb(255 255 255 / 0.6);
-  transition:
-    background-color 0.25s,
-    border-color 0.25s,
+  transition: background-color 0.25s, border-color 0.25s,
     transform 0.4s var(--ease);
 }
 
@@ -2200,9 +3382,7 @@ dialog {
   border-radius: 10px;
   opacity: 0;
   transform: scale(1.03);
-  transition:
-    opacity 0.5s var(--ease),
-    transform 0.6s var(--ease);
+  transition: opacity 0.5s var(--ease), transform 0.6s var(--ease);
   pointer-events: none;
 }
 
@@ -2215,9 +3395,7 @@ dialog {
   text-shadow: 0 1px 12px rgb(0 0 0 / 0.35);
   opacity: 0;
   transform: translateY(6px);
-  transition:
-    opacity 0.5s var(--ease),
-    transform 0.5s var(--ease);
+  transition: opacity 0.5s var(--ease), transform 0.5s var(--ease);
   pointer-events: none;
 }
 
@@ -2345,7 +3523,11 @@ dialog {
   content: "";
   position: absolute;
   inset: 0;
-  background: radial-gradient(120% 90% at 50% 45%, transparent 30%, rgb(18 12 14 / 0.85) 100%);
+  background: radial-gradient(
+    120% 90% at 50% 45%,
+    transparent 30%,
+    rgb(18 12 14 / 0.85) 100%
+  );
   pointer-events: none;
 }
 
@@ -2362,7 +3544,8 @@ dialog {
   grid-template-columns: 1fr auto 1fr;
   align-items: center;
   gap: 12px;
-  padding: 12px max(14px, env(safe-area-inset-right)) 12px max(18px, env(safe-area-inset-left));
+  padding: 12px max(14px, env(safe-area-inset-right)) 12px
+    max(18px, env(safe-area-inset-left));
 }
 
 .lb-count {
@@ -2419,9 +3602,7 @@ dialog {
   height: 42px;
   border-radius: 50%;
   color: var(--lb-ink);
-  transition:
-    background-color 0.25s,
-    color 0.25s;
+  transition: background-color 0.25s, color 0.25s;
 }
 
 .lb-tool .ico {
@@ -2503,9 +3684,7 @@ dialog {
   max-height: 100%;
   border-radius: 4px;
   box-shadow: 0 40px 90px -30px rgb(0 0 0 / 0.8);
-  transition:
-    opacity 0.45s ease,
-    transform 0.6s var(--ease);
+  transition: opacity 0.45s ease, transform 0.6s var(--ease);
 }
 
 .lb-stage img.is-out {
@@ -2536,9 +3715,7 @@ dialog {
   border: 1px solid var(--lb-line);
   background: rgb(18 12 14 / 0.3);
   translate: 0 -50%;
-  transition:
-    background-color 0.3s,
-    border-color 0.3s,
+  transition: background-color 0.3s, border-color 0.3s,
     transform 0.4s var(--ease);
 }
 
@@ -2575,12 +3752,25 @@ dialog {
   position: relative;
   display: flex;
   gap: 8px;
-  padding: 16px max(16px, env(safe-area-inset-left)) calc(16px + env(safe-area-inset-bottom));
+  padding: 16px max(16px, env(safe-area-inset-left))
+    calc(16px + env(safe-area-inset-bottom));
   overflow-x: auto;
   scrollbar-width: none;
   overscroll-behavior-x: contain;
-  -webkit-mask-image: linear-gradient(to right, transparent, #000 40px, #000 calc(100% - 40px), transparent);
-  mask-image: linear-gradient(to right, transparent, #000 40px, #000 calc(100% - 40px), transparent);
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent,
+    #000 40px,
+    #000 calc(100% - 40px),
+    transparent
+  );
+  mask-image: linear-gradient(
+    to right,
+    transparent,
+    #000 40px,
+    #000 calc(100% - 40px),
+    transparent
+  );
 }
 
 .lb-thumbs::-webkit-scrollbar {
@@ -2602,9 +3792,7 @@ dialog {
   border-radius: 6px;
   overflow: hidden;
   opacity: 0.4;
-  transition:
-    opacity 0.35s,
-    transform 0.45s var(--ease);
+  transition: opacity 0.35s, transform 0.45s var(--ease);
 }
 
 .lb-thumb img {
@@ -2628,9 +3816,7 @@ dialog {
 }
 
 .lb-thumb[aria-current="true"]::after {
-  box-shadow:
-    inset 0 0 0 1.5px var(--gold),
-    inset 0 0 0 3px rgb(18 12 14 / 0.6);
+  box-shadow: inset 0 0 0 1.5px var(--gold), inset 0 0 0 3px rgb(18 12 14 / 0.6);
 }
 
 @media (hover: hover) {
