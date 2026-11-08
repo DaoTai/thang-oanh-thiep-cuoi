@@ -15,41 +15,40 @@ export const CONFIG = {
       start: "2026-11-28T09:00:00+07:00",
       end: "2026-11-28T11:00:00+07:00",
       venue: "Tư gia nhà gái",
-      address: "35 P. Tràng An, Ninh Bình",
+      address: "Đông Yên, Yên Mạc, Ninh Bình",
     },
     {
       id: "le-cuoi",
-      title: "Lễ Thành Hôn",
+      title: "Lễ Vu Quy & Thành Hôn",
       start: "2026-11-29T11:00:00+07:00",
       end: "2026-11-29T14:00:00+07:00",
-      venue: "Nhà Văn Hóa Văn Phú (nhà trai)",
-      address: "36 P. Văn Phú, Khu đô thị Văn Phú, Kiến Hưng, Hà Nội",
+      venue: "Nhà trai",
+      address: "69 Phố Cửa Quán, Kiến Hưng, Hà Nội",
     },
   ],
 
   // The countdown and the month calendar follow this event.
   mainEventId: "le-cuoi",
 
-  // Gift envelope (js/gift.js). PLACEHOLDERS: the QR image and account below come
-  // from the earlier site and the holder is not the couple. Replace before sharing.
+  // Gift envelope (js/gift.js). Real accounts and QR images of the couple.
   gifts: [
     {
       id: "groom",
       label: "Chú rể",
       name: "Mạnh Thắng",
-      bank: "VietinBank",
-      holder: "DAO DUC TAI",
-      account: "100871060908",
-      qr: "assets/qr-example.jpg",
+      bank: "Techcombank",
+      holder: "DO MANH THANG",
+      account: "19036984948013",
+      qr: "assets/qr-groom.jpg",
     },
     {
       id: "bride",
       label: "Cô dâu",
       name: "Kiều Oanh",
-      bank: "VietinBank",
-      holder: "DAO DUC TAI",
-      account: "100871060908",
-      qr: "assets/qr-example.jpg",
+      bank: "TPBank",
+      holder: "LE THI KIEU OANH",
+      account: "06688318901",
+      qr: "assets/qr-bride.jpg",
     },
   ],
   // Suggested transfer memo (no diacritics: some banks strip them).

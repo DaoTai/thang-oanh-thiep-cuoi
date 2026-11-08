@@ -52,7 +52,7 @@ There are no tests or linters. Verify changes in a browser at phone width (390px
 - Real `backdrop-filter` only via `.glass--blur` (elements over photos) and the floating buttons. Plain `.glass` is a translucent fill, for scroll performance.
 - Motion: `prefers-reduced-motion` disables reveal, zoom and loops. Animate only transform and opacity.
 - No em dashes in visible copy.
-- Gift box: the QR images (`assets/qr-example.jpg`) and the account numbers in `CONFIG.gifts` are placeholders. They come from the earlier site and the holder is not the couple. Replace them before sharing. Keep the envelope discreet: no QR or account numbers in the page itself.
+- Gift box: `CONFIG.gifts` holds the couple's real accounts (groom Techcombank, bride TPBank) with QR images `assets/qr-groom.jpg` and `assets/qr-bride.jpg`. Keep the envelope discreet: no QR or account numbers in the page itself.
 - When testing lazy loading in Playwright, use images not yet in the session's memory cache. Chromium loads cached `loading="lazy"` images immediately.
 
 ## Assets (`public/assets/`)
@@ -61,7 +61,7 @@ There are no tests or linters. Verify changes in a browser at phone width (390px
 - `album/thumbs/`: older ~15 KB webp thumbs (naming: lowercase, spaces become hyphens). They are unused and not deployed.
 - Album images keep the same filenames when regenerated, and `_headers` caches them for a week. To replace a photo that guests may already have cached, give it a new filename.
 - `sound.mp3`: background music (`preload="none"`, starts on the first tap).
-- `qr-example.jpg`: placeholder bank-transfer QR.
+- `qr-groom.jpg`, `qr-bride.jpg`: bank-transfer QRs. `qr-example.jpg` is an unused old placeholder.
 
 ## Related folders (outside this repo)
 
