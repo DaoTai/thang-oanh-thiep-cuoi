@@ -21,6 +21,8 @@ Not a git repository yet.
   - `calendar`: `public/assets/calendar/*.ics` from `CONFIG.events`. **Re-run after changing event dates or venues.**
   - `share`: `assets/og-cover.jpg` (1200×630 link preview).
   - `favicon`: `favicon.png`, `apple-touch-icon.png` and the header logo `assets/logo.webp` (132px), all from `assets-src/logo.png` (the engraved rings, 1.4 MB original, outside `public/` so never deployed).
+- `python scripts/enhance-countdown.py` (separate from `npm run assets`; needs numpy + Pillow, so use a throwaway venv): retouches `assets-src/countdown.jpg` (brighter skin, tone curve, luminance sharpening, crop around the rings) into `public/assets/countdown-{960,1600}.webp`, the `.countdown::before` background. Bump `?v=` in `css/styles.css` after re-running. Keep the original out of `assets/album/`, since the `photos` step would add it to the gallery.
+- `python scripts/enhance-groom.py` (same venv): crops and retouches `assets-src/groom.jpg` (brighter, rosier skin; the warm cream wall cooled and dimmed to the bride's grey) into `public/assets/album/thang-groom.jpg`. Then run `npm run assets -- photos` for `album/web/thang-groom-*.webp`; the `-groom` suffix keeps it out of the gallery.
 
 There are no tests or linters. Verify changes in a browser at phone width (390px) and desktop width.
 
@@ -30,7 +32,7 @@ There are no tests or linters. Verify changes in a browser at phone width (390px
 
 - `wrangler.jsonc`: Worker name and assets directory.
 - `public/_headers`: cache headers and the `text/calendar` content type for `.ics`. Edit it when adding asset folders.
-- `public/.assetsignore`: keeps the album originals and `album/thumbs/` out of the upload. Anything new in `public/` that the page doesn't use belongs here.
+- `public/.assetsignore`: keeps the album originals out of the upload. Anything new in `public/` that the page doesn't use belongs here.
 
 - `index.html`: all content, static (good for LCP and link previews). Section order: glass header (`.nav`, outside `<main>`), topbar, hero (Lời ngỏ), album (6 featured + full gallery), month calendar, countdown, photo card, invitation letter, couple, events + gift box, guestbook, thanks.
 - `js/config.js`: **single source of truth** for names, event dates/times/venues, main event, gift accounts (`gifts`, `giftMemo`) and guestbook endpoint. Event times are placeholders. `index.html` repeats dates and venues in visible copy, so keep both in sync.
@@ -51,6 +53,7 @@ There are no tests or linters. Verify changes in a browser at phone width (390px
 - Fonts: Great Vibes (script names), Playfair Display (`--font-heading`: section titles and every date/number, for its lining figures), Cormorant Garamond (`--font-display`: italic ledes and small accents), Be Vietnam Pro (body). All have Vietnamese subsets; keep it that way when changing fonts.
 - Real `backdrop-filter` only via `.glass--blur` (elements over photos) and the floating buttons. Plain `.glass` is a translucent fill, for scroll performance.
 - Motion: `prefers-reduced-motion` disables reveal, zoom and loops. Animate only transform and opacity.
+- Icon motion: sprite icons carry `data-motion="beat|twinkle|chat|gift|pop|shuffle|nudge-l|nudge-r|tick|pin|fly|sound|wiggle|turn|drop"`. `js/main.js` adds `.is-live` while the icon is on screen; the loops and the `--md` stagger live in the "icon motion" section near the end of `css/styles.css`. Hover lifts use the individual `scale`/`rotate`/`translate` properties so they compose with the looping `transform`. Give new icons a `data-motion` too.
 - No em dashes in visible copy.
 - Gift box: `CONFIG.gifts` holds the couple's real accounts (groom Techcombank, bride TPBank) with QR images `assets/qr-groom.jpg` and `assets/qr-bride.jpg`. Keep the envelope discreet: no QR or account numbers in the page itself.
 - When testing lazy loading in Playwright, use images not yet in the session's memory cache. Chromium loads cached `loading="lazy"` images immediately.
@@ -58,7 +61,7 @@ There are no tests or linters. Verify changes in a browser at phone width (390px
 ## Assets (`public/assets/`)
 
 - `album/`: full-resolution originals (8–11 MB each), which are inputs for `npm run assets` only. `.assetsignore` keeps them out of the deploy, so referencing one from the page gives a 404 in production. Use `album/web/*`.
-- `album/thumbs/`: older ~15 KB webp thumbs (naming: lowercase, spaces become hyphens). They are unused and not deployed.
+- `album/web/`: generated output. Slug = original filename lowercased, spaces become hyphens (`NMT_9160 ap.jpg` gives `nmt_9160-ap`). Delete the folder before `npm run assets -- photos` when photos are removed or re-edited, since the step skips outputs newer than their source.
 - Album images keep the same filenames when regenerated, and `_headers` caches them for a week. To replace a photo that guests may already have cached, give it a new filename.
 - `sound.mp3`: background music (`preload="none"`, starts on the first tap).
 - `qr-groom.jpg`, `qr-bride.jpg`: bank-transfer QRs. `qr-example.jpg` is an unused old placeholder.

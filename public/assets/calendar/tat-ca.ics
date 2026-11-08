@@ -6,7 +6,7 @@ METHOD:PUBLISH
 X-WR-CALNAME:Đám cưới Mạnh Thắng & Kiều Oanh
 BEGIN:VEVENT
 UID:an-hoi-2026@thang-oanh-wedding
-DTSTAMP:20261108T111518Z
+DTSTAMP:20261108T143257Z
 DTSTART:20261128T020000Z
 DTEND:20261128T040000Z
 SUMMARY:Lễ Ăn Hỏi Mạnh Thắng & Kiều Oanh
@@ -26,11 +26,12 @@ END:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:le-cuoi-2026@thang-oanh-wedding
-DTSTAMP:20261108T111518Z
-DTSTART:20261129T040000Z
+DTSTAMP:20261108T143257Z
+DTSTART:20261129T030000Z
 DTEND:20261129T070000Z
 SUMMARY:Lễ Vu Quy & Thành Hôn Mạnh Thắng & Kiều Oanh
-LOCATION:Nhà trai\, 69 Phố Cửa Quán\, Kiến Hưng\, Hà Nội
+LOCATION:Hội trường Hợp tác xã dịch vụ tổng hợp Văn Phú\
+ , Số 36 Phố Văn Phú\, TDP2\, Kiến Hưng\, Hà Nội
 DESCRIPTION:Trân trọng kính mời bạn đến chung vui cùng Mạnh T
  hắng & Kiều Oanh.
 BEGIN:VALARM

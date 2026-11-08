@@ -1146,25 +1146,43 @@ a {
 .countdown {
   isolation: isolate;
   overflow: hidden;
-  padding-block: 64px;
+  padding-block: 64px 48px;
 }
 
-/* Blurred album photo behind the glass tiles. Static, so it is rasterised once. */
+/* Retouched ring photo (scripts/enhance-countdown.py) behind the glass tiles.
+   Static, so it is rasterised once. The veil keeps the title and tiles legible. */
 .countdown::before {
   content: "";
   position: absolute;
-  inset: -40px;
+  inset: 0;
   z-index: -1;
-  background: linear-gradient(rgb(250 232 236 / 0.5), rgb(253 244 245 / 0.62)),
-    url("../assets/album/web/nmt_0945-480.webp") center 88% / cover;
-  filter: blur(16px) saturate(1.25);
+  background: linear-gradient(
+      rgb(253 244 245 / 0.74),
+      rgb(253 244 245 / 0.14) 40%,
+      rgb(253 244 245 / 0.06) 60%,
+      rgb(253 244 245 / 0.5)
+    ),
+    url("../assets/countdown-960.webp?v=3") center 50% / cover;
+}
+
+@media (min-width: 576px) {
+  .countdown::before {
+    background-image: linear-gradient(
+        rgb(253 244 245 / 0.74),
+        rgb(253 244 245 / 0.14) 40%,
+        rgb(253 244 245 / 0.06) 60%,
+        rgb(253 244 245 / 0.5)
+      ),
+      url("../assets/countdown-1600.webp?v=3");
+    background-position: center 74%; /* wider column crops more height: lift the rings above the tiles */
+  }
 }
 
 .cd-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 10px;
-  margin-top: 22px;
+  margin-top: clamp(110px, 34vw, 150px); /* leaves the rings visible above the tiles */
 }
 
 .cd-cell {
@@ -3032,6 +3050,72 @@ html:not(.js) .pc-controls {
   color: var(--ink-soft);
 }
 
+/* Author credit: a quiet line under the farewell, set off by a short gold
+   hairline. The name underlines itself on hover/focus. */
+.credit {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 18px;
+  padding-top: 16px;
+  font: 400 0.68rem/1.6 var(--font-body);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--placeholder);
+  background: linear-gradient(var(--gold), var(--gold)) top center / 40px 1px
+    no-repeat;
+}
+
+/* Phones: the music button and the dock FAB sit fixed at the bottom corners,
+   so leave room for them under the credit. */
+@media (max-width: 767px) {
+  .footer {
+    padding-bottom: calc(84px + env(safe-area-inset-bottom));
+  }
+}
+
+.credit-sep {
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: var(--gold);
+}
+
+.credit-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5em;
+  color: inherit;
+  text-decoration: none;
+}
+
+.credit-heart {
+  width: 11px;
+  height: 11px;
+  color: var(--accent);
+}
+
+.credit-name {
+  color: var(--accent-ink);
+  font-weight: 500;
+  background: linear-gradient(currentColor, currentColor) left bottom / 0 1px
+    no-repeat;
+  transition: background-size 0.35s var(--ease);
+}
+
+.credit-link:hover .credit-name,
+.credit-link:focus-visible .credit-name {
+  background-size: 100% 1px;
+}
+
+.credit-link:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 4px;
+  border-radius: 4px;
+}
+
 /* ------------------------------------------------------ scroll reveal */
 
 /* Replays on every entry (js/main.js). Pick the effect with data-reveal="…":
@@ -4278,6 +4362,426 @@ dialog {
 @media (prefers-reduced-motion: reduce) {
   .lb-stage img.is-out,
   .lb-stage img.is-enter {
+    transform: none;
+  }
+}
+
+/* ---------------------------------------------------------- icon motion */
+/* Each sprite icon gets a small loop that fits what it stands for (data-motion
+   in index.html): hearts beat, sparkles twinkle, map pins hop, the clock rings,
+   the paper plane takes off. The move fills the first ~30% of the cycle and the
+   rest is stillness, so the page feels alive without fidgeting. Loops run only
+   on .is-live icons (on screen, toggled by js/main.js). Icons that share a
+   group are staggered with --md so they take turns.
+   Hover/focus adds a lift through the individual scale / rotate / translate
+   properties, which compose with the looping transform instead of fighting it. */
+
+[data-motion="chat"] {
+  transform-origin: 25% 85%;
+}
+
+[data-motion="gift"],
+[data-motion="pin"] {
+  transform-origin: 50% 100%;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .is-live[data-motion] {
+    animation-duration: 4.8s;
+    animation-timing-function: ease-in-out;
+    animation-delay: var(--md, 0s);
+    animation-iteration-count: infinite;
+    animation-fill-mode: both;
+  }
+
+  .is-live[data-motion="beat"] {
+    animation-name: heartbeat;
+    animation-duration: 1.6s;
+  }
+  .is-live[data-motion="twinkle"] {
+    animation-name: ico-twinkle;
+    animation-duration: 4s;
+  }
+  .is-live[data-motion="chat"] {
+    animation-name: ico-chat;
+  }
+  .is-live[data-motion="gift"] {
+    animation-name: ico-gift;
+  }
+  .is-live[data-motion="pop"] {
+    animation-name: ico-pop;
+  }
+  .is-live[data-motion="shuffle"] {
+    animation-name: ico-shuffle;
+    animation-duration: 4s;
+  }
+  .is-live[data-motion="nudge-l"],
+  .is-live[data-motion="nudge-r"] {
+    animation-name: ico-nudge;
+  }
+  .is-live[data-motion="tick"] {
+    animation-name: ico-tick;
+  }
+  .is-live[data-motion="pin"] {
+    animation-name: ico-pin;
+  }
+  .is-live[data-motion="fly"] {
+    animation-name: ico-fly;
+    animation-duration: 3.6s;
+  }
+  .is-live[data-motion="sound"] {
+    animation-name: ico-sound;
+    animation-duration: 1.4s;
+  }
+  .is-live[data-motion="wiggle"] {
+    animation-name: ico-tick;
+    animation-duration: 6s;
+    --md: 2s;
+  }
+  .is-live[data-motion="turn"] {
+    animation-name: ico-turn;
+    animation-duration: 4s;
+    animation-timing-function: var(--ease);
+  }
+  .is-live[data-motion="drop"] {
+    animation-name: ico-drop;
+    animation-duration: 2.8s;
+    --md: 0.8s;
+  }
+
+  [data-motion="nudge-l"] {
+    --dir: -1;
+  }
+  [data-motion="nudge-r"] {
+    --dir: 1;
+    --md: 2.4s;
+  }
+
+  /* Hero buttons and the desktop dock: chat, then gift, then calendar. */
+  .hero-actions .btn:nth-child(2) [data-motion],
+  .dock-items li:nth-child(2) [data-motion] {
+    --md: 1.6s;
+  }
+  .hero-actions .btn:nth-child(3) [data-motion],
+  .dock-items li:nth-child(3) [data-motion] {
+    --md: 3.2s;
+  }
+
+  /* Event card: venue pin, clock, then the two buttons. */
+  .event-time [data-motion] {
+    --md: 1.2s;
+  }
+  .event-actions .btn:first-child [data-motion] {
+    --md: 2.4s;
+  }
+  .event-actions .btn + .btn [data-motion] {
+    --md: 3.4s;
+  }
+  .family--bride [data-motion] {
+    --md: 1.2s;
+  }
+
+  /* Paper plane keeps taking off while the wish is being sent. */
+  .btn[disabled] .is-live[data-motion="fly"] {
+    animation: ico-fly-off 0.9s ease-in infinite;
+  }
+
+  /* Phones: the dock items are hidden until the speed-dial opens, and the open
+     FAB turns its plus into an × with a transition, so no loop there. */
+  @media (max-width: 767px) {
+    .dock:not([data-open]) .dock-items [data-motion],
+    .dock[data-open] .dock-toggle [data-motion] {
+      animation: none;
+    }
+  }
+
+  /* Calendar sheet: the app logos pop in one after another on open. */
+  .modal[open] .cal-link .ico:not([data-motion]) {
+    animation: ico-in 0.6s var(--ease) both;
+    animation-delay: calc(var(--i, 0) * 70ms + 120ms);
+  }
+  .cal-link:nth-child(2) {
+    --i: 1;
+  }
+  .cal-link:nth-child(3) {
+    --i: 2;
+  }
+
+  .btn .ico,
+  .glass-btn .ico,
+  .cal-link .ico,
+  .pc-arrow .ico,
+  .modal-close .ico,
+  .gallery-close .ico,
+  .lb-nav .ico {
+    transition: scale 0.35s var(--ease), rotate 0.35s var(--ease),
+      translate 0.35s var(--ease), transform 0.35s var(--ease);
+  }
+
+  @media (hover: hover) {
+    .btn:hover .ico,
+    .glass-btn:hover .ico,
+    .cal-link:hover .ico {
+      scale: 1.15;
+      rotate: -6deg;
+    }
+    .modal-close:hover .ico,
+    .gallery-close:hover .ico {
+      rotate: 90deg;
+    }
+    .pc-arrow[data-pc="prev"]:hover .ico,
+    .lb-prev:hover .ico {
+      translate: -3px 0;
+    }
+    .pc-arrow[data-pc="next"]:hover .ico,
+    .lb-next:hover .ico {
+      translate: 3px 0;
+    }
+  }
+
+  .btn:focus-visible .ico,
+  .glass-btn:focus-visible .ico,
+  .cal-link:focus-visible .ico {
+    scale: 1.15;
+    rotate: -6deg;
+  }
+}
+
+@keyframes ico-twinkle {
+  0%,
+  32%,
+  100% {
+    transform: none;
+    opacity: 1;
+  }
+  10% {
+    transform: rotate(-14deg) scale(1.35);
+    opacity: 0.7;
+  }
+  20% {
+    transform: rotate(6deg) scale(0.92);
+    opacity: 1;
+  }
+}
+
+@keyframes ico-chat {
+  0%,
+  32%,
+  100% {
+    transform: none;
+  }
+  8% {
+    transform: rotate(-12deg) scale(1.12);
+  }
+  16% {
+    transform: rotate(9deg) scale(1.12);
+  }
+  24% {
+    transform: rotate(-4deg) scale(1.04);
+  }
+}
+
+@keyframes ico-gift {
+  0%,
+  34%,
+  100% {
+    transform: none;
+  }
+  6% {
+    transform: translateY(-14%) rotate(-10deg);
+  }
+  12% {
+    transform: translateY(-14%) rotate(10deg);
+  }
+  18% {
+    transform: translateY(-14%) rotate(-7deg);
+  }
+  24% {
+    transform: scale(1.1, 0.88);
+  }
+  30% {
+    transform: scale(0.97, 1.04);
+  }
+}
+
+@keyframes ico-pop {
+  0%,
+  30%,
+  100% {
+    transform: none;
+  }
+  10% {
+    transform: scale(1.25) rotate(-8deg);
+  }
+  20% {
+    transform: scale(0.92) rotate(3deg);
+  }
+}
+
+@keyframes ico-shuffle {
+  0%,
+  30%,
+  100% {
+    transform: none;
+  }
+  10% {
+    transform: translate(-10%, -8%) rotate(-10deg);
+  }
+  20% {
+    transform: translate(4%, 2%) rotate(4deg);
+  }
+}
+
+@keyframes ico-nudge {
+  0%,
+  28%,
+  100% {
+    transform: none;
+  }
+  8% {
+    transform: translateX(calc(var(--dir, 1) * 24%));
+  }
+  15% {
+    transform: none;
+  }
+  21% {
+    transform: translateX(calc(var(--dir, 1) * 12%));
+  }
+}
+
+@keyframes ico-tick {
+  0%,
+  26%,
+  100% {
+    transform: none;
+  }
+  4% {
+    transform: rotate(-14deg) scale(1.08);
+  }
+  8% {
+    transform: rotate(12deg) scale(1.08);
+  }
+  12% {
+    transform: rotate(-10deg) scale(1.08);
+  }
+  16% {
+    transform: rotate(8deg) scale(1.04);
+  }
+  20% {
+    transform: rotate(-4deg);
+  }
+}
+
+/* Hop: rise (ease-out), fall (ease-in), squash on landing, settle. */
+@keyframes ico-pin {
+  0% {
+    transform: none;
+    animation-timing-function: cubic-bezier(0.2, 0.7, 0.3, 1);
+  }
+  10% {
+    transform: translateY(-32%) scale(0.94, 1.06);
+    animation-timing-function: cubic-bezier(0.6, 0, 0.9, 0.5);
+  }
+  19% {
+    transform: scale(1.16, 0.82);
+  }
+  26% {
+    transform: translateY(-8%) scale(0.97, 1.03);
+  }
+  33%,
+  100% {
+    transform: none;
+  }
+}
+
+@keyframes ico-fly {
+  0%,
+  34%,
+  100% {
+    transform: none;
+  }
+  12% {
+    transform: translate(18%, -18%) rotate(-8deg);
+  }
+  24% {
+    transform: translate(-6%, 6%) rotate(2deg);
+  }
+}
+
+@keyframes ico-fly-off {
+  0% {
+    transform: none;
+    opacity: 1;
+  }
+  45% {
+    transform: translate(70%, -70%) scale(0.7);
+    opacity: 0;
+  }
+  55% {
+    transform: translate(-60%, 60%) scale(0.7);
+    opacity: 0;
+  }
+  100% {
+    transform: none;
+    opacity: 1;
+  }
+}
+
+@keyframes ico-sound {
+  0%,
+  50%,
+  100% {
+    transform: none;
+  }
+  25% {
+    transform: scale(1.14) rotate(-4deg);
+  }
+  75% {
+    transform: scale(1.06) rotate(3deg);
+  }
+}
+
+/* The plus is symmetric, so ending a quarter turn on looks like the start. */
+@keyframes ico-turn {
+  0% {
+    transform: none;
+  }
+  16% {
+    transform: rotate(105deg) scale(1.15);
+  }
+  26%,
+  100% {
+    transform: rotate(90deg);
+  }
+}
+
+@keyframes ico-drop {
+  0%,
+  34%,
+  100% {
+    transform: none;
+  }
+  10% {
+    transform: translateY(24%);
+  }
+  18% {
+    transform: translateY(-6%);
+  }
+  26% {
+    transform: translateY(10%);
+  }
+}
+
+@keyframes ico-in {
+  0% {
+    transform: scale(0.4) rotate(-20deg);
+    opacity: 0;
+  }
+  60% {
+    transform: scale(1.15) rotate(4deg);
+    opacity: 1;
+  }
+  100% {
     transform: none;
   }
 }

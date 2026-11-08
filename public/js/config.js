@@ -20,10 +20,10 @@ export const CONFIG = {
     {
       id: "le-cuoi",
       title: "Lễ Vu Quy & Thành Hôn",
-      start: "2026-11-29T11:00:00+07:00",
+      start: "2026-11-29T10:00:00+07:00",
       end: "2026-11-29T14:00:00+07:00",
-      venue: "Nhà trai",
-      address: "69 Phố Cửa Quán, Kiến Hưng, Hà Nội",
+      venue: "Hội trường Hợp tác xã dịch vụ tổng hợp Văn Phú",
+      address: "Số 36 Phố Văn Phú, TDP2, Kiến Hưng, Hà Nội",
     },
   ],
 

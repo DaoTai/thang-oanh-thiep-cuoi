@@ -25,13 +25,13 @@ const ALBUM = path.join(PUB, "assets/album");
 const WEB = path.join(ALBUM, "web");
 const WIDTHS = [480, 960, 1600];
 
-// Same convention as album/thumbs: lowercase, spaces -> hyphens.
+// Slug: lowercase, spaces -> hyphens ("NMT_9160 ap.jpg" -> "nmt_9160-ap").
 const slugOf = (file) => path.parse(file).name.toLowerCase().replace(/\s+/g, "-");
 
 // Extra crops cut from album photos (fractions of the EXIF-rotated image).
 // h is derived from the 3:4 portrait ratio, so only x, y and w are given.
 const CROPS = [
-  { id: "nmt_1013-groom", src: "NMT_1013.jpg", x: 0.05, y: 0.12, w: 0.44 },
+  // The groom portrait is album/thang-groom.jpg, written by scripts/enhance-groom.py.
   { id: "nmt_9720-bride", src: "NMT_9720.jpg", x: 0.02, y: 0.13, w: 0.5 },
 ];
 

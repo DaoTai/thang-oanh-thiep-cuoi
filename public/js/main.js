@@ -42,6 +42,15 @@ for (const el of document.querySelectorAll("[data-reveal]")) {
   revealOut.observe(el);
 }
 
+/* Icon micro-motion: each [data-motion] icon loops its CSS animation (styles.css,
+   "icon motion") only while it is on screen, so off-screen icons cost nothing. */
+const iconMotion = new IntersectionObserver((entries) => {
+  for (const { target, isIntersecting } of entries) {
+    target.classList.toggle("is-live", isIntersecting);
+  }
+});
+for (const el of document.querySelectorAll("[data-motion]")) iconMotion.observe(el);
+
 /* Couple heart: loops only while on screen. It bursts small hearts outward on tap,
    and on its own every 4s while visible (the timer restarts after a tap). */
 const heart = document.querySelector(".couple-heart");

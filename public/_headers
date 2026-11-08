@@ -7,6 +7,9 @@
 /assets/album/web/*
   Cache-Control: public, max-age=604800, stale-while-revalidate=86400
 
+/assets/countdown-*
+  Cache-Control: public, max-age=604800, stale-while-revalidate=86400
+
 /assets/fonts/*
   Cache-Control: public, max-age=604800, stale-while-revalidate=86400
 
