@@ -8,6 +8,11 @@ import { initSnow } from "./snow.js";
 import { initPhotoCards } from "./photo-cards.js";
 import { initLetter } from "./letter.js";
 import { initGift, copyText } from "./gift.js";
+import { initCover } from "./cover.js";
+
+/* Personal link cover (?to=…). First, so the seal is focusable right away. The
+   tap that opens it also starts the background music (see "Background music"). */
+initCover();
 
 /* Blur-up placeholders behind every photo until the real file paints. */
 const lqip = new Map(PHOTOS.map((p) => [p.id, p.lqip]));

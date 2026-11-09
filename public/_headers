@@ -28,3 +28,8 @@
 
 /js/*
   Cache-Control: public, max-age=3600, must-revalidate
+
+# Unlisted guest-link tool: keep it out of search engines and caches.
+/khach-moi-7q2x/*
+  X-Robots-Tag: noindex, nofollow, noarchive
+  Cache-Control: no-store

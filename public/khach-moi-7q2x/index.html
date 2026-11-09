@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>Tạo link khách mời | Thắng &amp; Oanh</title>
+    <!-- Unlisted tool page: not linked from the invitation, never indexed. -->
+    <meta name="robots" content="noindex, nofollow, noarchive" />
+    <meta name="referrer" content="no-referrer" />
+    <meta name="theme-color" content="#f3e8e9" />
+    <meta name="color-scheme" content="light" />
+    <link rel="icon" type="image/png" href="../favicon.png" />
+    <link rel="stylesheet" href="../css/fonts.css" />
+    <link rel="stylesheet" href="guests.css" />
+    <script type="module" src="guests.js"></script>
+  </head>
+  <body>
+    <main class="wrap">
+      <header class="head">
+        <p class="eyebrow">Công cụ riêng · không chia sẻ trang này</p>
+        <h1><span class="script">Thắng &amp; Oanh</span> Link thiệp cho từng khách</h1>
+        <p class="lede">
+          Nhập tên khách (mỗi dòng một người) hoặc nhập từ file CSV. Mỗi khách có một
+          link riêng; khi mở link, thiệp sẽ hiện lời “Thân mời …” kèm tên khách.
+        </p>
+      </header>
+
+      <section class="card" aria-labelledby="add-title">
+        <h2 id="add-title">1. Thêm khách</h2>
+
+        <form id="add-form" class="add" novalidate>
+          <label class="field">
+            <span class="label">Tên khách, mỗi dòng một người</span>
+            <textarea
+              id="names"
+              rows="6"
+              placeholder="Bạn Tài&#10;Anh Chị Hùng Lan&#10;Cô Chú Bình"
+              spellcheck="false"
+            ></textarea>
+            <span class="hint">Ghi cả cách xưng hô, ví dụ “Bạn Ngọc Anh”, “Gia đình chú Ba”. Tên trùng sẽ được bỏ qua.</span>
+          </label>
+
+          <div class="row">
+            <button class="btn btn--primary" type="submit">
+              <svg class="ico" aria-hidden="true"><use href="../assets/icons.svg?v=2#i-plus" /></svg>
+              Thêm vào danh sách
+            </button>
+          </div>
+        </form>
+
+        <div class="or"><span>hoặc</span></div>
+
+        <label id="drop" class="drop">
+          <input id="csv" type="file" accept=".csv,.txt,text/csv,text/plain" hidden />
+          <svg class="ico ico--up" aria-hidden="true"><use href="../assets/icons.svg?v=2#i-download-simple" /></svg>
+          <strong>Chọn file CSV</strong>
+          <span>hoặc kéo thả vào đây</span>
+          <small>
+            Cột “Tên” (bắt buộc) và “Xưng hô” (tuỳ chọn). Không có tiêu đề thì lấy cột đầu tiên.
+          </small>
+        </label>
+        <p class="row row--end">
+          <button class="link-btn" type="button" id="sample">Tải file CSV mẫu</button>
+        </p>
+      </section>
+
+      <section class="card" aria-labelledby="list-title">
+        <div class="list-head">
+          <h2 id="list-title">2. Danh sách <span id="count" class="count">0</span></h2>
+          <input id="filter" class="search" type="search" placeholder="Tìm tên…" aria-label="Tìm tên khách" />
+        </div>
+
+        <div class="bulk" id="bulk">
+          <button class="btn btn--ghost" type="button" data-bulk="copy-links">
+            <svg class="ico" aria-hidden="true"><use href="../assets/icons.svg?v=2#i-copy" /></svg>
+            Copy tất cả link
+          </button>
+          <button class="btn btn--ghost" type="button" data-bulk="export">
+            <svg class="ico" aria-hidden="true"><use href="../assets/icons.svg?v=2#i-download-simple" /></svg>
+            Xuất CSV
+          </button>
+          <button class="btn btn--danger-ghost" type="button" data-bulk="clear">
+            <svg class="ico" aria-hidden="true"><use href="../assets/icons.svg?v=2#i-x" /></svg>
+            Xoá hết
+          </button>
+        </div>
+
+        <ol id="list" class="list" aria-live="polite"></ol>
+        <p id="empty" class="empty">Chưa có khách nào. Thêm tên ở bước 1.</p>
+      </section>
+
+      <p class="foot">Danh sách được lưu trên trình duyệt này (localStorage). Xuất CSV để giữ bản sao.</p>
+    </main>
+
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  </body>
+</html>

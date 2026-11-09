@@ -64,12 +64,106 @@
     <link rel="stylesheet" href="css/styles.css" />
     <script>
       document.documentElement.classList.add("js");
+      // Personal link (?to=Bạn Tài, made on /khach-moi-7q2x/): show the sealed
+      // envelope cover before the first paint (js/cover.js opens it).
+      try {
+        var guest = (new URLSearchParams(location.search).get("to") || "")
+          .replace(/\s+/g, " ")
+          .trim()
+          .slice(0, 60);
+        if (guest) {
+          window.GUEST = guest;
+          document.documentElement.classList.add("has-cover");
+        }
+      } catch (e) {}
     </script>
     <script type="module" src="js/main.js"></script>
   </head>
 
   <body>
     <div class="backdrop" aria-hidden="true"></div>
+
+    <!-- ============================== GUEST COVER ==============================
+         Only for personal links (?to=…). A sealed envelope over a blurred photo;
+         tapping the wax seal fades it out, lifts the flap and dissolves into the page
+         (js/cover.js). Layers are cut from assets-src/invitation.png by
+         scripts/cut-invitation.py. Images use data-src so normal visits never load them. -->
+    <div
+      class="cover"
+      id="cover"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="cover-name"
+    >
+      <div class="cover-bg" aria-hidden="true"></div>
+      <div class="cover-lights" aria-hidden="true">
+        <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+      </div>
+
+      <div class="cover-inner">
+        <header class="cover-head">
+          <p class="cover-kicker">Thân mời</p>
+          <p class="cover-name" id="cover-name"></p>
+        </header>
+
+        <div class="cv-env" id="cv-env">
+          <div class="cv-stage">
+            <img
+              class="cv-img"
+              data-src="assets/invite/envelope-640.webp"
+              data-srcset="assets/invite/envelope-640.webp 640w, assets/invite/envelope-1080.webp 1080w"
+              sizes="(min-width: 600px) 440px, 84vw"
+              width="849"
+              height="1147"
+              alt=""
+              draggable="false"
+            />
+            <div class="cv-inside" aria-hidden="true"></div>
+            <span class="cv-rays" aria-hidden="true"></span>
+            <div class="cv-flap" aria-hidden="true">
+              <img
+                class="cv-img cv-flap-front"
+                data-src="assets/invite/envelope-640.webp"
+                data-srcset="assets/invite/envelope-640.webp 640w, assets/invite/envelope-1080.webp 1080w"
+                sizes="(min-width: 600px) 440px, 84vw"
+                width="849"
+                height="1147"
+                alt=""
+                draggable="false"
+              />
+              <div class="cv-flap-back"></div>
+            </div>
+            <span class="cv-burst" aria-hidden="true"></span>
+            <button
+              type="button"
+              class="cv-seal"
+              id="cv-seal"
+              aria-label="Mở thiệp mời"
+            >
+              <span class="seal-half seal-half--l"></span>
+              <span class="seal-half seal-half--r"></span>
+            </button>
+          </div>
+        </div>
+
+        <p class="cover-hint" aria-hidden="true">
+          <span class="cover-hint-line"></span>Chạm để mở<span
+            class="cover-hint-line"
+          ></span>
+        </p>
+      </div>
+    </div>
+    <script>
+      if (window.GUEST) {
+        document.getElementById("cover-name").textContent = window.GUEST;
+        document.querySelectorAll("#cover [data-src]").forEach(function (img) {
+          img.srcset = img.dataset.srcset;
+          img.src = img.dataset.src;
+        });
+      } else {
+        document.getElementById("cover").remove();
+      }
+    </script>
 
     <a class="skip-link" href="#main">Bỏ qua tới nội dung</a>
 
@@ -203,6 +297,35 @@
               Xác nhận tham dự
             </button>
           </div>
+        </div>
+      </section>
+
+      <!-- ============================== KÍNH MỜI (personal links only) ============================== -->
+      <section
+        id="kinh-moi"
+        class="section greet"
+        aria-labelledby="greet-title"
+        hidden
+      >
+        <div class="greet-card" data-reveal="zoom">
+          <span class="greet-glint" aria-hidden="true"></span>
+          <h2 id="greet-title" class="greet-title">Trân trọng kính mời</h2>
+          <p class="greet-name" data-guest></p>
+          <div class="orn" aria-hidden="true">
+            <svg class="ico" data-motion="beat">
+              <use href="assets/icons.svg?v=2#i-heart-fill" />
+            </svg>
+          </div>
+          <p class="greet-text">Tham dự tiệc mừng lễ thành hôn của</p>
+          <p class="greet-couple">
+            Mạnh Thắng <span aria-hidden="true">&amp;</span
+            ><span class="sr-only">và</span> Kiều Oanh
+          </p>
+          <p class="greet-date">
+            <span>Chủ Nhật</span>
+            <time datetime="2026-11-29">29.11.2026</time>
+          </p>
+          <p class="greet-note">Rất hân hạnh được đón tiếp!</p>
         </div>
       </section>
 

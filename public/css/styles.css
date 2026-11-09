@@ -254,8 +254,8 @@ a {
 }
 
 .title {
-  font: 500 clamp(1.85rem, 7.8vw, 2.4rem) / 1.2 var(--font-heading);
-  letter-spacing: 0.005em;
+  font: italic 600 clamp(1.85rem, 7.8vw, 2.4rem) / 1.2 var(--font-display);
+  letter-spacing: 0.01em;
   color: var(--accent-ink);
 }
 
@@ -426,7 +426,8 @@ a {
   max-width: 42ch;
   margin-inline: auto;
   color: var(--ink-soft);
-  font-size: 0.97rem;
+  font-family: var(--font-display);
+  font-size: 1rem;
   line-height: 1.75;
   text-wrap: pretty;
 }
@@ -1182,7 +1183,11 @@ a {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 10px;
-  margin-top: clamp(110px, 34vw, 150px); /* leaves the rings visible above the tiles */
+  margin-top: clamp(
+    110px,
+    34vw,
+    150px
+  ); /* leaves the rings visible above the tiles */
 }
 
 .cd-cell {
@@ -3162,7 +3167,8 @@ html:not(.js) .pc-controls {
   }
 
   .js [data-reveal="tilt"] {
-    transform: translateY(calc(40px * var(--dir))) rotate(calc(-3deg * var(--dir)));
+    transform: translateY(calc(40px * var(--dir)))
+      rotate(calc(-3deg * var(--dir)));
     transform-origin: 0 100%;
   }
 
@@ -4801,4 +4807,903 @@ dialog {
   html {
     scroll-behavior: smooth;
   }
+}
+
+/* =============================================================================
+   Guest cover (personal links, ?to=…; js/cover.js)
+   A sealed envelope floats over the hero photo, blurred and steeped in wine.
+   Tap the seal: it sinks and fades, a gold flash, the flap swings open in 3D,
+   light and petals spill out, the envelope rushes forward and the cover
+   dissolves into the page. Layer geometry comes from scripts/cut-invitation.py
+   (percentages of the 849x1147 envelope).
+   ========================================================================== */
+
+.cover {
+  --flap: polygon(
+    4.71% 39.49%,
+    5.06% 38.36%,
+    5.89% 37.66%,
+    7.3% 37.4%,
+    93.4% 37.4%,
+    94.82% 37.66%,
+    95.64% 38.27%,
+    95.88% 39.15%,
+    50.18% 61.81%
+  );
+  --hinge: 37.4%;
+  --ivory: #fff6ec;
+  --champagne: #ecd2ac;
+  position: fixed;
+  inset: 0;
+  z-index: 70;
+  display: none;
+  overflow: hidden;
+  color: var(--ivory);
+  background: #2a0f19;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+}
+
+.has-cover .cover,
+.cover.is-leaving {
+  display: block;
+}
+
+.has-cover,
+.has-cover body {
+  overflow: hidden;
+}
+
+/* Hold the hero's own entrance until the cover lifts. */
+.has-cover .hero-photo img,
+.has-cover [data-hero] {
+  animation-play-state: paused;
+}
+
+.cover-bg {
+  position: absolute;
+  inset: -48px;
+  background: url(../assets/album/web/nmt_0119-ap-480.webp) 50% 28% / cover;
+  filter: blur(22px) saturate(1.2) brightness(0.6);
+  transform: scale(1.06);
+  transition: transform 1.4s var(--ease);
+}
+
+/* Wine veil + a blush pool of light behind the envelope. */
+.cover::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: radial-gradient(
+      60% 42% at 50% 54%,
+      rgb(255 205 214 / 0.26),
+      transparent 72%
+    ),
+    radial-gradient(
+      120% 70% at 50% 110%,
+      rgb(196 162 127 / 0.22),
+      transparent 60%
+    ),
+    linear-gradient(180deg, rgb(52 14 28 / 0.62), rgb(28 7 15 / 0.84));
+  pointer-events: none;
+}
+
+/* Rising motes of gold light. */
+.cover-lights {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.cover-lights i {
+  --x: 50%;
+  --size: 6px;
+  --dur: 12s;
+  --delay: 0s;
+  position: absolute;
+  left: var(--x);
+  bottom: -20px;
+  width: var(--size);
+  height: var(--size);
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgb(255 236 200 / 0.95),
+    rgb(236 200 150 / 0.35) 45%,
+    transparent 70%
+  );
+  opacity: 0;
+  animation: mote var(--dur) linear var(--delay) infinite;
+}
+
+.cover-lights i:nth-child(1) {
+  --x: 8%;
+  --size: 7px;
+  --dur: 13s;
+  --delay: -2s;
+}
+.cover-lights i:nth-child(2) {
+  --x: 18%;
+  --size: 4px;
+  --dur: 10s;
+  --delay: -6s;
+}
+.cover-lights i:nth-child(3) {
+  --x: 27%;
+  --size: 9px;
+  --dur: 15s;
+  --delay: -9s;
+}
+.cover-lights i:nth-child(4) {
+  --x: 36%;
+  --size: 5px;
+  --dur: 11s;
+  --delay: -1s;
+}
+.cover-lights i:nth-child(5) {
+  --x: 47%;
+  --size: 6px;
+  --dur: 14s;
+  --delay: -11s;
+}
+.cover-lights i:nth-child(6) {
+  --x: 56%;
+  --size: 4px;
+  --dur: 9s;
+  --delay: -4s;
+}
+.cover-lights i:nth-child(7) {
+  --x: 64%;
+  --size: 8px;
+  --dur: 16s;
+  --delay: -7s;
+}
+.cover-lights i:nth-child(8) {
+  --x: 72%;
+  --size: 5px;
+  --dur: 12s;
+  --delay: -3s;
+}
+.cover-lights i:nth-child(9) {
+  --x: 81%;
+  --size: 10px;
+  --dur: 17s;
+  --delay: -12s;
+}
+.cover-lights i:nth-child(10) {
+  --x: 89%;
+  --size: 4px;
+  --dur: 10s;
+  --delay: -8s;
+}
+.cover-lights i:nth-child(11) {
+  --x: 94%;
+  --size: 6px;
+  --dur: 13s;
+  --delay: -5s;
+}
+.cover-lights i:nth-child(12) {
+  --x: 42%;
+  --size: 3px;
+  --dur: 8s;
+  --delay: -2.5s;
+}
+
+@keyframes mote {
+  0% {
+    transform: translate3d(0, 0, 0);
+    opacity: 0;
+  }
+  12% {
+    opacity: 0.9;
+  }
+  50% {
+    transform: translate3d(14px, -55vh, 0);
+  }
+  85% {
+    opacity: 0.6;
+  }
+  100% {
+    transform: translate3d(-10px, -110vh, 0);
+    opacity: 0;
+  }
+}
+
+.cover-inner {
+  position: relative;
+  z-index: 3;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  justify-items: center;
+  align-items: center;
+  gap: 10px;
+  height: 100vh;
+  height: 100dvh;
+  padding: max(26px, calc(env(safe-area-inset-top) + 14px)) 16px
+    max(24px, calc(env(safe-area-inset-bottom) + 14px));
+}
+
+/* ---- heading: frosted glass plaque */
+
+.cover-head {
+  position: relative;
+  max-width: min(100%, 420px);
+  padding: 14px 30px 10px;
+  text-align: center;
+  border-radius: 22px;
+  background: linear-gradient(
+    140deg,
+    rgb(255 255 255 / 0.17),
+    rgb(255 255 255 / 0.05)
+  );
+  border: 1px solid rgb(255 255 255 / 0.22);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.32),
+    0 24px 50px -26px rgb(0 0 0 / 0.7);
+  -webkit-backdrop-filter: blur(14px) saturate(1.3);
+  backdrop-filter: blur(14px) saturate(1.3);
+}
+
+/* champagne hairline inside the glass */
+.cover-head::after {
+  content: "";
+  position: absolute;
+  inset: 5px;
+  border-radius: 17px;
+  border: 1px solid rgb(236 210 172 / 0.28);
+  pointer-events: none;
+}
+
+.cover-kicker {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  font: 500 0.74rem/1 var(--font-heading);
+  letter-spacing: 0.42em;
+  text-indent: 0.42em;
+  text-transform: uppercase;
+  color: var(--champagne);
+}
+
+.cover-kicker::before,
+.cover-kicker::after {
+  content: "";
+  width: 26px;
+  height: 1px;
+  background: linear-gradient(to right, transparent, var(--champagne));
+}
+
+.cover-kicker::after {
+  background: linear-gradient(to left, transparent, var(--champagne));
+}
+
+.cover-name {
+  margin-top: 6px;
+  padding: 0 0.15em 0.1em;
+  font: 400 clamp(2.5rem, 11vw, 3.5rem) / 1.2 var(--font-script);
+  overflow-wrap: anywhere;
+  background: linear-gradient(
+    100deg,
+    #f4dcb6 0%,
+    #fff9ef 34%,
+    #e3bd8c 62%,
+    #fbe9cf 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  filter: drop-shadow(0 2px 10px rgb(255 214 170 / 0.25));
+}
+
+/* ---- envelope */
+
+.cv-env {
+  position: relative;
+  width: min(84vw, calc((100vh - 270px) * 0.74), 440px);
+  width: min(84vw, calc((100dvh - 270px) * 0.74), 440px);
+  aspect-ratio: 849 / 1147;
+  cursor: pointer;
+  animation: env-float 6.5s ease-in-out 1.4s infinite;
+}
+
+.cv-stage {
+  position: absolute;
+  inset: 0;
+  perspective: 1500px;
+  perspective-origin: 50% var(--hinge);
+  transition: transform 1s cubic-bezier(0.55, 0, 0.2, 1) 1.2s,
+    opacity 0.8s ease 1.4s;
+}
+
+/* soft contact shadow under the floating envelope */
+.cv-stage::before {
+  content: "";
+  position: absolute;
+  left: 12%;
+  right: 12%;
+  bottom: -5%;
+  height: 9%;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, rgb(10 0 4 / 0.55), transparent);
+}
+
+.cv-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.cv-stage > .cv-img {
+  filter: drop-shadow(0 26px 34px rgb(20 2 10 / 0.5));
+}
+
+/* inside of the envelope, seen once the flap lifts: shaded paper + inner light */
+.cv-inside {
+  position: absolute;
+  inset: 0;
+  clip-path: var(--flap);
+  background: linear-gradient(180deg, #b9a19f 37%, #dccbc7 50%, #eadcd8 62%);
+  opacity: 0;
+}
+
+.cv-inside::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    42% 22% at 50% 40%,
+    rgb(255 246 226 / 1),
+    rgb(255 214 168 / 0.6) 45%,
+    transparent 75%
+  );
+  opacity: 0;
+  transition: opacity 0.9s ease 0.55s;
+}
+
+/* light fanning up out of the opening */
+.cv-rays {
+  position: absolute;
+  left: 50%;
+  top: var(--hinge);
+  width: 170%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  translate: -50% -50%;
+  background: repeating-conic-gradient(
+    from 0deg,
+    rgb(255 236 206 / 0) 0deg 6deg,
+    rgb(255 236 206 / 0.5) 8deg,
+    rgb(255 236 206 / 0) 10deg 15deg
+  );
+  -webkit-mask: radial-gradient(
+    closest-side,
+    #000 8%,
+    rgb(0 0 0 / 0.5) 40%,
+    transparent 100%
+  );
+  mask: radial-gradient(
+    closest-side,
+    #000 8%,
+    rgb(0 0 0 / 0.5) 40%,
+    transparent 100%
+  );
+  clip-path: inset(0 0 50% 0);
+  opacity: 0;
+  transform: scale(0.4);
+  pointer-events: none;
+  transition: opacity 0.9s ease 0.6s, transform 1.6s var(--ease) 0.6s;
+}
+
+.cv-flap {
+  position: absolute;
+  inset: 0;
+  transform-origin: 50% var(--hinge);
+  transform-style: preserve-3d;
+  transition: transform 1.15s cubic-bezier(0.6, 0.02, 0.22, 1) 0.28s;
+}
+
+.cv-flap-front,
+.cv-flap-back {
+  clip-path: var(--flap);
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+
+.cv-flap-front {
+  transition: filter 0.7s ease 0.3s;
+}
+
+.cv-flap-back {
+  position: absolute;
+  inset: 0;
+  transform: rotateY(180deg);
+  background: linear-gradient(180deg, #e2d1cc 37%, #f5ece8 62%);
+}
+
+/* gold flash where the seal breaks */
+.cv-burst {
+  position: absolute;
+  left: 50.65%;
+  top: 59.98%;
+  width: 40%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  translate: -50% -50%;
+  background: radial-gradient(
+    circle,
+    rgb(255 244 222 / 0.95),
+    rgb(246 206 160 / 0.55) 30%,
+    transparent 68%
+  );
+  opacity: 0;
+  transform: scale(0.2);
+  pointer-events: none;
+}
+
+/* ---- wax seal (the button) */
+
+.cv-seal {
+  position: absolute;
+  left: 50.65%;
+  top: 59.98%;
+  width: 21.67%;
+  aspect-ratio: 1;
+  translate: -50% -50%;
+  border-radius: 50%;
+  cursor: pointer;
+  filter: drop-shadow(0 5px 6px rgb(60 6 22 / 0.4));
+  animation: seal-pulse 2.8s ease-in-out infinite;
+}
+
+.cv-seal:focus-visible {
+  outline: 2px solid var(--champagne);
+  outline-offset: 6px;
+}
+
+.seal-half {
+  position: absolute;
+  inset: 0;
+  background: url(../assets/invite/seal-320.webp) center / 100% 100% no-repeat;
+  transition: transform 1s cubic-bezier(0.33, 0, 0.2, 1) 0.12s,
+    opacity 0.8s ease 0.12s;
+}
+
+/* jagged crack down the middle */
+.seal-half--l {
+  clip-path: polygon(
+    0 0,
+    53% 0,
+    47% 18%,
+    55% 37%,
+    46% 56%,
+    54% 76%,
+    48% 100%,
+    0 100%
+  );
+}
+
+.seal-half--r {
+  clip-path: polygon(
+    53% 0,
+    100% 0,
+    100% 100%,
+    48% 100%,
+    54% 76%,
+    46% 56%,
+    55% 37%,
+    47% 18%
+  );
+}
+
+/* two champagne rings breathing out of the seal */
+.cv-seal::before,
+.cv-seal::after {
+  content: "";
+  position: absolute;
+  inset: 4%;
+  border-radius: 50%;
+  border: 1.5px solid rgb(255 226 190 / 0.85);
+  box-shadow: 0 0 12px rgb(255 214 170 / 0.45);
+  opacity: 0;
+  animation: seal-ring 2.8s cubic-bezier(0.2, 0.6, 0.3, 1) infinite;
+  pointer-events: none;
+}
+
+.cv-seal::after {
+  animation-delay: 1.4s;
+}
+
+/* ---- hint */
+
+.cover-hint {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 10px 6px;
+  font: 500 0.72rem/1 var(--font-body);
+  letter-spacing: 0.36em;
+  text-indent: 0.36em;
+  text-transform: uppercase;
+  color: rgb(255 240 226 / 0.9);
+  cursor: pointer;
+  animation: hint-breathe 2.8s ease-in-out infinite;
+}
+
+.cover-hint-line {
+  width: 30px;
+  height: 1px;
+  background: linear-gradient(to right, transparent, var(--champagne));
+}
+
+.cover-hint-line:last-child {
+  transform: scaleX(-1);
+}
+
+/* ---- petals spilled on open (js/cover.js) */
+
+.petal {
+  position: absolute;
+  left: 50%;
+  top: 37.4%;
+  width: 15px;
+  height: 11px;
+  border-radius: 85% 0 85% 0;
+  background: linear-gradient(135deg, #fbd3dc, #e48ea5);
+  box-shadow: inset 0 0 3px rgb(255 255 255 / 0.6);
+  opacity: 0;
+  pointer-events: none;
+  animation: petal var(--t, 1400ms) cubic-bezier(0.15, 0.7, 0.3, 1)
+    var(--d, 0ms) forwards;
+}
+
+.petal--light {
+  background: linear-gradient(135deg, #fffaf6, #f3d6cf);
+}
+
+@keyframes petal {
+  0% {
+    transform: translate(-50%, 0) scale(var(--s)) rotate(0deg);
+    opacity: 0;
+  }
+  12% {
+    opacity: 1;
+  }
+  70% {
+    opacity: 0.9;
+  }
+  100% {
+    transform: translate(calc(-50% + var(--x)), var(--y)) scale(var(--s))
+      rotate(var(--r));
+    opacity: 0;
+  }
+}
+
+/* ---- idle motion + entrance */
+
+@media (prefers-reduced-motion: no-preference) {
+  .cover-head {
+    animation: cover-in 1.2s var(--ease) 0.15s backwards;
+  }
+
+  .cv-stage {
+    animation: env-in 1.5s var(--ease) 0.3s backwards;
+  }
+
+  .cover-hint {
+    animation: cover-in 1s var(--ease) 1.1s backwards,
+      hint-breathe 2.8s ease-in-out 2.1s infinite;
+  }
+}
+
+@keyframes cover-in {
+  from {
+    opacity: 0;
+    transform: translateY(-16px);
+  }
+}
+
+@keyframes env-in {
+  from {
+    opacity: 0;
+    transform: translateY(40px) scale(0.92);
+  }
+}
+
+@keyframes env-float {
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+@keyframes seal-pulse {
+  50% {
+    transform: scale(1.04);
+  }
+}
+
+@keyframes seal-ring {
+  0% {
+    opacity: 0;
+    transform: scale(1);
+  }
+  20% {
+    opacity: 0.9;
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.9);
+  }
+}
+
+@keyframes hint-breathe {
+  50% {
+    opacity: 0.55;
+  }
+}
+
+/* ---- opening sequence (.is-opening, then .is-leaving) */
+
+.cover.is-opening .cv-env {
+  animation: none;
+  cursor: default;
+}
+
+.cover.is-opening .cv-seal {
+  cursor: default;
+  animation: seal-jolt 0.24s ease-out;
+}
+
+.cover.is-opening .cv-seal::before,
+.cover.is-opening .cv-seal::after {
+  animation: none;
+  opacity: 0;
+}
+
+/* The seal stays whole: both halves move together, sinking and fading out. */
+.cover.is-opening .seal-half {
+  transform: translateY(45%);
+  opacity: 0;
+}
+
+.cover.is-opening .cv-burst {
+  animation: burst 0.95s cubic-bezier(0.2, 0.7, 0.3, 1) 0.12s forwards;
+}
+
+.cover.is-opening .cv-inside {
+  opacity: 1;
+  transition: opacity 0.2s ease 0.25s;
+}
+
+.cover.is-opening .cv-inside::after {
+  opacity: 1;
+}
+
+.cover.is-opening .cv-rays {
+  opacity: 1;
+  transform: scale(1) rotate(14deg);
+}
+
+.cover.is-opening .cv-flap {
+  transform: rotateX(180deg);
+}
+
+.cover.is-opening .cv-flap-front {
+  filter: brightness(0.78);
+}
+
+.cover.is-opening .cv-stage {
+  animation: none;
+  transform: translateY(-6%) scale(1.14);
+  opacity: 0;
+}
+
+.cover.is-opening .cover-head {
+  animation: none;
+  opacity: 0;
+  transform: translateY(-18px);
+  transition: opacity 0.6s ease, transform 0.8s var(--ease);
+}
+
+.cover.is-opening .cover-hint {
+  animation: none;
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity 0.4s ease, transform 0.6s var(--ease);
+}
+
+.cover.is-leaving {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 1.1s ease;
+}
+
+.cover.is-leaving .cover-bg {
+  transform: scale(1.18);
+}
+
+@keyframes seal-jolt {
+  40% {
+    transform: scale(0.9);
+  }
+  75% {
+    transform: scale(1.05);
+  }
+}
+
+@keyframes burst {
+  0% {
+    opacity: 0;
+    transform: scale(0.2);
+  }
+  25% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: scale(3.2);
+  }
+}
+
+/* The page under the cover settles in as it fades. */
+@media (prefers-reduced-motion: no-preference) {
+  .has-cover .sheet {
+    transform: scale(0.97);
+  }
+
+  .sheet {
+    transition: transform 1.3s var(--ease);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cover *,
+  .cover *::before,
+  .cover *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  .cover.is-leaving {
+    transition: opacity 0.4s ease;
+  }
+}
+
+/* =============================================================================
+   Kính mời (personal greeting, shown only for ?to=… links)
+   ========================================================================== */
+
+.greet {
+  padding-top: 20px;
+  padding-bottom: 44px;
+}
+
+.greet-card {
+  position: relative;
+  overflow: hidden;
+  padding: 42px 22px 36px;
+  text-align: center;
+  border-radius: var(--r-card);
+  background: radial-gradient(
+      120% 70% at 50% 0%,
+      rgb(255 255 255 / 0.95),
+      rgb(255 255 255 / 0.4) 65%
+    ),
+    radial-gradient(
+      90% 60% at 100% 100%,
+      rgb(240 214 200 / 0.7),
+      transparent 70%
+    ),
+    linear-gradient(160deg, #fbf0f2, #f6e3e6 55%, #f4e6dd);
+  border: 1px solid rgb(196 162 127 / 0.55);
+  box-shadow: inset 0 1px 0 #fff, inset 0 0 0 8px rgb(255 255 255 / 0.45),
+    inset 0 0 0 9px rgb(196 162 127 / 0.4),
+    inset 0 0 0 12px rgb(255 255 255 / 0.3),
+    inset 0 0 0 12.6px rgb(196 162 127 / 0.22),
+    0 30px 60px -34px rgb(120 50 70 / 0.5),
+    0 10px 24px -16px rgb(120 50 70 / 0.3);
+}
+
+/* glass glint that sweeps once across the card each time it comes into view */
+.greet-glint {
+  position: absolute;
+  inset: -20% -60%;
+  background: linear-gradient(
+    105deg,
+    transparent 42%,
+    rgb(255 255 255 / 0.85) 50%,
+    transparent 58%
+  );
+  transform: translateX(-75%);
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .greet-card.is-in .greet-glint {
+    animation: glint 1.8s cubic-bezier(0.3, 0.1, 0.2, 1) 0.5s both;
+  }
+}
+
+@keyframes glint {
+  to {
+    transform: translateX(75%);
+  }
+}
+
+.greet-title {
+  font: italic 600 clamp(1.7rem, 7.4vw, 2.2rem) / 1.25 var(--font-display);
+  letter-spacing: 0.01em;
+  color: var(--accent-ink);
+}
+
+.greet-name {
+  margin-top: 4px;
+  padding: 0 0.2em 0.08em;
+  font: 400 clamp(2.6rem, 11.5vw, 3.4rem) / 1.2 var(--font-script);
+  overflow-wrap: anywhere;
+  background: linear-gradient(
+    100deg,
+    #8c3c55 0%,
+    #c0657f 40%,
+    #b48a5e 72%,
+    #8c3c55 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.greet .orn {
+  margin: 10px auto 14px;
+  color: var(--accent);
+}
+
+.greet-text {
+  font: italic 500 1.24rem/1.5 var(--font-display);
+  color: var(--ink-soft);
+}
+
+.greet-couple {
+  margin-top: 6px;
+  font: 500 1.4rem/1.35 var(--font-heading);
+  color: var(--ink);
+}
+
+.greet-couple span[aria-hidden] {
+  margin: 0 0.12em;
+  font: 400 1.5em/1 var(--font-script);
+  color: var(--accent);
+}
+
+.greet-date {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin: 16px 0 14px;
+  font: 500 1.2rem/1 var(--font-heading);
+  letter-spacing: 0.08em;
+}
+
+.greet-date span {
+  font: 500 0.74rem/1 var(--font-body);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+.greet-date::before,
+.greet-date::after {
+  content: "";
+  width: 26px;
+  height: 1px;
+  background: var(--gold);
+}
+
+.greet-note {
+  font: italic 500 1.12rem/1.4 var(--font-display);
+  color: var(--accent);
 }
