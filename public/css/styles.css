@@ -33,7 +33,7 @@
   --font-display: "Cormorant Garamond", "Times New Roman", Georgia, serif;
   /* Section titles and every date/number: lining figures, sharper than Cormorant at heading sizes. */
   --font-heading: "Playfair Display", "Times New Roman", Georgia, serif;
-  --font-body: "Be Vietnam Pro", system-ui, -apple-system, "Segoe UI", Roboto,
+  --font-body: "Nunito", system-ui, -apple-system, "Segoe UI", Roboto,
     sans-serif;
   /* 囍 glyph only: system CJK serif, no webfont. */
   --font-hy: "Noto Serif SC", "Noto Serif CJK SC", "Songti SC", "STSong",
@@ -59,6 +59,9 @@
 html {
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
+  /* Android Chrome paints a translucent box over tapped buttons/links; the
+     buttons have their own :active and :focus-visible states instead. */
+  -webkit-tap-highlight-color: transparent;
   background: var(--bg);
   scrollbar-color: rgb(166 77 104 / 0.45) var(--bg);
   /* Mobile Safari scrolls the viewport via html, not body, so clip here too
@@ -83,6 +86,11 @@ html {
   ::-webkit-scrollbar-thumb:hover {
     background: var(--accent);
   }
+}
+
+::selection {
+  color: #fff;
+  background: var(--accent);
 }
 
 html:has(dialog[open]) {
@@ -273,7 +281,7 @@ a {
   display: flex;
   align-items: center;
   gap: 12px;
-  width: 170px;
+  width: 200px;
   margin: 14px auto 16px;
   color: var(--gold);
   font-size: 0.85rem;
@@ -448,6 +456,7 @@ a {
 }
 
 .glass--blur {
+  border: 1px solid rgb(255 255 255 / 0.35);
   background: linear-gradient(
     140deg,
     rgb(255 255 255 / 0.62),
@@ -937,21 +946,43 @@ a {
     animation: hero-zoom 2.6s var(--ease) both;
   }
 
+  /* The glass card (fill, hairline border, blur, shadow) settles in first as one
+     surface, so its edges never pop in around text that is still fading. The
+     opacity sits on the card itself, not an ancestor, so the backdrop blur is
+     live for the whole fade instead of snapping on at the end. */
+  .hero-card {
+    animation: glass-fade 0.9s cubic-bezier(0.4, 0, 0.2, 1) both,
+      glass-rise 1.2s var(--ease) both;
+  }
+
   [data-hero] {
     animation: fade-up 1s var(--ease) both;
+    animation-delay: 0.25s;
   }
 
   [data-hero="2"] {
-    animation-delay: 0.15s;
+    animation-delay: 0.4s;
   }
   [data-hero="3"] {
-    animation-delay: 0.3s;
+    animation-delay: 0.55s;
   }
   [data-hero="4"] {
-    animation-delay: 0.45s;
+    animation-delay: 0.7s;
   }
   [data-hero="5"] {
-    animation-delay: 0.6s;
+    animation-delay: 0.85s;
+  }
+}
+
+@keyframes glass-fade {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes glass-rise {
+  from {
+    transform: translateY(26px) scale(0.97);
   }
 }
 
@@ -3138,7 +3169,10 @@ html:not(.js) .pc-controls {
     --rise: 28px;
     opacity: 0;
     transform: translateY(calc(var(--rise) * var(--dir)));
-    transition: opacity 0.9s var(--ease), transform 0.9s var(--ease);
+    /* Opacity on a soft curve: with the expo-out --ease a card's border, fill
+       and shadow reach ~80% in the first frames and read as a pop. */
+    transition: opacity 0.9s cubic-bezier(0.4, 0, 0.2, 1),
+      transform 0.9s var(--ease);
     transition-delay: calc(var(--d, 0) * 120ms);
   }
 
@@ -4861,6 +4895,7 @@ dialog {
 
 /* Hold the hero's own entrance until the cover lifts. */
 .has-cover .hero-photo img,
+.has-cover .hero-card,
 .has-cover [data-hero] {
   animation-play-state: paused;
 }
@@ -5711,4 +5746,217 @@ dialog {
 .greet-note {
   font: italic 500 1.12rem/1.4 var(--font-display);
   color: var(--accent);
+}
+
+/* ------------------------------------------------- wedding ornaments */
+/* Inline-SVG dividers between the gold hairlines of .orn (index.html):
+   interlocked rings, a blooming flower, two clinking flutes and a small 囍.
+   Each part animates on its own, so the art is inline rather than a sprite
+   <use> (whose shadow tree page CSS can't reach). Loops run only while
+   .is-live (js/main.js), transform/opacity only, still under reduced motion. */
+
+.orn-art {
+  flex: none;
+  height: 3em;
+  width: auto;
+  overflow: visible;
+}
+
+.orn-flower {
+  height: 2.6em;
+}
+
+.hy-glyph--sm {
+  font-size: 1.55rem;
+}
+
+/* Rings: gold band + rose band with a gem; a redrawn arc of the gold band
+   crosses back over the rose one so they read as interlocked. */
+.rg {
+  fill: none;
+  stroke-width: 2;
+  stroke-linecap: round;
+}
+.rg-l {
+  stroke: #b48a5e;
+}
+.rg-r {
+  stroke: var(--accent);
+}
+.rg-gem {
+  fill: #f3c9d5;
+  stroke-width: 1;
+  stroke-linejoin: round;
+}
+.rg-spark {
+  fill: var(--gold);
+  opacity: 0;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+/* Flower: rose outer petals, blush inner petals, gold heart. */
+.fl-outer {
+  fill: var(--accent);
+  opacity: 0.88;
+}
+.fl-inner {
+  fill: #f6d3dd;
+}
+.fl-core {
+  fill: var(--gold);
+  stroke: #fff;
+  stroke-width: 0.8;
+}
+.fl-outer,
+.fl-inner,
+.fl-core {
+  transform-box: view-box;
+  transform-origin: 16px 16px;
+}
+
+/* Flutes: mirrored, leaning in so the rims touch. Pivot at the foot. */
+.gl {
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+}
+.gl-l {
+  transform: rotate(11deg);
+}
+.gl-r {
+  transform: rotate(-11deg);
+}
+.gl-cup {
+  fill: rgb(255 255 255 / 0.55);
+  stroke: #b48a5e;
+  stroke-width: 1.3;
+  stroke-linejoin: round;
+}
+.gl-wine {
+  fill: var(--accent);
+  opacity: 0.5;
+}
+.gl-stem,
+.gl-burst {
+  fill: none;
+  stroke: #b48a5e;
+  stroke-width: 1.3;
+  stroke-linecap: round;
+}
+.gl-burst {
+  stroke: var(--accent);
+  opacity: 0;
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .is-live[data-motion="rings"] .rg-l,
+  .is-live[data-motion="rings"] .rg-r,
+  .is-live[data-motion="rings"] .rg-spark,
+  .is-live[data-motion="bloom"] > *,
+  .is-live[data-motion="clink"] .gl,
+  .is-live[data-motion="clink"] .gl-burst {
+    animation: 4.8s ease-in-out var(--md, 0s) infinite both;
+  }
+
+  .is-live[data-motion="rings"] .rg-l {
+    animation-name: orn-ring-l;
+  }
+  .is-live[data-motion="rings"] .rg-r {
+    animation-name: orn-ring-r;
+  }
+  .is-live[data-motion="rings"] .rg-spark {
+    animation-name: orn-spark;
+  }
+
+  .is-live[data-motion="bloom"] {
+    --md: 0.6s;
+  }
+  .is-live[data-motion="bloom"] .fl-outer {
+    animation-name: orn-bloom-out;
+  }
+  .is-live[data-motion="bloom"] .fl-inner {
+    animation-name: orn-bloom-in;
+  }
+  .is-live[data-motion="bloom"] .fl-core {
+    animation-name: orn-bloom-core;
+  }
+
+  .is-live[data-motion="clink"] .gl-l {
+    animation-name: orn-clink-l;
+  }
+  .is-live[data-motion="clink"] .gl-r {
+    animation-name: orn-clink-r;
+  }
+  .is-live[data-motion="clink"] .gl-burst {
+    animation-name: orn-burst;
+  }
+
+  .is-live[data-motion="stamp"] {
+    animation-name: orn-stamp;
+  }
+}
+
+/* Rings drift apart, then meet with a little bounce and the gem glints. */
+@keyframes orn-ring-l {
+  0%, 34%, 100% { transform: none; }
+  10% { transform: translateX(-2px); }
+  17% { transform: translateX(0.6px); }
+  22% { transform: translateX(-0.2px); }
+}
+@keyframes orn-ring-r {
+  0%, 34%, 100% { transform: none; }
+  10% { transform: translateX(2px); }
+  17% { transform: translateX(-0.6px); }
+  22% { transform: translateX(0.2px); }
+}
+@keyframes orn-spark {
+  0%, 16%, 34%, 100% { opacity: 0; transform: scale(0.3) rotate(0deg); }
+  22% { opacity: 1; transform: scale(1.2) rotate(45deg); }
+}
+
+/* Petals open a fifth of a turn (5-fold symmetry, so the loop is seamless). */
+@keyframes orn-bloom-out {
+  0% { transform: rotate(0deg) scale(1); }
+  14% { transform: rotate(40deg) scale(1.12); }
+  30%, 100% { transform: rotate(72deg) scale(1); }
+}
+@keyframes orn-bloom-in {
+  0% { transform: rotate(0deg) scale(1); }
+  14% { transform: rotate(-40deg) scale(0.82); }
+  30%, 100% { transform: rotate(-72deg) scale(1); }
+}
+@keyframes orn-bloom-core {
+  0%, 30%, 100% { transform: none; }
+  14% { transform: scale(1.3); }
+}
+
+/* Flutes lean back, swing in to clink, settle; the burst flashes on contact. */
+@keyframes orn-clink-l {
+  0%, 34%, 100% { transform: rotate(11deg); }
+  9% { transform: rotate(-1deg); }
+  15% { transform: rotate(13deg); }
+  20% { transform: rotate(10deg); }
+  25% { transform: rotate(11.5deg); }
+}
+@keyframes orn-clink-r {
+  0%, 34%, 100% { transform: rotate(-11deg); }
+  9% { transform: rotate(1deg); }
+  15% { transform: rotate(-13deg); }
+  20% { transform: rotate(-10deg); }
+  25% { transform: rotate(-11.5deg); }
+}
+@keyframes orn-burst {
+  0%, 14%, 30%, 100% { opacity: 0; transform: scale(0.4); }
+  17% { opacity: 1; transform: scale(1); }
+  24% { opacity: 0.6; transform: scale(1.2); }
+}
+
+/* 囍 pressed like a seal. */
+@keyframes orn-stamp {
+  0%, 30%, 100% { transform: none; opacity: 1; }
+  7% { transform: scale(1.22); opacity: 0.75; }
+  13% { transform: scale(0.93); opacity: 1; }
+  19% { transform: scale(1.04); }
 }

@@ -144,7 +144,7 @@ const FONTS = [
   ["great-vibes", [400], ["normal"]],
   ["cormorant-garamond", [500], ["normal", "italic"]],
   ["cormorant-garamond", [600], ["normal"]],
-  ["be-vietnam-pro", [400, 500, 600], ["normal"]],
+  ["nunito", [400, 500, 600], ["normal"]],
   // Section titles and dates: high-contrast serif with lining figures (Cormorant's read poorly).
   ["playfair-display", [500, 600], ["normal"]],
   ["playfair-display", [500], ["italic"]],

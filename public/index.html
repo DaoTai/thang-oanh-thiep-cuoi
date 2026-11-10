@@ -61,7 +61,7 @@
     <link rel="modulepreload" href="js/nav.js" />
 
     <link rel="stylesheet" href="css/fonts.css" />
-    <link rel="stylesheet" href="css/styles.css" />
+    <link rel="stylesheet" href="css/styles.css?v=5" />
     <script>
       document.documentElement.classList.add("js");
       // Personal link (?to=Bạn Tài, made on /khach-moi-7q2x/): show the sealed
@@ -313,9 +313,7 @@
           <h2 id="greet-title" class="greet-title">Trân trọng kính mời</h2>
           <p class="greet-name" data-guest></p>
           <div class="orn" aria-hidden="true">
-            <svg class="ico" data-motion="beat">
-              <use href="assets/icons.svg?v=2#i-heart-fill" />
-            </svg>
+            <span class="hy-glyph hy-glyph--sm" data-motion="stamp">囍</span>
           </div>
           <p class="greet-text">Tham dự tiệc mừng lễ thành hôn của</p>
           <p class="greet-couple">
@@ -335,8 +333,86 @@
         <div class="section-head" data-reveal="zoom">
           <h2 id="album-title" class="title">Album Hình Cưới</h2>
           <span class="orn" aria-hidden="true"
-            ><svg class="ico" data-motion="twinkle">
-              <use href="assets/icons.svg?v=2#i-sparkle-fill" /></svg
+            ><svg
+              class="orn-art orn-flower"
+              viewBox="0 0 32 32"
+              data-motion="bloom"
+            >
+              <g class="fl-outer">
+                <ellipse
+                  cx="16"
+                  cy="8.6"
+                  rx="4.4"
+                  ry="6.6"
+                  transform="rotate(0 16 16)"
+                />
+                <ellipse
+                  cx="16"
+                  cy="8.6"
+                  rx="4.4"
+                  ry="6.6"
+                  transform="rotate(72 16 16)"
+                />
+                <ellipse
+                  cx="16"
+                  cy="8.6"
+                  rx="4.4"
+                  ry="6.6"
+                  transform="rotate(144 16 16)"
+                />
+                <ellipse
+                  cx="16"
+                  cy="8.6"
+                  rx="4.4"
+                  ry="6.6"
+                  transform="rotate(216 16 16)"
+                />
+                <ellipse
+                  cx="16"
+                  cy="8.6"
+                  rx="4.4"
+                  ry="6.6"
+                  transform="rotate(288 16 16)"
+                />
+              </g>
+              <g class="fl-inner">
+                <ellipse
+                  cx="16"
+                  cy="11"
+                  rx="2.6"
+                  ry="4.2"
+                  transform="rotate(36 16 16)"
+                />
+                <ellipse
+                  cx="16"
+                  cy="11"
+                  rx="2.6"
+                  ry="4.2"
+                  transform="rotate(108 16 16)"
+                />
+                <ellipse
+                  cx="16"
+                  cy="11"
+                  rx="2.6"
+                  ry="4.2"
+                  transform="rotate(180 16 16)"
+                />
+                <ellipse
+                  cx="16"
+                  cy="11"
+                  rx="2.6"
+                  ry="4.2"
+                  transform="rotate(252 16 16)"
+                />
+                <ellipse
+                  cx="16"
+                  cy="11"
+                  rx="2.6"
+                  ry="4.2"
+                  transform="rotate(324 16 16)"
+                />
+              </g>
+              <circle class="fl-core" cx="16" cy="16" r="2.8" /></svg
           ></span>
           <p class="lede">
             Được ai đó yêu sâu sắc sẽ cho bạn sức mạnh, còn yêu ai đó sâu sắc sẽ
@@ -534,27 +610,36 @@
         <h2 id="cd-title" class="script-title" data-reveal="zoom">
           Đếm ngược tới ngày vui
         </h2>
-        <div
-          class="cd-grid"
-          id="countdown"
-          data-reveal="pop"
-          style="--d: 1"
-          role="timer"
-          aria-live="off"
-        >
-          <div class="cd-cell glass glass--blur">
+        <div class="cd-grid" id="countdown" role="timer" aria-live="off">
+          <div
+            class="cd-cell glass glass--blur"
+            data-reveal="pop"
+            style="--d: 1"
+          >
             <span class="cd-num" data-unit="d">00</span
             ><span class="cd-label">Ngày</span>
           </div>
-          <div class="cd-cell glass glass--blur">
+          <div
+            class="cd-cell glass glass--blur"
+            data-reveal="pop"
+            style="--d: 1.5"
+          >
             <span class="cd-num" data-unit="h">00</span
             ><span class="cd-label">Giờ</span>
           </div>
-          <div class="cd-cell glass glass--blur">
+          <div
+            class="cd-cell glass glass--blur"
+            data-reveal="pop"
+            style="--d: 2"
+          >
             <span class="cd-num" data-unit="m">00</span
             ><span class="cd-label">Phút</span>
           </div>
-          <div class="cd-cell glass glass--blur">
+          <div
+            class="cd-cell glass glass--blur"
+            data-reveal="pop"
+            style="--d: 2.5"
+          >
             <span class="cd-num" data-unit="s">00</span
             ><span class="cd-label">Giây</span>
           </div>
@@ -800,7 +885,7 @@
               <p class="letter-lead">
                 Cảm ơn bạn, những người thân yêu của chúng mình!
               </p>
-              <p>
+              <p class="letter-lead">
                 Chúng mình biết ai cũng có những bận rộn riêng: công việc, gia
                 đình và bao lo toan thường ngày. Vậy mà bạn vẫn dành thời gian
                 để đến chung vui, chứng kiến khoảnh khắc ý nghĩa nhất của hai
@@ -828,8 +913,24 @@
         <div class="section-head" data-reveal="zoom">
           <h2 id="couple-title" class="title">Cô Dâu &amp; Chú Rể</h2>
           <span class="orn" aria-hidden="true"
-            ><svg class="ico" data-motion="twinkle">
-              <use href="assets/icons.svg?v=2#i-sparkle-fill" /></svg
+            ><svg
+              class="orn-art orn-rings"
+              viewBox="0 0 48 32"
+              data-motion="rings"
+            >
+              <circle class="rg rg-l" cx="19" cy="19" r="9.5" />
+              <g class="rg rg-r">
+                <circle cx="29" cy="19" r="9.5" />
+                <path class="rg-gem" d="M26.6 7.2 29 4l2.4 3.2L29 10z" />
+              </g>
+              <path
+                class="rg rg-l"
+                d="M26.49 24.85A9.5 9.5 0 0 1 20.98 28.29"
+              />
+              <path
+                class="rg-spark"
+                d="M37 2.5q.4 2.6 3 3-2.6.4-3 3-.4-2.6-3-3 2.6-.4 3-3z"
+              /></svg
           ></span>
           <p class="lede">
             Hai con người, một lời hẹn ước và một ngôi nhà nhỏ đang chờ được vun
@@ -1127,8 +1228,29 @@
         <div class="section-head" data-reveal="zoom">
           <h2 id="gb-title" class="title">Sổ Lưu Bút</h2>
           <span class="orn" aria-hidden="true"
-            ><svg class="ico" data-motion="twinkle">
-              <use href="assets/icons.svg?v=2#i-sparkle-fill" /></svg
+            ><svg
+              class="orn-art orn-cheers"
+              viewBox="0 0 48 34"
+              data-motion="clink"
+            >
+              <g transform="translate(13.7 31)">
+                <g class="gl gl-l">
+                  <path class="gl-wine" d="M-3.9-18h7.8l-.5 5Q0-8.5-3.4-13z" />
+                  <path class="gl-cup" d="M-4.5-23h9l-1.1 10Q0-8.5-3.4-13z" />
+                  <path class="gl-stem" d="M0-9.6V0m-4.5 0h9" />
+                </g>
+              </g>
+              <g transform="translate(34.3 31)">
+                <g class="gl gl-r">
+                  <path class="gl-wine" d="M-3.9-18h7.8l-.5 5Q0-8.5-3.4-13z" />
+                  <path class="gl-cup" d="M-4.5-23h9l-1.1 10Q0-8.5-3.4-13z" />
+                  <path class="gl-stem" d="M0-9.6V0m-4.5 0h9" />
+                </g>
+              </g>
+              <path
+                class="gl-burst"
+                d="M24 7V2.5M20.2 8l-2.6-3.2M27.8 8l2.6-3.2"
+              /></svg
           ></span>
           <p class="lede">
             Cảm ơn bạn rất nhiều vì đã gửi những lời chúc tốt đẹp nhất tới đám
@@ -1463,16 +1585,110 @@
           <p class="gallery-kicker">Mạnh Thắng &amp; Kiều Oanh</p>
           <h2 id="gallery-title" class="title">Album Hình Cưới</h2>
           <span class="orn" aria-hidden="true"
-            ><svg class="ico" data-motion="twinkle">
-              <use href="assets/icons.svg?v=2#i-sparkle-fill" /></svg
+            ><svg
+              class="orn-art orn-flower"
+              viewBox="0 0 32 32"
+              data-motion="bloom"
+            >
+              <g class="fl-outer">
+                <ellipse
+                  cx="16"
+                  cy="8.6"
+                  rx="4.4"
+                  ry="6.6"
+                  transform="rotate(0 16 16)"
+                />
+                <ellipse
+                  cx="16"
+                  cy="8.6"
+                  rx="4.4"
+                  ry="6.6"
+                  transform="rotate(72 16 16)"
+                />
+                <ellipse
+                  cx="16"
+                  cy="8.6"
+                  rx="4.4"
+                  ry="6.6"
+                  transform="rotate(144 16 16)"
+                />
+                <ellipse
+                  cx="16"
+                  cy="8.6"
+                  rx="4.4"
+                  ry="6.6"
+                  transform="rotate(216 16 16)"
+                />
+                <ellipse
+                  cx="16"
+                  cy="8.6"
+                  rx="4.4"
+                  ry="6.6"
+                  transform="rotate(288 16 16)"
+                />
+              </g>
+              <g class="fl-inner">
+                <ellipse
+                  cx="16"
+                  cy="11"
+                  rx="2.6"
+                  ry="4.2"
+                  transform="rotate(36 16 16)"
+                />
+                <ellipse
+                  cx="16"
+                  cy="11"
+                  rx="2.6"
+                  ry="4.2"
+                  transform="rotate(108 16 16)"
+                />
+                <ellipse
+                  cx="16"
+                  cy="11"
+                  rx="2.6"
+                  ry="4.2"
+                  transform="rotate(180 16 16)"
+                />
+                <ellipse
+                  cx="16"
+                  cy="11"
+                  rx="2.6"
+                  ry="4.2"
+                  transform="rotate(252 16 16)"
+                />
+                <ellipse
+                  cx="16"
+                  cy="11"
+                  rx="2.6"
+                  ry="4.2"
+                  transform="rotate(324 16 16)"
+                />
+              </g>
+              <circle class="fl-core" cx="16" cy="16" r="2.8" /></svg
           ></span>
           <p class="gallery-count" id="gallery-count"></p>
         </div>
         <ul class="gallery-grid" id="gallery-grid" role="list"></ul>
         <footer class="gallery-end">
           <span class="orn" aria-hidden="true"
-            ><svg class="ico" data-motion="beat">
-              <use href="assets/icons.svg?v=2#i-heart-fill" /></svg
+            ><svg
+              class="orn-art orn-rings"
+              viewBox="0 0 48 32"
+              data-motion="rings"
+            >
+              <circle class="rg rg-l" cx="19" cy="19" r="9.5" />
+              <g class="rg rg-r">
+                <circle cx="29" cy="19" r="9.5" />
+                <path class="rg-gem" d="M26.6 7.2 29 4l2.4 3.2L29 10z" />
+              </g>
+              <path
+                class="rg rg-l"
+                d="M26.49 24.85A9.5 9.5 0 0 1 20.98 28.29"
+              />
+              <path
+                class="rg-spark"
+                d="M37 2.5q.4 2.6 3 3-2.6.4-3 3-.4-2.6-3-3 2.6-.4 3-3z"
+              /></svg
           ></span>
           <p class="gallery-end-script">Thắng &amp; Oanh</p>
           <p class="gallery-end-note">
