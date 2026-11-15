@@ -1,9 +1,14 @@
 {
-  // Cloudflare Workers, static assets only (no Worker script). See DEPLOY.md.
+  // Cloudflare Workers: static assets + a tiny Worker (worker/index.js) that
+  // only runs for "/" to personalise link previews for ?to=<guest>. See DEPLOY.md.
   "name": "thang-oanh-wedding",
+  "main": "worker/index.js",
   "compatibility_date": "2026-10-01",
   "assets": {
     "directory": "./public",
+    "binding": "ASSETS",
+    // Only the home page goes through the Worker; everything else is served directly.
+    "run_worker_first": ["/"],
     // Clean URLs: /index.html is served at /.
     "html_handling": "auto-trailing-slash",
     "not_found_handling": "none"

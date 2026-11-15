@@ -1,12 +1,13 @@
 # Deploy lên Cloudflare Workers
 
-Trang là web tĩnh, nên deploy theo kiểu **Workers static assets**: Cloudflare phục vụ thư mục `public/` qua CDN và không chạy đoạn code server nào. Gói miễn phí là đủ.
+Trang là web tĩnh, deploy theo kiểu **Workers static assets**: Cloudflare phục vụ thư mục `public/` qua CDN. Có thêm một Worker nhỏ (`worker/index.js`) chỉ chạy cho trang chủ: với link cá nhân `?to=<tên>`, nó sửa tiêu đề và mô tả xem trước (Zalo, Messenger, Facebook) thành lời mời có tên khách. Gói miễn phí là đủ (100.000 lượt gọi Worker mỗi ngày).
 
 ## Các file liên quan
 
 | File | Vai trò |
 |---|---|
-| `wrangler.jsonc` | Cấu hình Worker: tên `thang-oanh-wedding`, thư mục `public/` |
+| `wrangler.jsonc` | Cấu hình Worker: tên `thang-oanh-wedding`, thư mục `public/`, Worker chỉ chạy cho `/` |
+| `worker/index.js` | Sửa `<title>`, `description`, `og:*`, `twitter:*` cho link `?to=<tên>` |
 | `public/_headers` | Header cache cho ảnh, font, CSS/JS, và kiểu `text/calendar` cho file `.ics`. Cloudflare đọc file này nhưng không public nó |
 | `public/.assetsignore` | Danh sách file **không** upload: ảnh gốc `assets/album/*.jpg` (8–11 MB mỗi ảnh, khoảng 108 MB tổng) và `album/thumbs/` cũ. Trang chỉ dùng `album/web/` |
 

@@ -31,7 +31,8 @@ There are no tests or linters. Verify changes in a browser at phone width (390px
 
 `public/` is the web root and deploys as-is to Cloudflare Workers static assets. The config lives in three files:
 
-- `wrangler.jsonc`: Worker name and assets directory.
+- `wrangler.jsonc`: Worker name, assets directory, and `run_worker_first: ["/"]` so only the home page goes through the Worker.
+- `worker/index.js`: the only server code. For `/?to=<name>` it rewrites `<title>`, `description`, `og:title/description/url` and `twitter:title/description` with `HTMLRewriter` so Zalo/Messenger/Facebook previews greet the guest by name (crawlers don't run JS), and sends `X-Robots-Tag: noindex`. `og:url` must be the personal URL (Facebook re-scrapes it); `canonical` stays on the plain URL. Without `?to=` it passes the asset through untouched. Keep its wording (couple, date) in sync with `CONFIG`.
 - `public/_headers`: cache headers and the `text/calendar` content type for `.ics`. Edit it when adding asset folders.
 - `public/.assetsignore`: keeps the album originals out of the upload. Anything new in `public/` that the page doesn't use belongs here.
 - `robots.txt`, `sitemap.xml` and the `<head>` (`canonical`, `og:url`, absolute `og:image`, JSON-LD `WebSite` + two `Event`s) all hard-code the site URL `https://thang-oanh-wedding.happy-wedding.workers.dev/`. Change every copy together if the domain changes. The JSON-LD repeats event dates and venues from `CONFIG.events`, so keep it in sync too. Don't list `khach-moi-7q2x/` in `robots.txt` or mention it in public pages: that would reveal the unlisted path.
