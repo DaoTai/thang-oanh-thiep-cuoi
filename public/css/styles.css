@@ -1043,8 +1043,78 @@ a {
 }
 
 .month-card {
+  position: relative;
   padding: 28px 18px 22px;
   text-align: center;
+}
+
+/* month bow: the satin bow (formerly on the letter card), small, tied on the
+   card's top-left corner. Ties in (pops from the knot) when the card reveals,
+   then the loops breathe and the tails flutter while it is on screen. */
+.month-bow {
+  position: absolute;
+  left: -14px;
+  top: -6px;
+  width: 64px;
+  overflow: visible;
+  transform-origin: 50% 37%;
+  transform: rotate(-38deg);
+  filter: drop-shadow(0 3px 4px rgb(120 50 70 / 0.3));
+  pointer-events: none;
+}
+
+.month-bow .bow-loop,
+.month-bow .bow-tail {
+  transform-box: view-box;
+}
+
+.month-bow .bow-loop--l { transform-origin: 60px 34px; }
+.month-bow .bow-loop--r { transform-origin: 60px 34px; }
+.month-bow .bow-tail--l { transform-origin: 57px 38px; }
+.month-bow .bow-tail--r { transform-origin: 63px 38px; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .js .month-card .month-bow {
+    opacity: 0;
+    transform: rotate(-80deg) scale(0.3);
+    transition: opacity 0.4s ease, transform 0.9s cubic-bezier(0.34, 1.56, 0.64, 1);
+    transition-delay: 0.35s;
+  }
+
+  .js .month-card.is-in .month-bow {
+    opacity: 1;
+    transform: rotate(-38deg) scale(1);
+  }
+
+  .month-card.is-in .bow-loop--l {
+    animation: bow-loop-l 3.6s ease-in-out 1.2s infinite;
+  }
+  .month-card.is-in .bow-loop--r {
+    animation: bow-loop-r 3.6s ease-in-out 1.2s infinite;
+  }
+  .month-card.is-in .bow-tail--l {
+    animation: bow-tail-l 2.8s ease-in-out 1.2s infinite;
+  }
+  .month-card.is-in .bow-tail--r {
+    animation: bow-tail-r 2.8s ease-in-out 1.6s infinite;
+  }
+}
+
+@keyframes bow-loop-l {
+  0%, 100% { transform: rotate(0) scale(1); }
+  50% { transform: rotate(-6deg) scale(1.05); }
+}
+@keyframes bow-loop-r {
+  0%, 100% { transform: rotate(0) scale(1); }
+  50% { transform: rotate(6deg) scale(1.05); }
+}
+@keyframes bow-tail-l {
+  0%, 100% { transform: rotate(0); }
+  50% { transform: rotate(7deg); }
+}
+@keyframes bow-tail-r {
+  0%, 100% { transform: rotate(0); }
+  50% { transform: rotate(-7deg); }
 }
 
 .month-title {
@@ -1446,78 +1516,177 @@ html:not(.js) .pc-controls {
   perspective: 1400px;
 }
 
-/* A paper card: double gold frame, soft deckle light, deep drop shadow.
-   On hover (mouse only) it tilts toward the pointer and catches a glass glare. */
+/* A paper card in the envelope's style: a rose double hairline inside the
+   edge, a peony spray over the top-left corner and another at the bottom-right (sprites cut from the envelope, scripts/cut-letter-flowers.py).
+   On hover (mouse only) it tilts toward the pointer, catches a glass glare,
+   and the flowers lift off the paper. */
 .letter-card {
   --rx: 0deg;
   --ry: 0deg;
   position: relative;
-  padding: 58px 26px 40px;
+  margin-top: 18px;
+  padding: 74px 30px 118px;
   text-align: center;
-  background: radial-gradient(120% 70% at 50% 0%, #fff 0%, transparent 70%),
-    radial-gradient(
-      90% 60% at 100% 100%,
-      rgb(245 225 230 / 0.9),
-      transparent 70%
-    ),
-    var(--paper-2);
+  background: radial-gradient(90% 55% at 50% 0%, #fffaf8 0%, transparent 72%),
+    radial-gradient(70% 45% at 0% 100%, rgb(245 225 230 / 0.7), transparent 70%),
+    radial-gradient(70% 40% at 100% 30%, rgb(245 225 230 / 0.45), transparent 70%),
+    #f8efec;
   border-radius: var(--r-card);
-  border: 1px solid rgb(196 162 127 / 0.6);
-  box-shadow: inset 0 0 0 9px var(--paper-2),
-    inset 0 0 0 10px rgb(196 162 127 / 0.45), inset 0 0 0 13px var(--paper-2),
-    inset 0 0 0 13.6px rgb(196 162 127 / 0.25),
-    0 30px 60px -34px rgb(120 50 70 / 0.5),
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.9),
+    0 1px 0 rgb(196 162 127 / 0.25), 0 30px 60px -34px rgb(120 50 70 / 0.5),
     0 10px 24px -16px rgb(120 50 70 / 0.3);
   transform: rotateX(var(--rx)) rotateY(var(--ry));
   transform-style: preserve-3d;
   transition: transform 0.9s var(--ease);
 }
 
+/* Double hairline in the envelope's dusty rose. */
+.letter-card::before,
+.letter-card::after {
+  content: "";
+  position: absolute;
+  border-radius: 12px;
+  pointer-events: none;
+}
+
+.letter-card::before {
+  inset: 11px;
+  border: 1px solid rgb(196 110 134 / 0.55);
+}
+
+.letter-card::after {
+  inset: 16px;
+  border: 1px solid rgb(196 110 134 / 0.3);
+  border-radius: 8px;
+}
+
 .letter-card.is-tilting {
   transition: transform 0.2s ease-out;
 }
 
-/* Satin band across the top-left corner, clipped to the card's radius. */
-.letter-ribbon {
+/* ---- flowers */
+.letter-flora,
+.letter-petal {
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 132px;
-  height: 132px;
-  overflow: hidden;
-  border-top-left-radius: var(--r-card);
-  pointer-events: none;
-}
-
-.letter-ribbon::before {
-  content: "";
-  position: absolute;
-  left: -62px;
-  top: 37px;
-  width: 220px;
-  height: 22px;
-  transform: rotate(-45deg);
-  background: linear-gradient(
-    to bottom,
-    #9b4560 0%,
-    #d690a4 30%,
-    #bf6681 55%,
-    #8c3c55 100%
-  );
-  border-block: 1px dashed rgb(255 255 255 / 0.5);
-  box-shadow: 0 3px 8px -2px rgb(120 50 70 / 0.45);
-}
-
-.letter-bow {
-  position: absolute;
-  left: -4px;
-  top: 20px;
-  width: 104px;
-  transform-origin: 50% 37%;
-  transform: rotate(-45deg);
-  filter: drop-shadow(0 4px 5px rgb(120 50 70 / 0.35));
+  z-index: 2;
   pointer-events: none;
   transition: transform 0.9s var(--ease);
+}
+
+.letter-flora img,
+.letter-petal {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.letter-flora--tl {
+  left: -18px;
+  top: -30px;
+  width: min(50%, 250px);
+}
+
+.letter-flora--tl img {
+  transform-origin: 18% 22%;
+}
+
+.letter-flora--br {
+  right: -16px;
+  bottom: -26px;
+  width: min(46%, 230px);
+}
+
+.letter-flora--br img {
+  transform-origin: 82% 88%;
+}
+
+.letter-petal {
+  z-index: 1;
+}
+
+.letter-petal--a {
+  width: 24px;
+  right: 15%;
+  top: 30%;
+  rotate: 18deg;
+}
+
+.letter-petal--b {
+  width: 28px;
+  left: 9%;
+  bottom: 21%;
+  rotate: -14deg;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  /* Bloom in after the card has flipped up, then sway as if in a light draft. */
+  .js .letter-flora,
+  .js .letter-petal {
+    opacity: 0;
+    transition: opacity 1s ease, transform 0.9s var(--ease);
+  }
+
+  .js .letter-flora--tl {
+    transform: translate(-14px, -10px) scale(0.86);
+  }
+
+  .js .letter-flora--br {
+    transform: translate(14px, 12px) scale(0.86);
+  }
+
+  .js .letter-petal {
+    transform: translateY(-26px);
+  }
+
+  .js .letter-wrap.is-in .letter-flora,
+  .js .letter-wrap.is-in .letter-petal {
+    opacity: 1;
+    transform: none;
+    transition: opacity 1.2s ease 0.45s, transform 1.6s var(--ease) 0.45s;
+  }
+
+  .js .letter-wrap.is-in .letter-petal--a {
+    transition-delay: 1s;
+  }
+
+  .js .letter-wrap.is-in .letter-petal--b {
+    transition-delay: 1.3s;
+  }
+
+  .letter-wrap.is-in .letter-flora img {
+    animation: flora-sway 7s ease-in-out 2s infinite alternate;
+  }
+
+  .letter-wrap.is-in .letter-flora--br img {
+    animation-duration: 8.5s;
+    animation-direction: alternate-reverse;
+  }
+
+  .letter-wrap.is-in .letter-petal--a {
+    animation: petal-drift 6s ease-in-out 2.4s infinite alternate;
+  }
+
+  .letter-wrap.is-in .letter-petal--b {
+    animation: petal-drift 7.5s ease-in-out 2.8s infinite alternate-reverse;
+  }
+}
+
+@keyframes flora-sway {
+  from {
+    transform: rotate(-1.4deg);
+  }
+  to {
+    transform: rotate(1.6deg);
+  }
+}
+
+@keyframes petal-drift {
+  from {
+    transform: translate(0, 0) rotate(0deg);
+  }
+  to {
+    transform: translate(5px, 7px) rotate(14deg);
+  }
 }
 
 .letter-head {
@@ -1589,8 +1758,14 @@ html:not(.js) .pc-controls {
   transform: translateZ(26px);
 }
 
-.letter-card.is-tilting .letter-bow {
-  transform: translateZ(40px) rotate(-45deg);
+.letter-card.is-tilting .letter-flora {
+  transform: translateZ(44px);
+  transition: transform 0.4s ease-out;
+}
+
+.letter-card.is-tilting .letter-petal {
+  transform: translateZ(30px);
+  transition: transform 0.4s ease-out;
 }
 
 /* Typing: each character is a span, hidden until its turn (space is kept, so no reflow). */
@@ -3151,16 +3326,23 @@ html:not(.js) .pc-controls {
 }
 
 .credit-link {
+  position: relative;
   display: inline-flex;
   align-items: center;
   gap: 0.5em;
   color: inherit;
+  transition: translate 0.35s var(--ease);
 }
 
 .credit-heart {
   width: 11px;
   height: 11px;
+  margin-left: 0.15em;
   color: var(--accent);
+  transition:
+    scale 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
+    rotate 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
+    filter 0.35s var(--ease);
 }
 
 .credit-name {
@@ -3168,12 +3350,96 @@ html:not(.js) .pc-controls {
   font-weight: 500;
   background: linear-gradient(currentColor, currentColor) left bottom / 0 1px
     no-repeat;
-  transition: background-size 0.35s var(--ease);
+  transition:
+    background-size 0.35s var(--ease),
+    letter-spacing 0.35s var(--ease);
 }
 
 .credit-link:hover .credit-name,
 .credit-link:focus-visible .credit-name {
   background-size: 100% 1px;
+  letter-spacing: 0.17em;
+}
+
+.credit-link:hover .credit-heart,
+.credit-link:focus-visible .credit-heart {
+  scale: 1.45;
+  rotate: -12deg;
+  filter: drop-shadow(0 0 4px rgb(214 120 150 / 0.55));
+}
+
+/* Tooltip: a small rose pill above the link, with a caret. Text comes from
+   data-tooltip; the link's aria-label overrides it for screen readers. */
+.credit-link::before,
+.credit-link::after {
+  position: absolute;
+  left: 50%;
+  bottom: 100%;
+  pointer-events: none;
+  opacity: 0;
+  translate: -50% 6px;
+  transition:
+    opacity 0.25s var(--ease),
+    translate 0.35s var(--ease);
+}
+
+.credit-link::after {
+  content: attr(data-tooltip);
+  margin-bottom: 10px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  white-space: nowrap;
+  font: 500 0.72rem/1.2 var(--font-body);
+  letter-spacing: 0.04em;
+  text-transform: none;
+  color: #fff;
+  background: var(--accent-ink);
+  box-shadow: 0 6px 18px -6px rgb(140 60 85 / 0.55);
+}
+
+.credit-link::before {
+  content: "";
+  margin-bottom: 5px;
+  width: 10px;
+  height: 10px;
+  margin-left: -5px;
+  translate: 0 6px;
+  rotate: 45deg;
+  border-radius: 2px;
+  background: var(--accent-ink);
+}
+
+@media (hover: hover) {
+  .credit-link:hover {
+    translate: 0 -1px;
+  }
+}
+
+.credit-link:hover::after,
+.credit-link:focus-visible::after {
+  opacity: 1;
+  translate: -50% 0;
+}
+
+.credit-link:hover::before,
+.credit-link:focus-visible::before {
+  opacity: 1;
+  translate: 0 0;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .credit-link:hover .credit-heart.is-live,
+  .credit-link:focus-visible .credit-heart.is-live {
+    animation-duration: 0.8s;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .credit-link::before,
+  .credit-link::after,
+  .credit-heart {
+    transition: opacity 0.2s linear;
+  }
 }
 
 .credit-link:focus-visible {
@@ -5675,12 +5941,21 @@ dialog {
   padding-bottom: 44px;
 }
 
+/* Arched like a chapel window: an elliptical top (half the width across,
+   150px down) over the usual card corners. The inset shadows trace the arch
+   as a double gold frame. Overflow stays visible so the bow's loops can sit
+   on the apex; the glint clips itself. */
+.greet {
+  --greet-arch: 50% 50% var(--r-card) var(--r-card) / 150px 150px
+    var(--r-card) var(--r-card);
+}
+
 .greet-card {
   position: relative;
-  overflow: hidden;
-  padding: 42px 22px 36px;
+  margin-top: 18px;
+  padding: 82px 22px 36px;
   text-align: center;
-  border-radius: var(--r-card);
+  border-radius: var(--greet-arch);
   background: radial-gradient(
       120% 70% at 50% 0%,
       rgb(255 255 255 / 0.95),
@@ -5701,8 +5976,18 @@ dialog {
     0 10px 24px -16px rgb(120 50 70 / 0.3);
 }
 
-/* glass glint that sweeps once across the card each time it comes into view */
+/* glass glint that sweeps once across the card each time it comes into view
+   (the span clips to the arch, the band is its ::before) */
 .greet-glint {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  border-radius: inherit;
+  pointer-events: none;
+}
+
+.greet-glint::before {
+  content: "";
   position: absolute;
   inset: -20% -60%;
   background: linear-gradient(
@@ -5712,13 +5997,131 @@ dialog {
     transparent 58%
   );
   transform: translateX(-75%);
+}
+
+/* Satin bow on the arch apex (same art and gradients as the month bow, with
+   tails draped down the arch's shoulders). Ties in after the card reveals,
+   then the loops breathe and the tails flutter while on screen. */
+.greet-bow {
+  position: absolute;
+  left: calc(50% - 62px);
+  top: -24px;
+  width: 124px;
+  overflow: visible;
+  transform-origin: 50% 37%;
+  filter: drop-shadow(0 3px 4px rgb(120 50 70 / 0.28));
   pointer-events: none;
 }
 
+.greet-bow .bow-loop,
+.greet-bow .bow-tail {
+  transform-box: view-box;
+}
+.greet-bow .bow-loop--l,
+.greet-bow .bow-loop--r { transform-origin: 60px 34px; }
+.greet-bow .bow-tail--l { transform-origin: 57px 38px; }
+.greet-bow .bow-tail--r { transform-origin: 63px 38px; }
+
+/* the guest's name, with three gold sparkles that twinkle around it */
+.greet-who {
+  position: relative;
+  display: inline-block;
+  max-width: 100%;
+}
+
+.greet-spark {
+  position: absolute;
+  width: 16px;
+  fill: #d4ad74;
+  filter: drop-shadow(0 0 3px rgb(255 240 210 / 0.9));
+  pointer-events: none;
+}
+.greet-spark--a { left: -14px; top: 22%; }
+.greet-spark--b { right: -12px; top: 6%; width: 12px; fill: var(--accent); }
+.greet-spark--c { right: 4px; bottom: 8%; width: 9px; }
+
 @media (prefers-reduced-motion: no-preference) {
-  .greet-card.is-in .greet-glint {
-    animation: glint 1.8s cubic-bezier(0.3, 0.1, 0.2, 1) 0.5s both;
+  .greet-card.is-in .greet-glint::before {
+    animation: glint 1.8s cubic-bezier(0.3, 0.1, 0.2, 1) 1.1s both;
   }
+
+  .js .greet-bow {
+    opacity: 0;
+    transform: translateY(-14px) rotate(-14deg) scale(0.3);
+    transition: opacity 0.35s ease, transform 0.9s cubic-bezier(0.34, 1.56, 0.64, 1);
+    transition-delay: 0.3s;
+  }
+  .js .greet-card.is-in .greet-bow {
+    opacity: 1;
+    transform: none;
+  }
+  .greet-card.is-in .greet-bow .bow-loop--l {
+    animation: bow-loop-l 3.6s ease-in-out 1.2s infinite;
+  }
+  .greet-card.is-in .greet-bow .bow-loop--r {
+    animation: bow-loop-r 3.6s ease-in-out 1.2s infinite;
+  }
+  .greet-card.is-in .greet-bow .bow-tail--l {
+    animation: bow-tail-l 2.8s ease-in-out 1.2s infinite;
+  }
+  .greet-card.is-in .greet-bow .bow-tail--r {
+    animation: bow-tail-r 2.8s ease-in-out 1.6s infinite;
+  }
+
+  /* Staged entrance: each line rises in after the bow is tied; the name
+     springs up a little larger, the date hairlines draw outward. */
+  .js .greet-card > :is(.greet-title, .greet-who, .orn, p) {
+    opacity: 0;
+    transform: translateY(14px);
+    transition: opacity 0.6s ease, transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+    transition-delay: calc(0.45s + var(--i, 0) * 0.13s);
+  }
+  .js .greet-card > .greet-who {
+    transform: translateY(10px) scale(0.84);
+    transition-timing-function: ease, cubic-bezier(0.34, 1.56, 0.64, 1);
+    transition-duration: 0.6s, 1s;
+  }
+  .greet-title { --i: 0; }
+  .greet-who { --i: 1; }
+  .greet .orn { --i: 2; }
+  .greet-text { --i: 3; }
+  .greet-couple { --i: 4; }
+  .greet-date { --i: 5; }
+  .greet-note { --i: 6; }
+
+  .js .greet-card.is-in > :is(.greet-title, .greet-who, .orn, p) {
+    opacity: 1;
+    transform: none;
+  }
+  .js .greet-card:not(.is-in) > * {
+    transition-duration: 0.2s;
+    transition-delay: 0s;
+  }
+
+  .js .greet-date::before,
+  .js .greet-date::after {
+    transform: scaleX(0);
+    transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1) 1.3s;
+  }
+  .greet-date::before { transform-origin: 100% 50%; }
+  .greet-date::after { transform-origin: 0 50%; }
+  .js .greet-card.is-in .greet-date::before,
+  .js .greet-card.is-in .greet-date::after {
+    transform: none;
+  }
+
+  .greet-card.is-in .greet-spark {
+    animation: greet-twinkle 2.6s ease-in-out 1.2s infinite both;
+  }
+  .greet-card.is-in .greet-spark--b { animation-delay: 1.9s; animation-duration: 2.2s; }
+  .greet-card.is-in .greet-spark--c { animation-delay: 2.4s; animation-duration: 3s; }
+}
+
+@keyframes greet-twinkle {
+  0%, 100% { opacity: 0; transform: scale(0.2) rotate(0deg); }
+  30% { opacity: 1; transform: scale(1.15) rotate(45deg); }
+  55% { opacity: 0.85; transform: scale(0.9) rotate(90deg); }
+  80% { opacity: 0; transform: scale(0.3) rotate(135deg); }
 }
 
 @keyframes glint {
@@ -6217,4 +6620,248 @@ dialog {
   7% { transform: scale(1.22); opacity: 0.75; }
   13% { transform: scale(0.93); opacity: 1; }
   19% { transform: scale(1.04); }
+}
+
+/* Camera (album heading): a blush-rose camera with a champagne lens ring.
+   Every 5.2s the shutter button dips, the body recoils, the iris snaps
+   shut, the flash fires (warm glow, rays, gold bling stars) and a glint
+   crosses the lens. Then two hearts pop up from behind the camera, bounce,
+   lean together and beat twice before floating away. Static (reduced
+   motion) shows the hearts already leaning together, no flash. */
+.orn-camera {
+  height: 3.3em;
+}
+.cm-body {
+  fill: url(#cm-body);
+  stroke: #8c3c55;
+  stroke-width: 0.5;
+}
+.cm-grip {
+  fill: #8c3c55;
+  opacity: 0.32;
+}
+.cm-prism {
+  fill: url(#cm-top);
+  stroke: #c4a27f;
+  stroke-width: 0.5;
+  stroke-linejoin: round;
+}
+.cm-btn,
+.cm-ring {
+  fill: url(#cm-ring);
+}
+.cm-btn {
+  stroke: #8f7458;
+  stroke-width: 0.4;
+}
+.cm-flash-win {
+  fill: #fbf3ef;
+  stroke: #c4a27f;
+  stroke-width: 0.4;
+}
+.cm-flash-lit {
+  fill: #fff;
+  opacity: 0;
+}
+.cm-badge {
+  fill: #fff;
+  opacity: 0.9;
+}
+.cm-barrel {
+  fill: #3b2a2f;
+}
+.cm-glass {
+  fill: url(#cm-glass);
+}
+.cm-iris {
+  fill: #120a14;
+  stroke: #6f5576;
+  stroke-width: 0.4;
+}
+.cm-hl {
+  fill: #fff;
+  opacity: 0.85;
+}
+.cm-glint {
+  fill: #fff;
+  opacity: 0;
+}
+.cm-burst,
+.cm-rays,
+.cm-spark {
+  opacity: 0;
+}
+.cm-rays {
+  fill: none;
+  stroke: #e3bf83;
+  stroke-width: 0.9;
+  stroke-linecap: round;
+}
+.cm-spark {
+  fill: url(#cm-star);
+  stroke: #c08f45;
+  stroke-width: 0.45;
+}
+.cm-heart-body {
+  stroke: #fff;
+  stroke-width: 0.6;
+  stroke-linejoin: round;
+}
+.cm-heart-shine {
+  fill: none;
+  stroke: #fff;
+  stroke-width: 0.7;
+  stroke-linecap: round;
+  opacity: 0.85;
+}
+.cm-heart--l {
+  --s: 1;
+}
+.cm-heart--r {
+  --s: -1;
+}
+/* Parts with a parent translate keep their local origin (0 0) as pivot. */
+.cm-heart,
+.cm-burst,
+.cm-rays,
+.cm-spark,
+.cm-glint {
+  transform-box: view-box;
+  transform-origin: 0 0;
+}
+.cm-heart {
+  transform: rotate(calc(var(--s) * 14deg));
+}
+.cm-cam,
+.cm-iris {
+  transform-box: view-box;
+  transform-origin: 24px 31px;
+}
+.cm-btn {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .is-live[data-motion="snap"]
+    :is(.cm-cam, .cm-btn, .cm-iris, .cm-flash-lit, .cm-burst, .cm-rays, .cm-glint, .cm-spark, .cm-heart) {
+    animation: 5.2s ease-out infinite both;
+  }
+  .is-live[data-motion="snap"] .cm-cam {
+    animation-name: cm-recoil;
+  }
+  .is-live[data-motion="snap"] .cm-btn {
+    animation-name: cm-press;
+  }
+  .is-live[data-motion="snap"] .cm-iris {
+    animation-name: cm-iris;
+  }
+  .is-live[data-motion="snap"] .cm-flash-lit {
+    animation-name: cm-lit;
+  }
+  .is-live[data-motion="snap"] .cm-burst {
+    animation-name: cm-burst;
+  }
+  .is-live[data-motion="snap"] .cm-rays {
+    animation-name: cm-rays;
+  }
+  .is-live[data-motion="snap"] .cm-glint {
+    animation-name: cm-glint;
+    animation-timing-function: ease-in-out;
+  }
+  .is-live[data-motion="snap"] .cm-spark {
+    animation-name: cm-spark;
+    animation-delay: var(--sd, 0s);
+  }
+  .is-live[data-motion="snap"] .cm-heart {
+    animation-name: cm-hearts;
+    animation-timing-function: ease-in-out;
+  }
+  .is-live[data-motion="snap"] .cm-heart--r {
+    animation-delay: 0.12s;
+  }
+}
+
+@keyframes cm-press {
+  0%, 8%, 16%, 100% { transform: none; }
+  12% { transform: translateY(1.2px) scaleY(0.7); }
+}
+@keyframes cm-recoil {
+  0%, 11%, 23%, 100% { transform: none; }
+  13% { transform: translateY(0.5px) scale(0.97); }
+  17% { transform: scale(1.03); }
+  20% { transform: scale(0.995); }
+}
+@keyframes cm-iris {
+  0%, 12%, 23%, 100% { transform: none; }
+  14% { transform: scale(0.4); }
+}
+@keyframes cm-lit {
+  0%, 13%, 27%, 100% { opacity: 0; }
+  14% { opacity: 1; }
+  19% { opacity: 0.7; }
+}
+@keyframes cm-burst {
+  0%, 13% { opacity: 0; transform: scale(0.2); }
+  15% { opacity: 1; transform: scale(1); }
+  29%, 100% { opacity: 0; transform: scale(1.7); }
+}
+@keyframes cm-rays {
+  0%, 13% { opacity: 0; transform: scale(0.5) rotate(0deg); }
+  16% { opacity: 1; transform: scale(1) rotate(6deg); }
+  27%, 100% { opacity: 0; transform: scale(1.4) rotate(16deg); }
+}
+@keyframes cm-glint {
+  0%, 16% { opacity: 0; transform: translateX(-4px); }
+  18% { opacity: 0.9; }
+  28% { opacity: 0.9; transform: translateX(13px); }
+  30%, 100% { opacity: 0; transform: translateX(13px); }
+}
+@keyframes cm-spark {
+  0%, 14% { opacity: 0; transform: scale(0) rotate(0deg); }
+  20% { opacity: 1; transform: scale(1.2) rotate(45deg); }
+  27% { opacity: 0.9; transform: scale(0.8) rotate(70deg); }
+  35%, 100% { opacity: 0; transform: scale(0) rotate(90deg); }
+}
+/* --s mirrors the pair: the left heart drifts right and leans right, and
+   the right one the opposite way, so they meet in the middle. */
+@keyframes cm-hearts {
+  0%, 18% {
+    opacity: 0;
+    transform: translate(calc(var(--s) * -1.6px), 14px) scale(0.3);
+  }
+  21% { opacity: 1; }
+  28% {
+    transform: translate(calc(var(--s) * -1.6px), -3.2px) scale(1.12)
+      rotate(calc(var(--s) * -6deg));
+  }
+  33% {
+    transform: translate(calc(var(--s) * -1.5px), 0.6px) scale(1.1, 0.84)
+      rotate(calc(var(--s) * -6deg));
+  }
+  38% {
+    transform: translate(calc(var(--s) * -1px), -2.4px) scale(0.95, 1.07);
+  }
+  43% {
+    transform: translate(calc(var(--s) * -0.4px), 0.3px) scale(1.05, 0.93)
+      rotate(calc(var(--s) * 7deg));
+  }
+  48% {
+    transform: translateY(-0.7px) rotate(calc(var(--s) * 14deg));
+  }
+  52%, 60%, 68% {
+    opacity: 1;
+    transform: rotate(calc(var(--s) * 14deg));
+  }
+  56%, 64% {
+    transform: scale(1.12) rotate(calc(var(--s) * 14deg));
+  }
+  82% {
+    opacity: 1;
+    transform: translateY(-1px) rotate(calc(var(--s) * 14deg));
+  }
+  92%, 100% {
+    opacity: 0;
+    transform: translateY(-6px) scale(0.7) rotate(calc(var(--s) * 14deg));
+  }
 }

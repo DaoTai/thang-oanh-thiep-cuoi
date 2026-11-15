@@ -1,4 +1,5 @@
-/* Hearts and musical notes while the music plays. Two emitters:
+/* Hearts, musical notes, balloons, gift boxes and bunches of flowers while the
+   music plays. Two emitters:
    - the music button: a burst when music starts, then a trickle rising from it;
    - wide screens: a steady flow drifting up the two side gutters beside the
      sheet, never over the content column.
@@ -31,10 +32,24 @@ const DEFS = `
       <stop offset="0" stop-color="#c9667f"/>
       <stop offset="1" stop-color="#7f2f48"/>
     </linearGradient>
-    <linearGradient id="fx-note-gold" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#ecd3a8"/>
-      <stop offset=".5" stop-color="#c4a27f"/>
-      <stop offset="1" stop-color="#8f6d4a"/>
+    <linearGradient id="fx-accent" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#d77d98"/>
+      <stop offset=".5" stop-color="#a64d68"/>
+      <stop offset="1" stop-color="#6e2a40"/>
+    </linearGradient>
+    <linearGradient id="fx-box-rose" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#eaa0b4"/>
+      <stop offset="1" stop-color="#a94a68"/>
+    </linearGradient>
+    <radialGradient id="fx-petal-white" cx="40%" cy="35%" r="75%">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset=".55" stop-color="#fdf0f3"/>
+      <stop offset="1" stop-color="#e9c1ce"/>
+    </radialGradient>
+    <linearGradient id="fx-wrap" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset=".6" stop-color="#fbeef2"/>
+      <stop offset="1" stop-color="#e8bfcc"/>
     </linearGradient>
   </defs>
 </svg>`;
@@ -53,21 +68,66 @@ const NOTES = (fill) => `
   <ellipse cx="5.2" cy="17.9" rx="1.2" ry=".6" fill="#fff" opacity=".45" transform="rotate(-25 5.2 17.9)"/>
   <ellipse cx="15.6" cy="15.1" rx="1.2" ry=".6" fill="#fff" opacity=".45" transform="rotate(-25 15.6 15.1)"/>`;
 
-// Weighted pool: roughly three hearts for every note.
-const KINDS = [
-  () => HEART("fx-heart-rose"),
-  () => HEART("fx-heart-rose"),
-  () => HEART("fx-heart-rose"),
-  () => HEART("fx-heart-blush"),
-  () => HEART("fx-heart-blush"),
-  () => HEART("fx-heart-deep"),
-  () => HEART("fx-heart-deep"),
-  () => HEART("fx-heart-blush"),
-  () => HEART("fx-heart-rose"),
-  () => NOTE("fx-note-rose"),
-  () => NOTE("fx-note-gold"),
-  () => NOTES("fx-note-gold"),
+// Balloon on a curly string. The body reuses the heart gradients.
+const BALLOON = (fill) => `
+  <path fill="none" stroke="#b98d99" stroke-width=".55" stroke-linecap="round" d="M12 18.1c-.9 1.2.9 2.1 0 3.4-.4.6-.2 1.2.2 1.8"/>
+  <path fill="url(#${fill})" d="M11.1 17.1h1.8l.6 1.2h-3Z"/>
+  <path fill="url(#${fill})" d="M12 1.4c-3.9 0-6.6 3.1-6.6 6.9 0 4.3 3.2 8 6.6 8.9 3.4-.9 6.6-4.6 6.6-8.9 0-3.8-2.7-6.9-6.6-6.9Z"/>
+  <ellipse cx="9" cy="5.9" rx="1.3" ry="2.2" fill="#fff" opacity=".55" transform="rotate(28 9 5.9)"/>
+  <circle cx="10.4" cy="3.9" r=".5" fill="#fff" opacity=".8"/>`;
+
+// Gift box with a ribbon and bow.
+const GIFT = (box, ribbon) => `
+  <path fill="url(#${ribbon})" d="M12 8.4C10.6 4.9 6.4 3.7 5.7 6c-.6 2 2.8 2.6 6.3 2.4Zm0 0c1.4-3.5 5.6-4.7 6.3-2.4.6 2-2.8 2.6-6.3 2.4Z"/>
+  <rect x="4.2" y="11.6" width="15.6" height="9.8" rx=".9" fill="url(#${box})"/>
+  <rect x="3" y="8" width="18" height="4.2" rx=".9" fill="url(#${box})"/>
+  <rect x="4.2" y="12.2" width="15.6" height=".9" fill="#5a2032" opacity=".14"/>
+  <rect x="10.8" y="8" width="2.4" height="13.4" fill="url(#${ribbon})"/>
+  <circle cx="12" cy="8.3" r="1.2" fill="url(#${ribbon})"/>
+  <rect x="4.6" y="8.7" width="4.4" height="1" rx=".5" fill="#fff" opacity=".45"/>`;
+
+// Bunch of flowers: five-petal blooms in rose and white over a white paper
+// cone tied with a rose bow. Petals get a thin rose edge to read on the paper.
+const BLOOM = (cx, cy, r, fill, heart) => {
+  let out = "";
+  for (let i = 0; i < 5; i++) {
+    const a = (i * 72 - 90) * (Math.PI / 180);
+    const x = (cx + Math.cos(a) * r * 0.5).toFixed(2);
+    const y = (cy + Math.sin(a) * r * 0.5).toFixed(2);
+    out += `<circle cx="${x}" cy="${y}" r="${(r * 0.52).toFixed(2)}" fill="url(#${fill})" stroke="#d08aa0" stroke-width=".3"/>`;
+  }
+  return `${out}<circle cx="${cx}" cy="${cy}" r="${(r * 0.3).toFixed(2)}" fill="url(#${heart})"/>
+  <circle cx="${(cx - r * 0.35).toFixed(2)}" cy="${(cy - r * 0.45).toFixed(2)}" r="${(r * 0.14).toFixed(2)}" fill="#fff" opacity=".7"/>`;
+};
+const BOUQUET_SVG = `
+  ${BLOOM(6.8, 8.6, 3, "fx-petal-white", "fx-heart-rose")}
+  ${BLOOM(17.2, 8.6, 3, "fx-heart-blush", "fx-accent")}
+  ${BLOOM(9.4, 4.6, 2.6, "fx-heart-blush", "fx-accent")}
+  ${BLOOM(14.8, 4.8, 2.6, "fx-petal-white", "fx-heart-rose")}
+  ${BLOOM(12, 7.4, 3.4, "fx-heart-rose", "fx-petal-white")}
+  <path fill="url(#fx-wrap)" stroke="#d08aa0" stroke-width=".35" stroke-linejoin="round" d="M4.2 10.4 12 22.8l7.8-12.4c-2.3 1.2-4.9 1.8-7.8 1.8s-5.5-.6-7.8-1.8Z"/>
+  <path fill="none" stroke="#e2adbd" stroke-width=".35" stroke-linecap="round" d="M8.3 12.1 12 22.4l3.7-10.3"/>
+  <path fill="url(#fx-box-rose)" d="M12 16.6c-1.6-1.9-4-2.2-4.1-.8-.1 1.2 2 1.4 4.1.8Zm0 0c1.6-1.9 4-2.2 4.1-.8.1 1.2-2 1.4-4.1.8Zm-.3.2-1.3 3.1.9-.1.7.8Zm.6 0 1.3 3.1-.9-.1-.7.8Z"/>
+  <circle cx="12" cy="16.6" r=".8" fill="url(#fx-box-rose)"/>`;
+const BOUQUET = () => BOUQUET_SVG;
+
+// Weighted pool [weight, draw, size factor]: hearts lead, the rest sprinkle in.
+// Detailed shapes (bouquets, gifts) come out a little larger to stay readable.
+const POOL = [
+  [3, () => HEART("fx-heart-rose"), 1],
+  [3, () => HEART("fx-heart-blush"), 1],
+  [2, () => HEART("fx-heart-deep"), 1],
+  [1, () => NOTE("fx-note-rose"), 1],
+  [1, () => NOTE("fx-accent"), 1],
+  [1, () => NOTES("fx-accent"), 1],
+  [1, () => BALLOON("fx-heart-rose"), 1.15],
+  [1, () => BALLOON("fx-heart-blush"), 1.15],
+  [1, () => BALLOON("fx-accent"), 1.15],
+  [1, () => GIFT("fx-box-rose", "fx-accent"), 1.15],
+  [1, () => GIFT("fx-heart-blush", "fx-box-rose"), 1.15],
+  [2, BOUQUET, 1.4],
 ];
+const KINDS = POOL.flatMap(([w, draw, k]) => Array.from({ length: w }, () => [draw, k]));
 
 const rand = (a, b) => a + Math.random() * (b - a);
 const pick = (list) => list[(Math.random() * list.length) | 0];
@@ -76,9 +136,11 @@ const sign = () => (Math.random() < 0.5 ? -1 : 1);
 /* One shaded particle in `layer`. `near` (0..1) is depth: far ones are smaller,
    dimmer, softly blurred and slower. Removed when its animation ends. */
 function particle(layer, size, near, frames, timing, onEnd) {
+  const [draw, k] = pick(KINDS);
+  size *= k;
   const svg = document.createElementNS(NS, "svg");
   svg.setAttribute("viewBox", "0 0 24 24");
-  svg.innerHTML = pick(KINDS)();
+  svg.innerHTML = draw();
   svg.style.width = svg.style.height = `${size}px`;
   svg.style.margin = `${-size / 2}px 0 0 ${-size / 2}px`;
   if (near < 0.25) svg.style.filter = "blur(0.7px) drop-shadow(0 1px 2px rgb(120 50 70 / 0.2))";

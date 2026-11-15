@@ -138,7 +138,7 @@
     <link rel="modulepreload" href="js/nav.js" />
 
     <link rel="stylesheet" href="css/fonts.css" />
-    <link rel="stylesheet" href="css/styles.css?v=12" />
+    <link rel="stylesheet" href="css/styles.css?v=18" />
     <script>
       document.documentElement.classList.add("js");
       // Personal link (?to=Bạn Tài): show the sealed
@@ -387,8 +387,52 @@
       >
         <div class="greet-card" data-reveal="zoom">
           <span class="greet-glint" aria-hidden="true"></span>
+          <!-- Satin bow tied at the arch apex; gradients #bow-satin / #bow-tail
+               are defined in the month bow (#lich). css: "Kính mời". -->
+          <svg
+            class="greet-bow"
+            viewBox="0 0 120 92"
+            aria-hidden="true"
+            focusable="false"
+          >
+            <g class="bow-tail bow-tail--l">
+              <path
+                fill="url(#bow-tail)"
+                d="M56 38C49 51 37 63 22 76l7.6.2.4 9.8C44 72 53 57 61 41z"
+              />
+            </g>
+            <g class="bow-tail bow-tail--r">
+              <path
+                fill="url(#bow-tail)"
+                d="M64 38c7 13 19 25 34 38l-7.6.2-.4 9.8C76 72 67 57 59 41z"
+              />
+            </g>
+            <g class="bow-loop bow-loop--l">
+              <path fill="url(#bow-satin)" d="M60 34C46 14 16 4 9 20c-6 15 22 27 51 14z" />
+              <path fill="#8c3c55" opacity="0.45" d="M60 34C47 24 26 18 19 25c9 5 25 10 41 9z" />
+              <path fill="#fff" opacity="0.35" d="M14 18c8-8 26-4 38 8-12-6-26-10-38-8z" />
+            </g>
+            <g class="bow-loop bow-loop--r">
+              <path fill="url(#bow-satin)" d="M60 34C74 14 104 4 111 20c6 15-22 27-51 14z" />
+              <path fill="#8c3c55" opacity="0.45" d="M60 34C73 24 94 18 101 25c-9 5-25 10-41 9z" />
+              <path fill="#fff" opacity="0.35" d="M106 18c-8-8-26-4-38 8 12-6 26-10 38-8z" />
+            </g>
+            <rect x="52.5" y="25" width="15" height="18" rx="6.5" fill="#9b4560" />
+            <rect x="55" y="27" width="5" height="13" rx="2.5" fill="#fff" opacity="0.28" />
+          </svg>
           <h2 id="greet-title" class="greet-title">Trân trọng kính mời</h2>
-          <p class="greet-name" data-guest></p>
+          <div class="greet-who">
+            <p class="greet-name" data-guest></p>
+            <svg class="greet-spark greet-spark--a" viewBox="0 0 20 20" aria-hidden="true">
+              <path d="M10 0c.8 5.6 3.6 8.6 10 10-6.4 1.4-9.2 4.4-10 10-.8-5.6-3.6-8.6-10-10C6.4 8.6 9.2 5.6 10 0z" />
+            </svg>
+            <svg class="greet-spark greet-spark--b" viewBox="0 0 20 20" aria-hidden="true">
+              <path d="M10 0c.8 5.6 3.6 8.6 10 10-6.4 1.4-9.2 4.4-10 10-.8-5.6-3.6-8.6-10-10C6.4 8.6 9.2 5.6 10 0z" />
+            </svg>
+            <svg class="greet-spark greet-spark--c" viewBox="0 0 20 20" aria-hidden="true">
+              <path d="M10 0c.8 5.6 3.6 8.6 10 10-6.4 1.4-9.2 4.4-10 10-.8-5.6-3.6-8.6-10-10C6.4 8.6 9.2 5.6 10 0z" />
+            </svg>
+          </div>
           <div class="orn" aria-hidden="true">
             <span class="hy-glyph hy-glyph--sm" data-motion="stamp">囍</span>
           </div>
@@ -411,85 +455,108 @@
           <h2 id="album-title" class="title">Album Hình Cưới</h2>
           <span class="orn" aria-hidden="true"
             ><svg
-              class="orn-art orn-flower"
-              viewBox="0 0 32 32"
-              data-motion="bloom"
+              class="orn-art orn-camera"
+              viewBox="0 0 48 46"
+              data-motion="snap"
             >
-              <g class="fl-outer">
-                <ellipse
-                  cx="16"
-                  cy="8.6"
-                  rx="4.4"
-                  ry="6.6"
-                  transform="rotate(0 16 16)"
-                />
-                <ellipse
-                  cx="16"
-                  cy="8.6"
-                  rx="4.4"
-                  ry="6.6"
-                  transform="rotate(72 16 16)"
-                />
-                <ellipse
-                  cx="16"
-                  cy="8.6"
-                  rx="4.4"
-                  ry="6.6"
-                  transform="rotate(144 16 16)"
-                />
-                <ellipse
-                  cx="16"
-                  cy="8.6"
-                  rx="4.4"
-                  ry="6.6"
-                  transform="rotate(216 16 16)"
-                />
-                <ellipse
-                  cx="16"
-                  cy="8.6"
-                  rx="4.4"
-                  ry="6.6"
-                  transform="rotate(288 16 16)"
-                />
+              <defs>
+                <linearGradient id="cm-body" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0" stop-color="#d9879d" />
+                  <stop offset="1" stop-color="#a64d68" />
+                </linearGradient>
+                <linearGradient id="cm-top" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0" stop-color="#fbf3ef" />
+                  <stop offset="1" stop-color="#e6d3c6" />
+                </linearGradient>
+                <radialGradient id="cm-glass" cx="0.38" cy="0.34" r="0.75">
+                  <stop offset="0" stop-color="#8f6d9a" />
+                  <stop offset="0.45" stop-color="#3e2a44" />
+                  <stop offset="1" stop-color="#1c1220" />
+                </radialGradient>
+                <linearGradient id="cm-ring" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0" stop-color="#f1e2cc" />
+                  <stop offset="0.5" stop-color="#c4a27f" />
+                  <stop offset="1" stop-color="#8f7458" />
+                </linearGradient>
+                <radialGradient id="cm-flash">
+                  <stop offset="0" stop-color="#fff" />
+                  <stop offset="0.35" stop-color="#fff6dc" stop-opacity="0.95" />
+                  <stop offset="0.7" stop-color="#f3d79c" stop-opacity="0.45" />
+                  <stop offset="1" stop-color="#f3d79c" stop-opacity="0" />
+                </radialGradient>
+                <radialGradient id="cm-star">
+                  <stop offset="0" stop-color="#fff" />
+                  <stop offset="0.6" stop-color="#fbe7b5" />
+                  <stop offset="1" stop-color="#d9b06f" />
+                </radialGradient>
+                <linearGradient id="cm-heart-a" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0" stop-color="#e57a95" />
+                  <stop offset="1" stop-color="#a64d68" />
+                </linearGradient>
+                <linearGradient id="cm-heart-b" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0" stop-color="#ffc9d4" />
+                  <stop offset="1" stop-color="#e38aa0" />
+                </linearGradient>
+                <clipPath id="cm-glass-clip">
+                  <circle cx="24" cy="31" r="5.4" />
+                </clipPath>
+              </defs>
+
+              <!-- Couple hearts: drawn first so they rise from behind the camera. -->
+              <g transform="translate(20.7 10.5)">
+                <g class="cm-heart cm-heart--l">
+                  <path
+                    class="cm-heart-body"
+                    fill="url(#cm-heart-a)"
+                    d="M0 3.4C-2.7 1.3-4.4-.4-4.4-2.2-4.4-3.6-3.3-4.5-2.1-4.5c.9 0 1.7.5 2.1 1.3.4-.8 1.2-1.3 2.1-1.3 1.2 0 2.3.9 2.3 2.3C4.4-.4 2.7 1.3 0 3.4z"
+                  />
+                  <path class="cm-heart-shine" d="M-2.9-2.4c.1-.7.6-1.1 1.2-1.1" />
+                </g>
               </g>
-              <g class="fl-inner">
-                <ellipse
-                  cx="16"
-                  cy="11"
-                  rx="2.6"
-                  ry="4.2"
-                  transform="rotate(36 16 16)"
-                />
-                <ellipse
-                  cx="16"
-                  cy="11"
-                  rx="2.6"
-                  ry="4.2"
-                  transform="rotate(108 16 16)"
-                />
-                <ellipse
-                  cx="16"
-                  cy="11"
-                  rx="2.6"
-                  ry="4.2"
-                  transform="rotate(180 16 16)"
-                />
-                <ellipse
-                  cx="16"
-                  cy="11"
-                  rx="2.6"
-                  ry="4.2"
-                  transform="rotate(252 16 16)"
-                />
-                <ellipse
-                  cx="16"
-                  cy="11"
-                  rx="2.6"
-                  ry="4.2"
-                  transform="rotate(324 16 16)"
-                />
+              <g transform="translate(27.3 10.5)">
+                <g class="cm-heart cm-heart--r">
+                  <path
+                    class="cm-heart-body"
+                    fill="url(#cm-heart-b)"
+                    d="M0 3.4C-2.7 1.3-4.4-.4-4.4-2.2-4.4-3.6-3.3-4.5-2.1-4.5c.9 0 1.7.5 2.1 1.3.4-.8 1.2-1.3 2.1-1.3 1.2 0 2.3.9 2.3 2.3C4.4-.4 2.7 1.3 0 3.4z"
+                  />
+                  <path class="cm-heart-shine" d="M-2.9-2.4c.1-.7.6-1.1 1.2-1.1" />
+                </g>
               </g>
-              <circle class="fl-core" cx="16" cy="16" r="2.8" /></svg
+
+              <g class="cm-cam">
+                <rect class="cm-btn" x="33.6" y="17.4" width="5.4" height="3.4" rx="0.9" />
+                <path class="cm-prism" d="M16.6 20.6l2.6-4.6h9.6l2.6 4.6z" />
+                <rect class="cm-body" x="5" y="20" width="38" height="22" rx="5" />
+                <rect class="cm-grip" x="5" y="25.6" width="38" height="11.4" />
+                <rect class="cm-flash-win" x="8" y="21.8" width="6.4" height="2.8" rx="0.8" />
+                <rect class="cm-flash-lit" x="8" y="21.8" width="6.4" height="2.8" rx="0.8" />
+                <path
+                  class="cm-badge"
+                  d="M38.6 24.6c-1-.8-1.7-1.4-1.7-2.1 0-.5.4-.9.9-.9.4 0 .6.2.8.5.2-.3.4-.5.8-.5.5 0 .9.4.9.9 0 .7-.7 1.3-1.7 2.1z"
+                />
+                <circle class="cm-ring" cx="24" cy="31" r="8.4" />
+                <circle class="cm-barrel" cx="24" cy="31" r="6.8" />
+                <circle class="cm-glass" cx="24" cy="31" r="5.4" />
+                <circle class="cm-iris" cx="24" cy="31" r="2.5" />
+                <ellipse class="cm-hl" cx="22" cy="28.9" rx="1.5" ry="0.9" transform="rotate(-35 22 28.9)" />
+                <g clip-path="url(#cm-glass-clip)">
+                  <g transform="rotate(25 24 31)"><rect class="cm-glint" x="15" y="22" width="2.4" height="18" /></g>
+                </g>
+              </g>
+
+              <!-- Shutter flash: glow, rays and bling stars. -->
+              <g class="cm-burst-at" transform="translate(11.2 23.2)">
+                <circle class="cm-burst" r="11" fill="url(#cm-flash)" />
+                <g class="cm-rays">
+                  <path d="M0-6.5V-12M0 6.5V12M-6.5 0H-12M6.5 0H12M-4.6-4.6l-3.6-3.6M4.6-4.6l3.6-3.6M-4.6 4.6l-3.6 3.6M4.6 4.6l3.6 3.6" />
+                </g>
+              </g>
+              <g transform="translate(4 12)"><path class="cm-spark" style="--sd: 0s" d="M0-3.4C.3-.8.8-.3 3.4 0 .8.3.3.8 0 3.4-.3.8-.8.3-3.4 0-.8-.3-.3-.8 0-3.4z" /></g>
+              <g transform="translate(43.6 14)"><path class="cm-spark" style="--sd: 0.12s" d="M0-3C.3-.7.7-.3 3 0 .7.3.3.7 0 3-.3.7-.7.3-3 0-.7-.3-.3-.7 0-3z" /></g>
+              <g transform="translate(45 33)"><path class="cm-spark" style="--sd: 0.24s" d="M0-2.4C.2-.6.6-.2 2.4 0 .6.2.2.6 0 2.4-.2.6-.6.2-2.4 0-.6-.2-.2-.6 0-2.4z" /></g>
+              <g transform="translate(2.6 36)"><path class="cm-spark" style="--sd: 0.18s" d="M0-2.2C.2-.5.5-.2 2.2 0 .5.2.2.5 0 2.2-.2.5-.5.2-2.2 0-.5-.2-.2-.5 0-2.2z" /></g>
+            </svg
           ></span>
           <p class="lede">
             Được ai đó yêu sâu sắc sẽ cho bạn sức mạnh, còn yêu ai đó sâu sắc sẽ
@@ -651,6 +718,80 @@
       <!-- ============================== LỊCH THÁNG CƯỚI ============================== -->
       <section id="lich" class="section month" aria-labelledby="month-title">
         <div class="month-card glass" data-reveal="flip">
+          <!-- Satin bow tied on the top-left corner (css: "month bow"). -->
+          <svg
+            class="month-bow"
+            viewBox="0 0 120 92"
+            aria-hidden="true"
+            focusable="false"
+          >
+            <defs>
+              <linearGradient id="bow-satin" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stop-color="#e3a2b4" />
+                <stop offset="0.45" stop-color="#bf6681" />
+                <stop offset="1" stop-color="#8c3c55" />
+              </linearGradient>
+              <linearGradient id="bow-tail" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0" stop-color="#a64d68" />
+                <stop offset="0.5" stop-color="#d78ea3" />
+                <stop offset="1" stop-color="#8c3c55" />
+              </linearGradient>
+            </defs>
+            <g class="bow-tail bow-tail--l">
+              <path
+                fill="url(#bow-tail)"
+                d="M56 38c-6 14-14 30-26 48l9-3 4 8c10-16 16-32 20-50z"
+              />
+            </g>
+            <g class="bow-tail bow-tail--r">
+              <path
+                fill="url(#bow-tail)"
+                d="M64 38c5 15 12 30 24 46l-9-1-2 8c-11-15-17-31-20-50z"
+              />
+            </g>
+            <g class="bow-loop bow-loop--l">
+              <path
+                fill="url(#bow-satin)"
+                d="M60 34C46 14 16 4 9 20c-6 15 22 27 51 14z"
+              />
+              <path
+                fill="#8c3c55"
+                opacity="0.45"
+                d="M60 34C47 24 26 18 19 25c9 5 25 10 41 9z"
+              />
+              <path
+                fill="#fff"
+                opacity="0.35"
+                d="M14 18c8-8 26-4 38 8-12-6-26-10-38-8z"
+              />
+            </g>
+            <g class="bow-loop bow-loop--r">
+              <path
+                fill="url(#bow-satin)"
+                d="M60 34C74 14 104 4 111 20c6 15-22 27-51 14z"
+              />
+              <path
+                fill="#8c3c55"
+                opacity="0.45"
+                d="M60 34C73 24 94 18 101 25c-9 5-25 10-41 9z"
+              />
+              <path
+                fill="#fff"
+                opacity="0.35"
+                d="M106 18c-8-8-26-4-38 8 12-6 26-10 38-8z"
+              />
+            </g>
+            <rect x="52.5" y="25" width="15" height="18" rx="6.5" fill="#9b4560" />
+            <rect
+              x="55"
+              y="27"
+              width="5"
+              height="13"
+              rx="2.5"
+              fill="#fff"
+              opacity="0.28"
+            />
+          </svg>
           <h2 id="month-title" class="month-title">
             Tháng 11 <span>/</span> 2026
           </h2>
@@ -865,79 +1006,59 @@
       >
         <div class="letter-wrap" data-reveal="flip">
           <article class="letter-card">
-            <!-- Satin ribbon across the top-left corner, tied in a bow. -->
-            <span class="letter-ribbon" aria-hidden="true"></span>
-            <svg
-              class="letter-bow"
-              viewBox="0 0 120 92"
+            <!-- Flowers lifted from the guest-cover envelope
+                 (scripts/cut-letter-flowers.py): peony sprays over the
+                 top-left and bottom-right corners, two loose petals. -->
+            <span class="letter-flora letter-flora--tl" aria-hidden="true">
+              <img
+                src="assets/invite/bouquet-tl-360.webp"
+                srcset="
+                  assets/invite/bouquet-tl-360.webp 360w,
+                  assets/invite/bouquet-tl-720.webp 720w
+                "
+                sizes="(min-width: 576px) 250px, 46vw"
+                width="360"
+                height="339"
+                alt=""
+                loading="lazy"
+                decoding="async"
+              />
+            </span>
+            <span class="letter-flora letter-flora--br" aria-hidden="true">
+              <img
+                src="assets/invite/bouquet-br-360.webp"
+                srcset="
+                  assets/invite/bouquet-br-360.webp 360w,
+                  assets/invite/bouquet-br-720.webp 720w
+                "
+                sizes="(min-width: 576px) 230px, 42vw"
+                width="360"
+                height="392"
+                alt=""
+                loading="lazy"
+                decoding="async"
+              />
+            </span>
+            <img
+              class="letter-petal letter-petal--a"
+              src="assets/invite/petal-a.webp"
+              width="57"
+              height="60"
+              alt=""
               aria-hidden="true"
-              focusable="false"
-            >
-              <defs>
-                <linearGradient id="bow-satin" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0" stop-color="#e3a2b4" />
-                  <stop offset="0.45" stop-color="#bf6681" />
-                  <stop offset="1" stop-color="#8c3c55" />
-                </linearGradient>
-                <linearGradient id="bow-tail" x1="0" y1="0" x2="1" y2="1">
-                  <stop offset="0" stop-color="#a64d68" />
-                  <stop offset="0.5" stop-color="#d78ea3" />
-                  <stop offset="1" stop-color="#8c3c55" />
-                </linearGradient>
-              </defs>
-              <!-- tails -->
-              <path
-                fill="url(#bow-tail)"
-                d="M56 38c-6 14-14 30-26 48l9-3 4 8c10-16 16-32 20-50z"
-              />
-              <path
-                fill="url(#bow-tail)"
-                d="M64 38c5 15 12 30 24 46l-9-1-2 8c-11-15-17-31-20-50z"
-              />
-              <!-- loops -->
-              <path
-                fill="url(#bow-satin)"
-                d="M60 34C46 14 16 4 9 20c-6 15 22 27 51 14z"
-              />
-              <path
-                fill="url(#bow-satin)"
-                d="M60 34C74 14 104 4 111 20c6 15-22 27-51 14z"
-              />
-              <!-- inner folds -->
-              <path
-                fill="#8c3c55"
-                opacity="0.45"
-                d="M60 34C47 24 26 18 19 25c9 5 25 10 41 9z"
-              />
-              <path
-                fill="#8c3c55"
-                opacity="0.45"
-                d="M60 34C73 24 94 18 101 25c-9 5-25 10-41 9z"
-              />
-              <path
-                fill="#fff"
-                opacity="0.35"
-                d="M14 18c8-8 26-4 38 8-12-6-26-10-38-8zM106 18c-8-8-26-4-38 8 12-6 26-10 38-8z"
-              />
-              <!-- knot -->
-              <rect
-                x="52.5"
-                y="25"
-                width="15"
-                height="18"
-                rx="6.5"
-                fill="#9b4560"
-              />
-              <rect
-                x="55"
-                y="27"
-                width="5"
-                height="13"
-                rx="2.5"
-                fill="#fff"
-                opacity="0.28"
-              />
-            </svg>
+              loading="lazy"
+              decoding="async"
+            />
+            <img
+              class="letter-petal letter-petal--b"
+              src="assets/invite/petal-b.webp"
+              width="70"
+              height="64"
+              alt=""
+              aria-hidden="true"
+              loading="lazy"
+              decoding="async"
+            />
             <span class="letter-glare" aria-hidden="true"></span>
 
             <header class="letter-head">
@@ -1589,7 +1710,8 @@
             href="https://dao-tai.vercel.app"
             target="_blank"
             rel="noopener"
-            aria-label="Thiết kế với tình yêu, xem trang của người thiết kế"
+            aria-label="Thiết kế với tình yêu. Liên hệ tác giả"
+            data-tooltip="Liên hệ tác giả"
             ><span class="credit-name"
               >Thiết kế với
               <svg
