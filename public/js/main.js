@@ -9,6 +9,7 @@ import { initPhotoCards } from "./photo-cards.js";
 import { initLetter } from "./letter.js";
 import { initGift, copyText } from "./gift.js";
 import { initCover } from "./cover.js";
+import { initMusicFx } from "./music-fx.js";
 
 /* Personal link cover (?to=…). First, so the seal is focusable right away. The
    tap that opens it also starts the background music (see "Background music"). */
@@ -174,6 +175,7 @@ const syncMusic = () => {
 audio.addEventListener("play", syncMusic);
 audio.addEventListener("pause", syncMusic);
 audio.volume = 0.6;
+initMusicFx(musicBtn, audio);
 
 const play = () => audio.play().catch(() => {});
 musicBtn.addEventListener("click", () => {

@@ -2916,64 +2916,103 @@ html:not(.js) .pc-controls {
 
 .wishes-title {
   display: flex;
-  align-items: baseline;
-  gap: 8px;
-  margin-bottom: 14px;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 16px;
   font: 500 1.3rem/1.25 var(--font-heading);
 }
 
+.wishes-title::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(to right, var(--gold), transparent);
+  opacity: 0.6;
+}
+
 .wishes-title span {
-  font: 500 0.85rem/1 var(--font-body);
-  color: var(--ink-soft);
+  min-width: 26px;
+  padding: 4px 9px;
+  font: 600 0.78rem/1 var(--font-heading);
+  text-align: center;
+  color: var(--accent-ink);
+  background: var(--accent-soft);
+  border-radius: 999px;
+}
+
+.wishes-title span:empty {
+  display: none;
 }
 
 .wish-list {
   display: grid;
-  gap: 10px;
-  max-height: 560px;
+  gap: 12px;
+  max-height: 600px;
   overflow-y: auto;
   overscroll-behavior: contain;
-  padding: 2px 4px 24px 2px;
+  scrollbar-width: thin;
+  scrollbar-color: rgb(166 77 104 / 0.3) transparent;
+  padding: 4px 6px 32px 4px;
   -webkit-mask-image: linear-gradient(
     to bottom,
-    #000 calc(100% - 40px),
+    #000 calc(100% - 48px),
     transparent
   );
-  mask-image: linear-gradient(to bottom, #000 calc(100% - 40px), transparent);
+  mask-image: linear-gradient(to bottom, #000 calc(100% - 48px), transparent);
 }
 
 .wish {
-  padding: 14px 16px;
+  position: relative;
+  padding: 16px 18px;
   background: #fff;
   border: 1px solid var(--line);
-  border-radius: 16px;
+  border-radius: var(--r-img);
+  box-shadow: var(--shadow-sm);
 }
 
-.wish-msg {
-  font-size: 0.94rem;
-  line-height: 1.65;
-  white-space: pre-line;
-  overflow-wrap: anywhere;
+/* Large open-quote watermark in the corner. */
+.wish::after {
+  content: "\201C";
+  position: absolute;
+  top: 2px;
+  right: 12px;
+  font: italic 600 3.4rem/1 var(--font-display);
+  color: var(--accent-soft);
+  pointer-events: none;
+}
+
+.wish-body {
+  position: relative;
+  z-index: 1; /* above the quote watermark */
+  min-width: 0;
 }
 
 .wish-meta {
   display: flex;
-  justify-content: space-between;
+  flex-wrap: wrap;
   align-items: baseline;
-  gap: 12px;
-  margin-top: 8px;
+  column-gap: 10px;
+  row-gap: 2px;
+  padding-right: 22px;
 }
 
 .wish-name {
-  font: italic 500 1.08rem/1.2 var(--font-display);
+  font: italic 600 1.12rem/1.25 var(--font-display);
   color: var(--accent);
   overflow-wrap: anywhere;
 }
 
 .wish-time {
-  flex: none;
   font-size: 0.74rem;
   color: var(--ink-soft);
+}
+
+.wish-msg {
+  margin-top: 6px;
+  font-size: 0.94rem;
+  line-height: 1.65;
+  white-space: pre-line;
+  overflow-wrap: anywhere;
 }
 
 .wish--new {
@@ -2983,6 +3022,11 @@ html:not(.js) .pc-controls {
 .wish--skeleton {
   display: grid;
   gap: 10px;
+  box-shadow: none;
+}
+
+.wish--skeleton::after {
+  content: none;
 }
 
 .wish--skeleton span {
@@ -3283,6 +3327,35 @@ html:not(.js) .pc-controls {
   to {
     transform: rotate(1turn);
   }
+}
+
+/* Hearts and notes rising from the button while music plays (js/music-fx.js). */
+.music-fx {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+}
+
+/* Wide screens: the flow up the two gutters beside the sheet. */
+.music-fx-sides {
+  position: fixed;
+  inset: 0;
+  z-index: 2;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.music-fx svg,
+.music-fx-sides svg {
+  position: absolute;
+  left: 0;
+  top: 0;
+  overflow: visible;
+  filter: drop-shadow(0 2px 3px rgb(120 50 70 / 0.28));
+  will-change: transform, opacity;
 }
 
 .dock {

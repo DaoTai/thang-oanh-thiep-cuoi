@@ -1,9 +1,10 @@
 // Guestbook: validated form + list of wishes.
 // Storage: CONFIG.wishesEndpoint (Google Apps Script, shared by every guest) when set,
-// otherwise this browser's localStorage only.
+// otherwise this browser's localStorage only. SEED_WISHES are always merged in.
 
 import { CONFIG } from "./config.js";
 import { toast } from "./ui.js";
+import { SEED_WISHES } from "./wishes-seed.js";
 
 const KEY = "thang-oanh:wishes";
 const MAX_NAME = 40;
@@ -47,34 +48,63 @@ async function saveWish(w) {
   local.add(w);
 }
 
-const fmtTime = (t) => {
-  const d = new Date(t);
-  if (Number.isNaN(d.getTime())) return "";
-  const p = (n) => String(n).padStart(2, "0");
-  return `${p(d.getDate())}/${p(d.getMonth() + 1)}/${d.getFullYear()}`;
-};
+// Newest first, seed included, duplicates (same name + message) dropped.
+function merge(...lists) {
+  const seen = new Set();
+  return lists
+    .flat()
+    .filter((w) => {
+      if (!w?.name || !w?.message) return false;
+      const k = `${w.name.trim()}\n${w.message.trim()}`;
+      if (seen.has(k)) return false;
+      seen.add(k);
+      return true;
+    })
+    .sort((a, b) => (Date.parse(b.time) || 0) - (Date.parse(a.time) || 0));
+}
+
+const p2 = (n) => String(n).padStart(2, "0");
+const fmtDate = (d) => `${p2(d.getDate())}/${p2(d.getMonth() + 1)}/${d.getFullYear()}`;
+
+function fmtAgo(d) {
+  const min = Math.round((Date.now() - d) / 60000);
+  if (min < 1) return "Vừa xong";
+  if (min < 60) return `${min} phút trước`;
+  const h = Math.round(min / 60);
+  if (h < 24) return `${h} giờ trước`;
+  const days = Math.round(h / 24);
+  if (days === 1) return "Hôm qua";
+  if (days < 7) return `${days} ngày trước`;
+  return fmtDate(d);
+}
 
 function wishEl(w, isNew = false) {
   const li = document.createElement("li");
   li.className = isNew ? "wish wish--new" : "wish";
-  const msg = document.createElement("p");
-  msg.className = "wish-msg";
-  msg.textContent = w.message;
+
+  const body = document.createElement("div");
+  body.className = "wish-body";
   const meta = document.createElement("div");
   meta.className = "wish-meta";
   const name = document.createElement("span");
   name.className = "wish-name";
   name.textContent = w.name;
   meta.append(name);
-  const when = fmtTime(w.time);
-  if (when) {
+  const d = new Date(w.time);
+  if (!Number.isNaN(d.getTime())) {
     const time = document.createElement("time");
     time.className = "wish-time";
-    time.dateTime = new Date(w.time).toISOString();
-    time.textContent = when;
+    time.dateTime = d.toISOString();
+    time.title = fmtDate(d);
+    time.textContent = fmtAgo(d);
     meta.append(time);
   }
-  li.append(msg, meta);
+  const msg = document.createElement("p");
+  msg.className = "wish-msg";
+  msg.textContent = w.message;
+  body.append(meta, msg);
+
+  li.append(body);
   return li;
 }
 
@@ -91,21 +121,20 @@ export function initGuestbook() {
 
   const setCount = (n) => {
     count = n;
-    total.textContent = n ? `(${n})` : "";
+    total.textContent = n ? String(n) : "";
     empty.hidden = n > 0;
     list.hidden = n === 0;
   };
 
   loadWishes()
-    .then((wishes) => {
-      list.replaceChildren(...wishes.sort((a, b) => new Date(b.time) - new Date(a.time)).map((w) => wishEl(w)));
-      setCount(wishes.length);
-    })
+    .then((wishes) => merge(wishes, local.read(), SEED_WISHES))
     .catch(() => {
-      const wishes = local.read();
+      status.textContent = "Chưa tải được danh sách lời chúc. Bạn vẫn có thể gửi lời chúc bình thường.";
+      return merge(local.read(), SEED_WISHES);
+    })
+    .then((wishes) => {
       list.replaceChildren(...wishes.map((w) => wishEl(w)));
       setCount(wishes.length);
-      status.textContent = "Chưa tải được danh sách lời chúc. Bạn vẫn có thể gửi lời chúc bình thường.";
     })
     .finally(() => list.removeAttribute("aria-busy"));
 
