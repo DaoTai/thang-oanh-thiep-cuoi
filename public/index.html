@@ -13,11 +13,17 @@
     />
     <meta name="theme-color" content="#f3e8e9" />
     <meta name="color-scheme" content="light" />
+    <meta name="robots" content="index, follow, max-image-preview:large" />
+    <meta name="author" content="Đỗ Mạnh Thắng &amp; Lê Thị Kiều Oanh" />
+    <!-- Personal links (?to=…) all point back to the plain URL. -->
+    <link rel="canonical" href="https://thang-oanh-wedding.happy-wedding.workers.dev/" />
 
-    <!-- Link previews (Zalo, Messenger, Facebook). Set og:url and make og:image
-         absolute (https://your-domain/assets/og-cover.jpg) once the domain is known. -->
+    <!-- Link previews (Zalo, Messenger, Facebook). After changing og-cover.jpg,
+         re-scrape in https://developers.facebook.com/tools/debug/ -->
     <meta property="og:type" content="website" />
     <meta property="og:locale" content="vi_VN" />
+    <meta property="og:site_name" content="Thiệp cưới Mạnh Thắng &amp; Kiều Oanh" />
+    <meta property="og:url" content="https://thang-oanh-wedding.happy-wedding.workers.dev/" />
     <meta
       property="og:title"
       content="Mạnh Thắng &amp; Kiều Oanh sắp kết hôn"
@@ -26,9 +32,80 @@
       property="og:description"
       content="Lễ thành hôn Chủ Nhật 29.11.2026. Rất mong được đón tiếp bạn!"
     />
-    <meta property="og:image" content="assets/og-cover.jpg" />
+    <meta property="og:image" content="https://thang-oanh-wedding.happy-wedding.workers.dev/assets/og-cover.jpg" />
+    <meta property="og:image:type" content="image/jpeg" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Mạnh Thắng và Kiều Oanh trong trang phục cưới" />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "WebSite",
+            "@id": "https://thang-oanh-wedding.happy-wedding.workers.dev/#website",
+            "url": "https://thang-oanh-wedding.happy-wedding.workers.dev/",
+            "name": "Thiệp cưới Mạnh Thắng & Kiều Oanh",
+            "inLanguage": "vi-VN"
+          },
+          {
+            "@type": "Event",
+            "name": "Lễ Vu Quy & Thành Hôn Mạnh Thắng & Kiều Oanh",
+            "description": "Lễ thành hôn của Đỗ Mạnh Thắng và Lê Thị Kiều Oanh.",
+            "startDate": "2026-11-29T10:00:00+07:00",
+            "endDate": "2026-11-29T14:00:00+07:00",
+            "eventStatus": "https://schema.org/EventScheduled",
+            "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
+            "inLanguage": "vi-VN",
+            "url": "https://thang-oanh-wedding.happy-wedding.workers.dev/",
+            "image": ["https://thang-oanh-wedding.happy-wedding.workers.dev/assets/og-cover.jpg"],
+            "isAccessibleForFree": true,
+            "location": {
+              "@type": "Place",
+              "name": "Hội trường Hợp tác xã dịch vụ tổng hợp Văn Phú",
+              "address": {
+                "@type": "PostalAddress",
+                "streetAddress": "Số 36 Phố Văn Phú, TDP2",
+                "addressLocality": "Kiến Hưng",
+                "addressRegion": "Hà Nội",
+                "addressCountry": "VN"
+              }
+            },
+            "organizer": [
+              { "@type": "Person", "name": "Đỗ Mạnh Thắng" },
+              { "@type": "Person", "name": "Lê Thị Kiều Oanh" }
+            ]
+          },
+          {
+            "@type": "Event",
+            "name": "Lễ Ăn Hỏi Mạnh Thắng & Kiều Oanh",
+            "startDate": "2026-11-28T09:00:00+07:00",
+            "endDate": "2026-11-28T11:00:00+07:00",
+            "eventStatus": "https://schema.org/EventScheduled",
+            "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
+            "inLanguage": "vi-VN",
+            "url": "https://thang-oanh-wedding.happy-wedding.workers.dev/",
+            "image": ["https://thang-oanh-wedding.happy-wedding.workers.dev/assets/og-cover.jpg"],
+            "location": {
+              "@type": "Place",
+              "name": "Tư gia nhà gái",
+              "address": {
+                "@type": "PostalAddress",
+                "addressLocality": "Đông Yên, Yên Mạc",
+                "addressRegion": "Ninh Bình",
+                "addressCountry": "VN"
+              }
+            },
+            "organizer": [
+              { "@type": "Person", "name": "Đỗ Mạnh Thắng" },
+              { "@type": "Person", "name": "Lê Thị Kiều Oanh" }
+            ]
+          }
+        ]
+      }
+    </script>
 
     <link rel="icon" type="image/png" href="favicon.png" />
     <link rel="apple-touch-icon" href="apple-touch-icon.png" />
@@ -64,7 +141,7 @@
     <link rel="stylesheet" href="css/styles.css?v=5" />
     <script>
       document.documentElement.classList.add("js");
-      // Personal link (?to=Bạn Tài, made on /khach-moi-7q2x/): show the sealed
+      // Personal link (?to=Bạn Tài): show the sealed
       // envelope cover before the first paint (js/cover.js opens it).
       try {
         var guest = (new URLSearchParams(location.search).get("to") || "")
@@ -891,7 +968,7 @@
                 để đến chung vui, chứng kiến khoảnh khắc ý nghĩa nhất của hai
                 đứa.
               </p>
-              <p>
+              <p class="letter-lead">
                 Sự hiện diện của bạn là món quà quý giá nhất. Một lần nữa, chân
                 thành cảm ơn bạn!
               </p>

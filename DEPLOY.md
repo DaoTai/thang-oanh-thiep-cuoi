@@ -41,14 +41,8 @@ Bạn cần một tên miền đã thêm vào Cloudflare. Vào Worker `thang-oan
 
 ## Việc cần làm sau lần deploy đầu
 
-1. **Ảnh xem trước khi chia sẻ link (Zalo, Messenger, Facebook).** Mở `public/index.html` và sửa hai thẻ sau thành địa chỉ đầy đủ:
-   ```html
-   <meta property="og:url" content="https://DIA-CHI-CUA-BAN/" />
-   <meta property="og:image" content="https://DIA-CHI-CUA-BAN/assets/og-cover.jpg" />
-   ```
-   Thẻ `og:url` chưa có trong file, bạn thêm vào ngay cạnh `og:image`. Sau đó deploy lại. Facebook giữ ảnh xem trước cũ trong cache, nên cần dán link vào [Sharing Debugger](https://developers.facebook.com/tools/debug/) và bấm "Scrape Again".
+1. **Địa chỉ trang (SEO và ảnh xem trước).** Trang đang dùng `https://thang-oanh-wedding.happy-wedding.workers.dev/`. Nếu đổi sang tên miền riêng, thay địa chỉ này ở mọi chỗ trong `public/index.html` (`canonical`, `og:url`, `og:image`, JSON-LD), `public/robots.txt` và `public/sitemap.xml`, rồi deploy lại. Facebook giữ ảnh xem trước cũ trong cache, nên cần dán link vào [Sharing Debugger](https://developers.facebook.com/tools/debug/) và bấm "Scrape Again". Có thể khai báo `sitemap.xml` trong [Google Search Console](https://search.google.com/search-console).
 2. **Thử trên iPhone (Safari):** bật nhạc và bấm "Xác nhận tham dự" → "Lịch Apple". Safari phải mở được ứng dụng Lịch.
-3. **Thay mã QR và số tài khoản** trong Hộp mừng cưới. Dữ liệu hiện tại là dữ liệu mẫu, xem `CLAUDE.md`.
 
 ## Cache: lưu ý khi thay ảnh
 

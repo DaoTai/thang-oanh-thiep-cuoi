@@ -20,7 +20,7 @@ Not a git repository yet.
   - `fonts`: Fontsource woff2 (latin, latin-ext, vietnamese) to `public/assets/fonts` + `public/css/fonts.css`.
   - `calendar`: `public/assets/calendar/*.ics` from `CONFIG.events`. **Re-run after changing event dates or venues.**
   - `share`: `assets/og-cover.jpg` (1200×630 link preview).
-  - `favicon`: `favicon.png`, `apple-touch-icon.png` and the header logo `assets/logo.webp` (132px), all from `assets-src/logo.png` (the engraved rings, 1.4 MB original, outside `public/` so never deployed).
+  - `favicon`: `favicon.png`, `apple-touch-icon.png` (palette PNGs), both from `assets-src/logo.png` (the engraved rings, 1.4 MB original, outside `public/` so never deployed).
 - `python scripts/enhance-countdown.py` (separate from `npm run assets`; needs numpy + Pillow, so use a throwaway venv): retouches `assets-src/countdown.jpg` (brighter skin, tone curve, luminance sharpening, crop around the rings) into `public/assets/countdown-{960,1600}.webp`, the `.countdown::before` background. Bump `?v=` in `css/styles.css` after re-running. Keep the original out of `assets/album/`, since the `photos` step would add it to the gallery.
 - `python scripts/enhance-groom.py` (same venv): crops and retouches `assets-src/groom.jpg` (brighter, rosier skin; the warm cream wall cooled and dimmed to the bride's grey) into `public/assets/album/thang-groom.jpg`. Then run `npm run assets -- photos` for `album/web/thang-groom-*.webp`; the `-groom` suffix keeps it out of the gallery.
 
@@ -33,6 +33,7 @@ There are no tests or linters. Verify changes in a browser at phone width (390px
 - `wrangler.jsonc`: Worker name and assets directory.
 - `public/_headers`: cache headers and the `text/calendar` content type for `.ics`. Edit it when adding asset folders.
 - `public/.assetsignore`: keeps the album originals out of the upload. Anything new in `public/` that the page doesn't use belongs here.
+- `robots.txt`, `sitemap.xml` and the `<head>` (`canonical`, `og:url`, absolute `og:image`, JSON-LD `WebSite` + two `Event`s) all hard-code the site URL `https://thang-oanh-wedding.happy-wedding.workers.dev/`. Change every copy together if the domain changes. The JSON-LD repeats event dates and venues from `CONFIG.events`, so keep it in sync too. Don't list `khach-moi-7q2x/` in `robots.txt` or mention it in public pages: that would reveal the unlisted path.
 
 - `index.html`: all content, static (good for LCP and link previews). Section order: glass header (`.nav`, outside `<main>`), topbar, hero (Lời ngỏ), album (6 featured + full gallery), month calendar, countdown, photo card, invitation letter, couple, events + gift box, guestbook, thanks.
 - `js/config.js`: **single source of truth** for names, event dates/times/venues, main event, gift accounts (`gifts`, `giftMemo`) and guestbook endpoint. Event times are placeholders. `index.html` repeats dates and venues in visible copy, so keep both in sync.
@@ -42,10 +43,10 @@ There are no tests or linters. Verify changes in a browser at phone width (390px
 - `js/photo-cards.js`: the "Thiệp ảnh" carousel. Three stacked cards (front one large, neighbours peeking at the corners), each with its own message. Sets `data-pos` (-1/0/1) and `--dx` while dragging; swipe, tap a side card, arrows or dots. Loops.
 - `js/letter.js`: the letter card (`#thu-moi`, "Đôi Lời Gửi Trao"). Types the `[data-type]` text out once on first view (each grapheme becomes a `.ch` span, so nothing reflows; tap to finish; the signature fades in after), and tilts the card toward a mouse pointer with a glass glare. Both skipped under `prefers-reduced-motion`; tilt is mouse-only. The corner ribbon and bow are CSS + inline SVG in `index.html`.
 - `js/gallery.js`: full-screen gallery dialog (editorial grid, every 7th photo a 2x2 feature) + dark lightbox (arrows, swipe with drag-follow, thumbnail strip, slideshow, fullscreen).
-- `js/guestbook.js`: wishes form and list. Uses `CONFIG.wishesEndpoint` (Google Apps Script, see `scripts/wishes-apps-script.gs`) when set, otherwise `localStorage` only (each guest sees only their own wishes).
+- `js/guestbook.js`: wishes form and list. Uses `CONFIG.wishesEndpoint` (Google Apps Script, see `scripts/wishes-apps-script.gs`) when set, otherwise `localStorage` only (each guest sees only their own wishes). No mock wishes: the list starts empty.
 - `js/gift.js`: gift box. The page shows only a sealed envelope (`#envelope`, CSS layers + 囍 seal), no QR or numbers. Tapping it opens the flap and lifts the card, then opens `#gift-dialog` (tabs Chú rể / Cô dâu, QR, grouped account number with copy chips, suggested memo, "Lưu mã QR" via the share sheet on phones, download on desktop). The sheet is rendered from `CONFIG.gifts`. The dock and hero gift buttons open the sheet directly.
 - `js/ui.js`: `<dialog>` open/close with animation, toast (re-parented into an open dialog so it shows above the top layer), swipe-down-to-close for bottom sheets on phones (grab handle is `.modal-body::before`).
-- `khach-moi-7q2x/`: unlisted tool page (not linked anywhere; `noindex` meta + `X-Robots-Tag` in `_headers`) that builds one link per guest: `<base>?to=<name>`. Names come from a textarea (one per line) or a CSV (header `Tên` + optional `Xưng hô`, `,`/`;`/tab, else the first column). Links always point at the home page of the same domain. Per guest: copy link, remove; bulk copy, CSV export. State is `localStorage` only. Self-contained (`guests.js`, `guests.css`), reuses `css/fonts.css` and the icon sprite. The invitation side (reading `?to=` and showing the "Thân mời …" cover) is not built yet.
+- `khach-moi-7q2x/`: unlisted tool page (not linked anywhere; `noindex` meta + `X-Robots-Tag` in `_headers`) that builds one link per guest: `<base>?to=<name>`. Names come from a textarea (one per line) or a CSV (header `Tên` + optional `Xưng hô`, `,`/`;`/tab, else the first column). Links always point at the home page of the same domain. Per guest: copy link, remove; bulk copy, CSV export. State is `localStorage` only. Self-contained (`guests.js`, `guests.css`), reuses `css/fonts.css` and the icon sprite. The invitation side: an inline script in `<head>` reads `?to=` and adds `.has-cover`; `js/cover.js` opens the sealed-envelope cover (`#cover`, layers in `assets/invite/`, loaded only for personal links).
 - `js/snow.js`: full-screen falling snow on one fixed `<canvas class="snow">` (z-index 30, `pointer-events: none`), started after `load`. One pre-rendered sprite (white flake + soft rose glow so it reads on the paper). Flake count scales with viewport area. Skipped under `prefers-reduced-motion`, stops while the tab is hidden. Tune size/speed/count in `spawn()` and `targetCount()`.
 
 ## Conventions
@@ -66,7 +67,7 @@ There are no tests or linters. Verify changes in a browser at phone width (390px
 - `album/web/`: generated output. Slug = original filename lowercased, spaces become hyphens (`NMT_9160 ap.jpg` gives `nmt_9160-ap`). Delete the folder before `npm run assets -- photos` when photos are removed or re-edited, since the step skips outputs newer than their source.
 - Album images keep the same filenames when regenerated, and `_headers` caches them for a week. To replace a photo that guests may already have cached, give it a new filename.
 - `sound.mp3`: background music (`preload="none"`, starts on the first tap).
-- `qr-groom.jpg`, `qr-bride.jpg`: bank-transfer QRs. `qr-example.jpg` is an unused old placeholder.
+- `qr-groom.jpg`, `qr-bride.jpg`: bank-transfer QRs.
 
 ## Related folders (outside this repo)
 

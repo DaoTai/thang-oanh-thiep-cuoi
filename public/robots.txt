@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://thang-oanh-wedding.happy-wedding.workers.dev/sitemap.xml

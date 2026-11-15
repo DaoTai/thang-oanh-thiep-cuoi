@@ -247,13 +247,11 @@ async function favicon() {
   if (!existsSync(src)) return console.log("favicon skipped: assets-src/logo.png not found");
   const trimmed = await sharp(src).trim().toBuffer();
   const square = { fit: "contain", background: { r: 0, g: 0, b: 0, alpha: 0 } };
-  await sharp(trimmed).resize(48, 48, square).png().toFile(path.join(PUB, "favicon.png"));
+  const png = { palette: true, quality: 90, effort: 10, compressionLevel: 9 };
+  await sharp(trimmed).resize(48, 48, square).png(png).toFile(path.join(PUB, "favicon.png"));
   await sharp(trimmed).resize(160, 160, square).extend({ top: 10, bottom: 10, left: 10, right: 10, background: "#fbf6f5" })
-    .flatten({ background: "#fbf6f5" }).png().toFile(path.join(PUB, "apple-touch-icon.png"));
-  // Header logo: shown at 44px, so 132px covers 3x screens.
-  await sharp(trimmed).resize(132, 132, square).webp({ quality: 86, alphaQuality: 90, effort: 6 })
-    .toFile(path.join(PUB, "assets/logo.webp"));
-  console.log("icon   favicon.png + apple-touch-icon.png + assets/logo.webp");
+    .flatten({ background: "#fbf6f5" }).png(png).toFile(path.join(PUB, "apple-touch-icon.png"));
+  console.log("icon   favicon.png + apple-touch-icon.png");
 }
 
 /* -------------------------------------------------------------------- main */
