@@ -5824,27 +5824,65 @@ dialog {
   font-size: 1.55rem;
 }
 
-/* Rings: gold band + rose band with a gem; a redrawn arc of the gold band
-   crosses back over the rose one so they read as interlocked. */
-.rg {
+/* Rings: two white-platinum bands (grey edge + metal gradient + a white
+   highlight dash), the right one set with a brilliant-cut diamond (facets,
+   prongs, halo, a light sweep). A redrawn arc of the left band crosses back
+   over the right one so they read as interlocked. Star sparkles twinkle on
+   their own loops; the big one flashes as the rings meet. Gradients live in
+   the couple section's <defs> and are shared with the gallery copy. */
+.orn-rings {
+  height: 3.4em;
+}
+.rg-edge,
+.rg-band,
+.rg-hl,
+.rg-prong {
   fill: none;
-  stroke-width: 2;
   stroke-linecap: round;
 }
-.rg-l {
-  stroke: #b48a5e;
+.rg-edge {
+  stroke: #a99ca4;
+  stroke-width: 3;
 }
-.rg-r {
-  stroke: var(--accent);
+.rg-band {
+  stroke: url(#rg-metal);
+  stroke-width: 2.2;
+}
+.rg-hl {
+  stroke: #fff;
+  stroke-width: 0.6;
+  stroke-dasharray: 0 8 4 19 11 18;
+}
+.rg-prong {
+  stroke: #a99ca4;
+  stroke-width: 0.7;
+}
+.rg-halo {
+  fill: url(#rg-halo-fill);
+  opacity: 0.7;
+  transform-box: fill-box;
+  transform-origin: center;
 }
 .rg-gem {
-  fill: #f3c9d5;
-  stroke-width: 1;
+  fill: url(#rg-diamond);
+  stroke: #9d93a6;
+  stroke-width: 0.4;
   stroke-linejoin: round;
 }
-.rg-spark {
-  fill: var(--gold);
+.rg-facet {
+  fill: none;
+  stroke: #fff;
+  stroke-width: 0.3;
+  stroke-linejoin: round;
+  opacity: 0.95;
+}
+.rg-glint {
+  fill: #fff;
   opacity: 0;
+}
+.rg-spark,
+.rg-tw {
+  fill: url(#rg-twinkle);
   transform-box: fill-box;
   transform-origin: center;
 }
@@ -5869,49 +5907,121 @@ dialog {
   transform-origin: 16px 16px;
 }
 
-/* Flutes: mirrored, leaning in so the rims touch. Pivot at the foot. */
-.gl {
-  transform-box: fill-box;
-  transform-origin: 50% 100%;
+/* Flutes: white crystal tulips filled with red wine (#85374f).
+   Each glass's local origin is its foot, which is also the swing pivot.
+   The liquid sits in its own group whose origin is the surface centre:
+   it counter-rotates against the glass (surface stays level) and adds a
+   damped slosh after the clink. Bubbles rise inside the same clip. */
+.orn-cheers {
+  height: 3.6em;
+}
+.gl,
+.lq {
+  transform-box: view-box;
+  transform-origin: 0 0;
 }
 .gl-l {
-  transform: rotate(11deg);
+  transform: rotate(10deg);
 }
 .gl-r {
-  transform: rotate(-11deg);
+  transform: rotate(-10deg);
+}
+.gl-l .lq {
+  transform: rotate(-10deg);
+}
+.gl-r .lq {
+  transform: rotate(10deg);
 }
 .gl-cup {
-  fill: rgb(255 255 255 / 0.55);
-  stroke: #b48a5e;
-  stroke-width: 1.3;
-  stroke-linejoin: round;
+  fill: url(#gl-crystal);
 }
-.gl-wine {
-  fill: var(--accent);
-  opacity: 0.5;
-}
+.gl-edge,
 .gl-stem,
+.gl-rim,
 .gl-burst {
   fill: none;
-  stroke: #b48a5e;
-  stroke-width: 1.3;
+  stroke: url(#gl-glass);
   stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.gl-edge {
+  stroke-width: 0.8;
+}
+.gl-stem {
+  stroke-width: 1.1;
+}
+.gl-rim {
+  stroke-width: 1.3;
+}
+.gl-foot,
+.gl-knot {
+  fill: url(#gl-glass);
+}
+.gl-glint {
+  fill: none;
+  stroke: #fff;
+  stroke-width: 0.7;
+  stroke-linecap: round;
+  opacity: 0.9;
+}
+.lq-body {
+  fill: url(#gl-champ);
+}
+.lq-shine {
+  fill: none;
+  stroke: #e3a3b6;
+  stroke-width: 0.6;
+  opacity: 0.85;
+}
+.lq-bub {
+  fill: #f6d3dd;
+  opacity: 0;
 }
 .gl-burst {
-  stroke: var(--accent);
+  stroke: #c9a063;
+  stroke-width: 0.9;
   opacity: 0;
   transform-box: fill-box;
   transform-origin: 50% 100%;
+}
+.gl-spark {
+  fill: #e9cd8f;
+  opacity: 0;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+.gl-heart {
+  opacity: 0;
+}
+.gl-heart-body {
+  fill: url(#gl-heart-fill);
+  stroke: #e2c48a;
+  stroke-width: 0.45;
+}
+.gl-heart-shine {
+  fill: none;
+  stroke: #fff;
+  stroke-width: 0.55;
+  stroke-linecap: round;
+  opacity: 0.8;
 }
 
 @media (prefers-reduced-motion: no-preference) {
   .is-live[data-motion="rings"] .rg-l,
   .is-live[data-motion="rings"] .rg-r,
   .is-live[data-motion="rings"] .rg-spark,
-  .is-live[data-motion="bloom"] > *,
-  .is-live[data-motion="clink"] .gl,
-  .is-live[data-motion="clink"] .gl-burst {
+  .is-live[data-motion="bloom"] > * {
     animation: 4.8s ease-in-out var(--md, 0s) infinite both;
+  }
+
+  .is-live[data-motion="clink"] :is(.gl, .lq, .gl-burst, .gl-spark, .gl-heart) {
+    animation: 5.6s ease-in-out var(--md, 0s) infinite both;
+  }
+  .is-live[data-motion="clink"] .lq-wave {
+    animation: lq-drift 2.6s linear infinite;
+  }
+  .is-live[data-motion="clink"] .lq-bub {
+    animation: lq-bubble 2s ease-in var(--bd, 0s) infinite;
   }
 
   .is-live[data-motion="rings"] .rg-l {
@@ -5922,6 +6032,18 @@ dialog {
   }
   .is-live[data-motion="rings"] .rg-spark {
     animation-name: orn-spark;
+  }
+  .is-live[data-motion="rings"] :is(.rg-halo, .rg-glint) {
+    animation: 4.8s ease-in-out infinite both;
+  }
+  .is-live[data-motion="rings"] .rg-halo {
+    animation-name: rg-halo-pulse;
+  }
+  .is-live[data-motion="rings"] .rg-glint {
+    animation-name: rg-glint-sweep;
+  }
+  .is-live[data-motion="rings"] .rg-tw {
+    animation: rg-twinkle 2.6s ease-in-out var(--td, 0s) infinite both;
   }
 
   .is-live[data-motion="bloom"] {
@@ -5943,8 +6065,24 @@ dialog {
   .is-live[data-motion="clink"] .gl-r {
     animation-name: orn-clink-r;
   }
+  .is-live[data-motion="clink"] .gl-l .lq {
+    animation-name: lq-slosh-l;
+  }
+  .is-live[data-motion="clink"] .gl-r .lq {
+    animation-name: lq-slosh-r;
+  }
   .is-live[data-motion="clink"] .gl-burst {
     animation-name: orn-burst;
+  }
+  .is-live[data-motion="clink"] .gl-spark {
+    animation-name: orn-spark-pop;
+  }
+  .is-live[data-motion="clink"] .gl-spark--b {
+    animation-delay: 0.12s;
+  }
+  .is-live[data-motion="clink"] .gl-heart {
+    animation-name: orn-heart-rise;
+    animation-timing-function: cubic-bezier(0.33, 0, 0.25, 1);
   }
 
   .is-live[data-motion="stamp"] {
@@ -5969,6 +6107,24 @@ dialog {
   0%, 16%, 34%, 100% { opacity: 0; transform: scale(0.3) rotate(0deg); }
   22% { opacity: 1; transform: scale(1.2) rotate(45deg); }
 }
+/* Diamond: the halo brightens as the rings meet, then a band of light
+   sweeps across the stone. */
+@keyframes rg-halo-pulse {
+  0%, 12%, 44%, 100% { opacity: 0.55; transform: scale(0.85); }
+  22% { opacity: 1; transform: scale(1.15); }
+}
+@keyframes rg-glint-sweep {
+  0%, 18% { opacity: 0; transform: translateX(0); }
+  20% { opacity: 0.95; }
+  32% { opacity: 0.95; transform: translateX(12px); }
+  34%, 100% { opacity: 0; transform: translateX(12px); }
+}
+/* Small stars wink in and out on staggered loops (bling). */
+@keyframes rg-twinkle {
+  0%, 38%, 100% { opacity: 0; transform: scale(0) rotate(0deg); }
+  54% { opacity: 1; transform: scale(1) rotate(45deg); }
+  70% { opacity: 0; transform: scale(0.2) rotate(90deg); }
+}
 
 /* Petals open a fifth of a turn (5-fold symmetry, so the loop is seamless). */
 @keyframes orn-bloom-out {
@@ -5986,25 +6142,73 @@ dialog {
   14% { transform: scale(1.3); }
 }
 
-/* Flutes lean back, swing in to clink, settle; the burst flashes on contact. */
+/* Flutes lean back, swing in to clink (16%), rebound and settle. */
 @keyframes orn-clink-l {
-  0%, 34%, 100% { transform: rotate(11deg); }
-  9% { transform: rotate(-1deg); }
-  15% { transform: rotate(13deg); }
-  20% { transform: rotate(10deg); }
-  25% { transform: rotate(11.5deg); }
+  0%, 31%, 100% { transform: rotate(10deg); }
+  11% { transform: rotate(-2deg); }
+  16% { transform: rotate(12.5deg); animation-timing-function: ease-out; }
+  21% { transform: rotate(9deg); }
+  26% { transform: rotate(10.6deg); }
 }
 @keyframes orn-clink-r {
-  0%, 34%, 100% { transform: rotate(-11deg); }
-  9% { transform: rotate(1deg); }
-  15% { transform: rotate(-13deg); }
-  20% { transform: rotate(-10deg); }
-  25% { transform: rotate(-11.5deg); }
+  0%, 31%, 100% { transform: rotate(-10deg); }
+  11% { transform: rotate(2deg); }
+  16% { transform: rotate(-12.5deg); animation-timing-function: ease-out; }
+  21% { transform: rotate(-9deg); }
+  26% { transform: rotate(-10.6deg); }
+}
+/* Champagne = level surface (minus the glass angle) + inertia: it lags the
+   back-swing, surges up the contact wall on impact, then rocks to rest.
+   Values are (surface tilt) - (glass angle) at the same keyframes. */
+@keyframes lq-slosh-l {
+  0%, 46%, 100% { transform: rotate(-10deg); }
+  11% { transform: rotate(8deg); }
+  16% { transform: rotate(-26deg); }
+  21% { transform: rotate(-1deg); }
+  26% { transform: rotate(-15.5deg); }
+  32% { transform: rotate(-7deg); }
+  39% { transform: rotate(-11.2deg); }
+}
+@keyframes lq-slosh-r {
+  0%, 46%, 100% { transform: rotate(10deg); }
+  11% { transform: rotate(-8deg); }
+  16% { transform: rotate(26deg); }
+  21% { transform: rotate(1deg); }
+  26% { transform: rotate(15.5deg); }
+  32% { transform: rotate(7deg); }
+  39% { transform: rotate(11.2deg); }
+}
+/* Gentle ripple: the wavy surface drifts one wavelength per loop. */
+@keyframes lq-drift {
+  to { transform: translateX(-9px); }
+}
+@keyframes lq-bubble {
+  0% { opacity: 0; transform: translateY(0); }
+  20% { opacity: 0.95; }
+  75% { opacity: 0.7; }
+  100% { opacity: 0; transform: translateY(-7px); }
 }
 @keyframes orn-burst {
-  0%, 14%, 30%, 100% { opacity: 0; transform: scale(0.4); }
-  17% { opacity: 1; transform: scale(1); }
-  24% { opacity: 0.6; transform: scale(1.2); }
+  0%, 15%, 30%, 100% { opacity: 0; transform: scale(0.4); }
+  17.5% { opacity: 1; transform: scale(1); }
+  24% { opacity: 0.5; transform: scale(1.25); }
+}
+@keyframes orn-spark-pop {
+  0%, 15.5%, 32%, 100% { opacity: 0; transform: scale(0) rotate(0deg); }
+  19% { opacity: 1; transform: scale(1.15) rotate(45deg); }
+  25% { opacity: 0.8; transform: scale(0.85) rotate(70deg); }
+}
+/* A rosé heart rises from behind the stems, swells once above the rims,
+   then drifts up and fades. */
+@keyframes orn-heart-rise {
+  0%, 16% { opacity: 0; transform: translate(0, 0) scale(0.3); }
+  21% { opacity: 1; transform: translate(0, -9px) scale(0.5); }
+  30% { transform: translate(-0.6px, -22px) scale(0.8); }
+  38% { transform: translate(0.4px, -29px) scale(1); }
+  42% { transform: translate(0.2px, -29.5px) scale(1.14); }
+  46% { opacity: 1; transform: translate(0, -30px) scale(1); }
+  58% { opacity: 0; transform: translate(0, -34px) scale(0.92); }
+  100% { opacity: 0; transform: translate(0, -34px) scale(0.92); }
 }
 
 /* 囍 pressed like a seal. */
