@@ -30,7 +30,7 @@ export function renderMonth() {
       const ev = marks.get(`${y}-${pad(m)}-${pad(d)}`);
       if (!ev) html += `<td><span class="day">${d}</span></td>`;
       else if (ev.id === CONFIG.mainEventId)
-        html += `<td><span class="day day--main" title="${ev.title}"><svg class="ico" aria-hidden="true"><use href="assets/icons.svg?v=2#i-heart-fill"/></svg>${d}<span class="sr-only">, ${ev.title}</span></span></td>`;
+        html += `<td><span class="day day--main" title="${ev.title}"><svg class="ico" aria-hidden="true"><use href="assets/icons.svg?v=3#i-heart-fill"/></svg>${d}<span class="sr-only">, ${ev.title}</span></span></td>`;
       else html += `<td><span class="day day--event" title="${ev.title}">${d}<span class="sr-only">, ${ev.title}</span></span></td>`;
     }
     if (cell % 7 === 6) html += "</tr>";

@@ -96,6 +96,7 @@ const ICONS = [
   ["speaker-slash", "regular"],
   ["music-notes", "regular"],
   ["map-pin", "regular"],
+  ["house-line", "regular"],
   ["clock", "regular"],
   ["images", "regular"],
   ["x", "regular"],

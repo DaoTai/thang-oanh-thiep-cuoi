@@ -4842,6 +4842,9 @@ dialog {
   .event-actions .btn + .btn [data-motion] {
     --md: 3.4s;
   }
+  .event-actions .btn + .btn + .btn [data-motion] {
+    --md: 4.2s;
+  }
   .family--bride [data-motion] {
     --md: 1.2s;
   }

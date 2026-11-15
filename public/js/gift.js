@@ -5,7 +5,7 @@ import { CONFIG } from "./config.js";
 import { openDialog, reduceMotion, toast } from "./ui.js";
 
 const ICON = (name) =>
-  `<svg class="ico" aria-hidden="true"><use href="assets/icons.svg?v=2#i-${name}"/></svg>`;
+  `<svg class="ico" aria-hidden="true"><use href="assets/icons.svg?v=3#i-${name}"/></svg>`;
 
 // 100871060908 -> "1008 7106 0908" (easier to read aloud and to check by eye).
 const group = (n) => n.replace(/\s+/g, "").replace(/(\d{4})(?=\d)/g, "$1 ");

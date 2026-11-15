@@ -223,7 +223,7 @@ els.sample.addEventListener("click", () => {
 
 /* ----------------------------------------------------------------- render */
 
-const ICON = (id) => `<svg class="ico" aria-hidden="true"><use href="../assets/icons.svg?v=2#i-${id}"/></svg>`;
+const ICON = (id) => `<svg class="ico" aria-hidden="true"><use href="../assets/icons.svg?v=3#i-${id}"/></svg>`;
 
 function rowHTML(g, i) {
   const li = document.createElement("li");

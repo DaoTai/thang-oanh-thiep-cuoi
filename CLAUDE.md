@@ -16,7 +16,7 @@ Not a git repository yet.
 - `npm run deploy`: `npx wrangler@4 deploy` to Cloudflare Workers (static assets). See `DEPLOY.md`. Wrangler runs through npx and is deliberately not a devDependency.
 - `npm run assets`: regenerate all derived assets. It is the only command that needs `npm install`. `node_modules` can be deleted afterwards. Run one step with `npm run assets -- <step>`:
   - `photos`: `public/assets/album/*.jpg` to `album/web/<slug>-{480,960,1600}.webp` (EXIF-rotated), plus `public/js/photos.js` (sizes and 16px blur placeholders). Also cuts the groom/bride portrait crops listed in `CROPS`.
-  - `icons`: Phosphor SVGs (`@phosphor-icons/core`) to the sprite `public/assets/icons.svg`. Add icons to the `ICONS` list and reference them as `<svg class="ico"><use href="assets/icons.svg?v=2#i-name"/></svg>`. The sprite is cached for a week, so bump `?v=` in every reference (`index.html`, `js/calendar.js`) when adding symbols.
+  - `icons`: Phosphor SVGs (`@phosphor-icons/core`) to the sprite `public/assets/icons.svg`. Add icons to the `ICONS` list and reference them as `<svg class="ico"><use href="assets/icons.svg?v=3#i-name"/></svg>`. The sprite is cached for a week, so bump `?v=` in every reference (`index.html`, `js/calendar.js`) when adding symbols.
   - `fonts`: Fontsource woff2 (latin, latin-ext, vietnamese) to `public/assets/fonts` + `public/css/fonts.css`.
   - `calendar`: `public/assets/calendar/*.ics` from `CONFIG.events`. **Re-run after changing event dates or venues.**
   - `share`: `assets/og-cover.jpg` (1200×630 link preview).
